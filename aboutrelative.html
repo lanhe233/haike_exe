@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-size: 14px;
+			font-family: "MicroSoft Yahei";
+		}
+		body{
+			padding: 10px;
+		}
+		.clearfix{
+			*zoom = 1;
+		}
+		.clearfix:after{
+			content: '';
+			display: block;
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+<pre>
+<strong>1.relative和absolute</strong>
+限制定位、限制z-index（父元素relative并且设置了不为anto的z-index）、限制超越overflow
+</pre>
+<div style="width: 200px;height: 150px;position: relative;overflow: hidden;background-color: #eee;" class="xian"><img style="position: absolute;top: -50px;left: 20px;" src="images/3-3.jpg" alt=""></div> 取消掉relative不光overflow不起作用，定位都不对了
+<pre>
+
+<strong>2.relative定位特性</strong>
+相对定位，相对自身，不会影响其他（margin负值也能实现偏移，但差别就在这儿，margin会影响其他元素的位置）
+
+<strong>3.relative中top/bottom、left/right同时存在时的表现</strong>
+absolute是拉伸
+relative是斗争，top和left存在则bottom和right不起作用
+
+<strong>4.relative与z-index</strong>
+relative会提高层叠上下文。
+<img style="position: relative;" src="images/1-1.jpg"><img style="margin-left: -40px;" src="images/2-2.jpg">本来是后面图覆盖前面图，现在前面only添加一个relative，就覆盖了后面图
+
+<strong>5.relative的最小化影响原则</strong>
+尽量降低relative对其他元素或布局的潜在影响
+尽量少使用relative（absolute定位不依赖relative） + 必须使用时使其影响最小化
+</pre>
+</body>
+</html>

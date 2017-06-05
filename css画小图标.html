@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		*{
+			box-sizing: border-box;
+		}
+		body{
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;/*换行*/
+			justify-content: space-around;/* 一行内各块间距相等排布*/
+		}
+		.box{
+			width: 50px;
+			height: 50px;
+			border: 1px solid currentColor;
+			padding: 10px;
+			color: #000;
+		}
+		.box:hover{
+			color: #3cd5ff;
+		}
+		.search{
+			width: 14px;
+			height: 14px;
+			border-radius: 50%;
+			border: 1px solid currentColor;
+			position: relative;
+			transform: rotate(-45deg);
+			cursor: pointer;
+		}
+		.search:before{
+			content: '';
+			width: 1px;
+			height: 6px;
+			background-color: currentColor;
+			position: absolute;
+			left: 50%;
+			top: 100%;
+			transform: translateX(-50%);
+		}
+		.search_solid{
+			width: 14px;
+			height: 14px;
+			border-radius: 50%;
+			border: 1px solid currentColor;
+			position: relative;
+			transform: rotate(-45deg);
+			cursor: pointer;
+		}
+		.search_solid:before{
+			content: '';
+			width: 1px;
+			height: 6px;
+			background-color: currentColor;
+			position: absolute;
+			left: 50%;
+			top: 100%;
+			transform: translateX(-50%);
+		}
+		.search_solid:after{
+			content: '';
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			background-color: currentColor;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%,-50%);
+		}
+		.magnify{
+			width: 14px;
+			height: 14px;
+			border-radius: 50%;
+			border: 1px solid currentColor;
+			position: relative;
+			transform: rotate(-45deg);
+			cursor: pointer;
+		}
+		.magnify:before{
+			content: '';
+			width: 1px;
+			height: 6px;
+			background-color: currentColor;
+			position: absolute;
+			left: 50%;
+			top: 100%;
+			transform: translateX(-50%);
+		}
+		.magnify i{
+			position: absolute;
+			transform: rotate(45deg) translate(4.5px,-.5px);
+			/*top: 0px; 为什么不能用top、left？复制过去两个不一样
+			left: 4.5px;*/
+			/* 为什么横线变模糊了*/
+		}
+		.magnify i:before{
+			content: '';
+			position: absolute;
+			width: 7px;
+			height: 1px;
+			background-color: currentColor;
+		}
+		.magnify i:after{
+			content: '';
+			width: 7px;
+			height: 1px;
+			position: absolute;
+			transform: rotate(90deg);
+			background-color: currentColor;
+		}
+		.magnify.solid{
+			background-color: currentColor;
+		}
+		.magnify.solid i{
+			color: #fff;
+		}
+		.close{
+			width: 18px;
+			height: 18px;
+			position: absolute;
+			transform: rotate(45deg);
+		}
+		.close:before{
+			content: '';
+			width: 18px;
+			height: 1px;
+			background-color: currentColor;
+			position: absolute;
+			top: 8px;
+		}
+		.close:after{
+			content: '';
+			width: 18px;
+			height: 1px;
+			background-color: currentColor;
+			position: absolute;
+			top: 8px;
+			transform: rotate(90deg);
+		}
+		.menu{
+			position: absolute;
+			width: 18px;
+			height: 1px;
+			margin: 8.5px 0;
+			background-color: currentColor;
+		}
+		.menu:before{
+			content: '';
+			position: absolute;
+			top: -4px;
+			width: 18px;
+			height: 1px;
+			background-color: currentColor;
+		}
+		.menu:after{
+			content: '';
+			position: absolute;
+			top: 4px;
+			width: 18px;
+			height: 1px;
+			background-color: currentColor;
+		}
+		.arrowLeft{
+			position: absolute;
+			width: 18px;
+			height: 1px;
+			margin: 8.5px 0;
+			background-color: currentColor;
+		}
+		.arrowLeft:before{
+			content: '';
+			position: absolute;
+			top: -6px;
+			left: 1.5px;
+			width: 12px;
+			height: 12px;
+			border-left: 1px solid currentColor;
+			border-bottom: 1px solid currentColor;
+			transform: rotate(45deg);
+		}
+		.check{
+			width: 14px;
+			height: 8px;
+			border-left: 1px solid currentColor;
+			border-bottom: 1px solid currentColor;
+			transform: rotate(-45deg);
+		}
+		.keyboard{
+		    position: absolute;
+		    /*margin-left: 1px;*/
+		    /*margin-top: 4px;*/
+		    width: 28px;
+		    height: 20px;
+		    border-radius: 1px;
+		    border: solid 1px currentColor;
+		}
+		.keyboard:before {
+		    content: '';
+		    position: absolute;
+		    left: 12px;
+		    top: 6px;
+		    width: 1px;
+		    height: 1px;
+		    border: 1px solid transparent;
+		    box-shadow: -2px 0 0 -1px currentColor, 
+		   				2px 0 0 -1px currentColor,  
+		   				0 -2px 0 -1px currentColor,  
+		   				0 2px 0 -1px currentColor,  
+		   				-6px 0 0 -1px currentColor,  
+		   				6px 0 0 -1px currentColor,  
+		   				-4px -2px 0 -1px currentColor,  
+		   				-4px 2px 0 -1px currentColor,  
+		   				4px -2px 0 -1px currentColor,  
+		   				4px 2px 0 -1px currentColor;
+		}
+		.keyboard:after {
+		    content: '';
+		    position: absolute;
+		    bottom: 1px;
+		    left: 9px;
+		    width: 9px;
+		    height: 1px;
+		    background-color: currentColor;
+		}
+		.mustache{
+  		    position: absolute;
+  		    width: 6px;
+  		    height: 6px;
+  		    border-radius: 50%;
+  		    box-shadow: 5px 8px 0 0 currentColor,  
+  		    			10px 8px 0 0 currentColor;
+  		    background-color: red
+		}
+		.mustache:before{
+     		content: '';
+   		    position: absolute;
+   		    left: 1px;
+   		    top: 4px;
+   		    width: 7px;
+   		    height: 4px;
+   		    border-radius: 0 0 0 100%;
+   		    border: 0 solid transparent;
+   		    border-bottom: 6px solid currentColor;
+   		    -webkit-transform-origin: right 7px;
+   		            transform-origin: right 7px;
+   		    -webkit-transform: rotate(-40deg);
+   		            transform: rotate(-40deg);
+		}
+		.mustache:after {
+			content: '';
+		  	position: absolute;
+		  	left: 13px;
+		  	top: 4px;
+		  	width: 7px;
+		  	height: 4px;
+		  	border: 0 solid transparent;
+		  	border-bottom: 6px solid currentColor;
+		  	border-radius: 0 0 100% 0;
+		  	-webkit-transform-origin: left 7px;
+		  	        transform-origin: left 7px;
+		  	-webkit-transform: rotate(40deg);
+		  	        transform: rotate(40deg);
+		}
+		.mustache i {
+		    width: 4px;
+		    height: 4px;
+		    border-radius: 50%;
+		    color: white;
+		    box-shadow: 6px 9px 0 0 currentColor,  11px 9px 0 0 currentColor;
+		    position: absolute;
+		    z-index: 2;
+		}
+		.mustache i:before {
+		    content: '';
+		    position: absolute;
+		    left: 2px;
+		    top: 6px;
+		    width: 6px;
+		    height: 3px;
+		    color: white;
+		    border: 0 solid transparent;
+		    border-bottom: 4px solid currentColor;
+		    border-radius: 0 0 0 100%;
+		    -webkit-transform-origin: right 5px;
+		            transform-origin: right 5px;
+		    -webkit-transform: rotate(-40deg);
+		            transform: rotate(-40deg);
+		}
+		.mustache i:after {
+		    content: '';
+		    position: absolute;
+		    left: 13px;
+		    top: 6px;
+		    width: 6px;
+		    height: 3px;
+		    color: white;
+		    border: 0 solid transparent;
+		    border-bottom: 4px solid currentColor;
+		    border-radius: 0 0 100% 0;
+		    -webkit-transform-origin: left 5px;
+		            transform-origin: left 5px;
+		    -webkit-transform: rotate(40deg);
+		            transform: rotate(40deg);
+		}
+
+
+
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="mustache"><i></i></div>
+	</div>
+	<div class="box">
+		<div class="keyboard"></div>
+	</div>
+	<div class="box">
+		<div class="check"></div>
+	</div>
+	<div class="box">
+		<div class="arrowLeft"></div>
+	</div>
+	<div class="box">
+		<div class="menu"></div>
+	</div>
+	<div class="box">
+		<div class="close"></div>
+	</div>
+	<div class="box">
+		<div class="magnify solid"><i></i></div>
+	</div>
+	<div class="box">
+		<div class="magnify"><i></i></div>
+	</div>
+	<div class="box">
+		<div class="search_solid"></div>
+	</div>
+	<div class="box">
+		<div class="search"></div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-size: 14px;
+			font-family: "MicroSoft Yahei"
+		}
+		.clearfix{
+			*zoom = 1;
+		}
+		.clearfix:after{
+			content: '';
+			display: block;
+			clear: both;
+		}
+		.stage{
+			background-color: #29454d;
+			perspective: 2000px;	/* 数值来自demo */
+			padding: 100px 0;
+			overflow: hidden;	/* 超出内容要隐藏 */ 
+			-webkit-user-select: none;	/* 用户无法选择到文本 */
+			-moz-user-select: none;	
+			-ms-user-select: none;	
+			-o-user-select: none;	
+			user-select: none;	
+		}
+		.box{
+			position: relative;
+			width: 500px;
+			height: 500px;
+			margin: 0 auto;
+			transform-style: preserve-3d;
+		}
+		.pic{
+			width: 150px;
+			height: 200px;
+			border: 2px solid #fd7068;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin: -100px 0 0 -75px;
+			text-align: center;
+			background: no-repeat center top/cover #fff;
+			/* 倒影 不兼容 */
+			-webkit-box-reflect: below 10px linear-gradient(transparent,transparent 30%,rgba(0,0,0,.5) 100%);
+			box-reflect: below 10px linear-gradient(transparent,transparent 30%,rgba(0,0,0,.5) 100%);
+			/*backface-visibility: hidden;*/
+		}
+		.pic span{
+			font-size: 12px;
+			line-height: 200px;
+		}
+	</style>
+</head>
+<body>
+	<div class="stage">
+		<div class="box">
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+			<div class="pic"><span>可以拖拽图片文件进来</span></div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			setPosition();
+			move();
+			drop();
+		})
+
+		//给每个pic设置位置
+		function setPosition(){
+			var pic = $('.pic');
+			var num = pic.length; //图片个数
+			pic.each(function(index,element){
+				//注意有 rotateY translateZ
+				$(this).css('transform','rotateY(' + index*360/num +'deg) translateZ(400px)');
+			})
+		}
+		//鼠标拖动旋转
+		/*function move(){
+			var box = $('.box');
+			var xNow = 0;
+			var yNow = 0;
+			var xStart = 0;
+			var yStart = 0;
+			var nowdegX = 0;
+			var nowdegY = 0;
+
+			$(window).mousedown(function(e){
+				xStart = e.clientX;
+				yStart = e.clientY;
+				//mousemove写在mousedown里面是因为，需要在鼠标按下的前提下触发移动事件，而不是直接移动都可以旋转图片
+				$(window).mousemove(function(e){
+					xNow = e.clientX;
+					yNow = e.clientY;
+
+					var xDistance = xNow - xStart;
+					var yDistance = yNow - yStart;
+					//这里x、y相反的
+					nowdegX = nowdegX-yDistance*0.1;
+					nowdegY = nowdegY+xDistance*0.1;
+					nowdegX > 179 ? nowdegX = 179 : nowdegX < 1 ? nowdegX = 1 : nowdegX = nowdegY;
+					nowdegY > 179 ? nowdegY = 179 : nowdegY < 1 ? nowdegY = 1 : nowdegY = nowdegY;
+					box.css('transform','rotateX('+nowdegX+'deg) rotateY('+nowdegY+'deg)');
+				});
+			});
+			$(window).mouseup(function(e){
+				// 鼠标抬起后需要解绑mousemove事件
+				// $(window).mousemove(null);
+				// this.onmousemove = null;
+				// 以上方法解绑不起作用？？？
+           		$(this).unbind('mousemove');
+			});
+		}*/
+		function move(){
+			//思路：声明一些用得到的变量、鼠标按下、鼠标移动、鼠标抬起
+			var box = $('.box');
+
+			//是否发生鼠标移动事件
+			var isMove = false;
+			//计算鼠标移动速度用的变量	
+			var speedTimer = null; 
+			var speedX = 0;
+			var speedY = 0;
+			//记录目前的旋转角度
+			var xDegNow = 0;
+			var zDegNow = 0;
+			//记录要旋转的角度
+			var xDegDistance = 0;
+			var zDegDistance = 0;
+
+			//鼠标按下
+			$(window).mousedown(function(e){
+				//清除transition
+				box.css('transition','');
+
+				//记录按下的坐标
+				var xstart = e.clientX;
+				var ystart = e.clientY;
+				//记录速度的初始坐标  这个值初始等于xstart，但是在移动过程中需10ms更新到当前位置
+				var speedX_start = xstart;
+				var speedY_start = ystart;
+				//计算速度的初始时间
+				var tstart = new Date().getTime();
+				var tnow = tstart;
+				//设置一个定时器来更新计算速度的当前时间tnow
+				speedTimer = setInterval(function(){
+					tnow = new Date().getTime();
+				});
+				$(window).mousemove(function(e){
+					//有鼠标移动事件
+					isMove = true;
+					//记录此时的鼠标坐标
+					var xnow = e.clientX;
+					var ynow = e.clientY;
+					//计算坐标距离
+					var xDistance = xnow - xstart;
+					var yDistance = ynow - ystart;
+					//计算时间间隔
+					var tDistance = tnow - tstart;
+					//如果计算超过一段时间（10ms），计算速度
+					if(tDistance >= 10){
+						speedX = (xnow - speedX_start) / tDistance;
+						speedY = (ynow - speedY_start) / tDistance;
+					}
+					//让速度的初始时间和坐标=现在时间和坐标
+					speedX_start = xnow;
+					speedY_start = ynow;
+					tstart = tnow;	//把初始时间重置了，是因为不需要保留鼠标按下时间这个参数
+					//把鼠标移动距离计算成角度后设置到页面上
+					zDegDistance = zDegNow + xDistance*0.1;	//注意，计算rotateZ的角度用的是xDistance
+					xDegDistance = xDegNow - yDistance*0.1;	//注意，计算rotateZ的角度用的是xDistanceX的角度用的是yDistance
+                	xDegDistance = xDegDistance > 89 ? 89 : xDegDistance < -89 ? -89 : xDegDistance;	//rotateX的角度需要限制在-90到90度之间
+					box.css('transform','rotateX('+xDegDistance+'deg) rotateY('+zDegDistance+'deg)');
+				});
+			});
+			$(window).mouseup(function(){
+				//鼠标抬起
+				//取消mousemove事件
+				// $(window).mousemove(null);  //错误的写法
+				// this.onmousemove = null;	//jquery里面只能采用$(this),原生采用this
+				// $(this)[0].onmousemove = null;  //改成这样就可以
+				$(this).unbind('mousemove');
+				//清除计时器
+				clearInterval(speedTimer);
+				//判断如果发生移动
+				if (isMove) {
+					//添加过渡属性
+					box.css('transition','all .5s ease-out');
+					//根据速度计算目标角度 设置到页面上
+					zDegDistance += speedX*10;	//同样x、y相反
+					xDegDistance -= speedY*10;
+                	xDegDistance = xDegDistance > 89 ? 89 : xDegDistance < -89 ? -89 : xDegDistance;
+					box.css('transform','rotateX('+xDegDistance+'deg) rotateY('+zDegDistance+'deg)');
+					//记录当前角度的值的更新
+					zDegNow = zDegDistance;
+					xDegNow = xDegDistance;
+					//参数重置
+					zDegDistance = 0;
+					xDegDistance = 0;
+					isMove = false;
+					speedX = 0;
+					speedY = 0;
+				}
+			});
+		}
+		function drop(){
+			//取消鼠标拖拽文件进入窗口的默认行为
+			window.ondragover = function(e){
+				e.preventDefault();
+			}
+			window.ondrop = function(e){
+				e.preventDefault();
+			}
+
+			//鼠标放下
+			$('.pic').each(function(index,element){
+				var pic = $(this)[0];
+				pic.ondrop = function(e){
+					// e.preventDefault();
+					// var data = e.dataTransfer.getData("text");
+					// e.target.style.backgroundImage = 'url('+data+')';
+					// console.log(data);
+	                var w = new FileReader();
+	                w.index = index;
+	                w.readAsDataURL(e.dataTransfer.files[0]);
+	                w.onload = function () {
+	                    pic.style.backgroundImage = 'url(' + w.result + ')';
+	                    pic.innerHTML = '';
+	                }
+				}
+			})
+		}
+	</script>
+</body>
+</html>

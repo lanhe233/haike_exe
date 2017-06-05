@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-size: 14px;
+			font-family: "MicroSoft Yahei";
+		}
+		body{
+			padding: 10px;
+		}
+		.clearfix{
+			*zoom = 1;
+		}
+		.clearfix:after{
+			content: '';
+			display: block;
+			clear: both;
+		}
+		.lizi4{
+			background-color:orange;
+			width:800px;
+			margin: 0 auto;
+		}
+		.lizi4 ul{
+			list-style: none;
+			overflow: hidden;
+			margin-right: -20px;
+		}
+		.lizi4 ul li{
+			height: 100px;
+			width: 253.33px;
+			background-color: olive;
+			float: left;
+			margin-right: 20px;
+		}
+		.lizi5{
+			width: 800px;
+			overflow: hidden;
+			resize: vertical;
+		}
+		.lizi5 .left{
+			background: orange;
+		}
+		.lizi5 .right{
+			background: green;
+		}
+		.lizi5 .left,.lizi5 .right{
+			width: 50%;
+			float: left;
+			text-align: center;
+			margin-bottom: -200px;
+			padding-bottom: 200px;
+		}
+		.lizi5 .left span,.lizi5 .right span{
+			line-height: 20px;
+			color: #fff;
+			display: block;
+		}
+		.pad{
+			width: 50px;
+			height: 50px;
+			border: 4px solid #000;
+			padding: 5px;
+			background-color: #000;
+			border-radius: 50%;
+			background-clip: content-box;
+		}
+	</style>
+</head>
+<body>
+<pre>
+<strong>一、margin</strong>
+<strong>1.margin实现宽高2:1自适应矩形</strong>
+</pre>
+<div style="width: 200px;background-color:olive;overflow:hidden;">
+	<div style="margin:50%;"></div>
+</div>外面div宽度不管怎么变，该div始终保持2:1的宽高比，不过如果我把这串字写在div里面就不行了<br>margin：50%，看起来上下都有50%，应该是100%，应该是1:1，但这里发生了margin重叠。overflow:hidden也是为了避免发生margin重叠
+<pre>
+
+<strong>2.margin重叠</strong>
+margin只发生在block水平元素上，且不包括float和absolute元素（非BFC）
+不考虑writing-mode书写格式的前提下，只在垂直方向发生重叠
+注：writing-mode: lr-tb | tb-rl | tb-lr (IE8+);
+       writing-mode: horizontal-tb | vertical-rl | vertical-lr;
+       writing-mode将页面默认的水平流改成了垂直流，颠覆了很多我们以往的认知，基于原本水平方向才适用的规则全部都可以在垂直方向适用！
+margin重叠的三种情景：
+	   相邻的兄弟元素；父级和第一个/最后一个子元素；空的block元素自己和自己重叠
+
+<strong>3.margin举个例子 绝对定位元素的margin:auto水平垂直均适应的方法 兼容ie8+</strong>
+<div style="position:relative;width:200px;height:150px;background-color:#eee">
+	<div style="position:absolute;top:0;left:0;bottom:0;right:0;width:50px;height:50px;margin:auto;background-color: olive"></div>
+</div>
+
+<strong>4.margin举个例子 margin负值实现水平多个列表两段对齐</strong>
+</pre>
+<div class="lizi4">
+	<ul>
+		<li>注意，必须有两层父级，开始只有一层没有效果。ul右边预留20px的空出来</li>
+		<li></li>
+		<li></li>
+	</ul>
+</div>
+<pre>
+	
+<strong>5.margin举个例子 margin负值下的等高布局（原理：利用margin改变元素占据空间）</strong>
+两栏等高布局:必须overflow:hidden是为了让盒子BFC，让很大的margin和padding不会影响外面的布局；
+padding撑起来，并且background占据padding而不占据margin
+padding-bottom和margin-bottom值相等符号相反，假设为200；
+但是如果在两边增加的过程中，一边比另一边高出200px，就会出现不等高增长的现象
+由于overflow:hidden的存在，在做页面focus效果的时候会有问题，具体见overflow:hidden
+</pre>
+<div class="lizi5">
+	<div class="left">
+		<span>左黄</span>
+	</div>
+	<div class="right">
+		<span>右绿</span>
+	</div>
+</div>
+<input class="btn1" style="margin: 20px 50px" type="button" name="" value="左边增加一行"><input class="btn2" type="button" name="" value="右边增加一行">
+<pre>
+	
+<strong>6.margin举个例子 margin负值下的两栏自适应布局（原理：元素占据空间跟随margin移动）</strong>
+relative移动时原本占据的空间不会发生任何变化，但margin会。
+resize属性生效，需要设置overflow:auto/hidden/scroll
+</pre>
+<div style="width: 500px;background-color: #aaa;padding: 5px;resize: horizontal;overflow: hidden;">
+	<img style="width: 100px;float: right;" src="images/3-3.jpg" alt="">
+	<p style="margin-right: 120px;">图片右浮动，文字自然环绕效果。给p元素增加margin-right，可视尺寸减小，实现自适应效果。如果你希望DOM的前后顺序符合最终元素的展现顺序，需要略微调整HTML结构，以及使用margin负值进行定位，具体实现可参见下一例</p>
+</div>
+<div style="width: 500px;background-color: #aaa;padding: 5px;resize: horizontal;overflow: hidden;margin-top: 10px;">
+	<div style="float: left;width: 100%;"><p style="margin-right: 120px;">这里略微调整HTML结构，文字在前，但用一个宽度100%的左浮动容器包裹起来，如果无需兼容ie8-，可以使用css3 calc。必须宽度100%是因为float具有收缩性，会导致p不会水平方向充满。p本身则需要margin-right：120px，来预留出图片的位置。容器后跟随的img同样左浮动，并且margin-left：-（自身宽度大小）</p></div>
+	<img style="width: 100px;float: left;margin-left: -100px;" src="images/3-3.jpg" alt="">
+</div>
+<pre>
+	
+<strong>7.margin无效情况</strong>
+1.inline非替换元素水平margin有效，垂直margin无效。
+2.发生了margin重叠
+3.display为table相关类型（table/table-caption/inline-table/table-cell/table-row...）时无效，
+但是替换元素例外。img有效，但chrome下的button无效。。，不过替换元素本身就不需要设置table-cell。
+  （因此用table-cell实现两栏自适应布局时无法用margin-left撑开图片和文字的间距，只能用图片的margin-right撑开。注意，图片左浮动 + margin-right，文字display:table-cell）
+4....
+
+<strong>8.margin-start/margin-end等</strong>
+
+
+<strong>二、padding</strong>
+<strong>1.padding</strong>
+margin和padding一样，百分比都是相对于宽度计算的
+div{padding:50%}可以实现一个正方形（vm，单位 vm ,对于视口的宽度或高度,总是相对于小的那个。视口的宽度或高度被均分为100单位的vm。也可以实现。不过低版本andorid不兼容）
+<div class="pad"></div>
+</pre>
+	
+	<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.btn1').click(function(){
+				$('.left').append('<span>左黄</span>');
+			})
+			$('.btn2').click(function(){
+				$('.right').append('<span>右绿</span>');
+			})
+		});
+	</script>
+</body>
+</html>

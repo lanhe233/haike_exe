@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        @keyframes typing { from { width: 0; } }
+        @keyframes blink-caret { 50% { border-color: transparent; } }
+
+        h1 {
+            font: bold 200% Consolas, Monaco, monospace;
+            border-right: .1em solid;
+            width: 16.5em; /* fallback */
+            /* width: 30ch; # of chars */
+            margin: 2em 1em;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 20s steps(30, end), /* # of steps = # of chars */
+            blink-caret .5s step-end infinite alternate;
+        }
+
+        h2{
+            width: 285px;
+            height: 30px;
+            line-height: 30px;
+            border-right: 2px solid #000;
+            margin-left: 30px;
+            animation: borde .5s step-end infinite alternate,
+                        widt 20s steps(23,end);
+            overflow: hidden;
+            white-space: nowrap; /* 文本不换行 */
+            /*ease、linear等过渡函数都会为其插入补间。但有些效果不需要补间，只需要关键帧之间的跳跃，这时应该使用steps过渡方式
+            steps 函数指定了一个阶跃函数
+            第一个参数指定了时间函数中的间隔数量（必须是正整数）
+            第二个参数可选，接受 start 和 end 两个值，指定在每个间隔的起点或是终点发生阶跃变化，默认为 end。
+            step-start等同于steps(1,start),动画分成1步，动画执行时为开始左侧端点的部分为开始；
+            step-end等同于steps(1,end),动画分成一步，动画执行时以结尾端点为开始，默认值为end。*/
+        }
+        @keyframes borde{
+            50%{
+                border-color: transparent;
+            }
+        }
+        @keyframes widt{
+            0%{
+                width: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>Typing animation by Lea Verou.</h1>
+<h2>I want to do something.</h2>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		html,body{
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div style="height: 500px;background-color: #000;display: none;">
+		<div style="height:400px;">
+			<div class="ccc" style="position:relative;height: 50%;"></div>
+		</div>
+	</div>
+
+	<div style="height: 500px;background-color: #000;">
+		<div style="height:400px;">
+			<div class="bbb" style="position:relative;height: 50%;"></div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			console.log($('.ccc').height());
+			console.log($('.bbb').height());
+		})
+	</script>
+</body>
+</html>

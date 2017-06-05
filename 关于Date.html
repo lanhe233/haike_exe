@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		
+	var date = new Date("2017-2-17 1:08:55");
+
+	//将得到的年月日时分秒控制在两位数显示
+	Number.prototype.checknum=function(){
+		var num = this.toString();
+		if (num<10) {
+			num = '0'+num;
+		};
+		return num;
+	}
+
+
+	document.write(date+'<br>');
+	document.write('年：'+date.getFullYear()+'<br>');
+	document.write('月：'+(date.getMonth()+1).checknum()+'<br>');
+	document.write('日：'+date.getDate().checknum()+'<br>');
+	document.write('时：'+date.getHours().checknum()+'<br>');
+	document.write('分：'+date.getMinutes().checknum()+'<br>');
+	document.write('秒：'+date.getSeconds().checknum()+'<br>');
+
+	//setTimeout 实现时钟的不断计时
+
+	</script>
+</body>
+</html>

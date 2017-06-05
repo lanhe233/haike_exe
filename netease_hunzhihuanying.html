@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>网易-魂之幻影</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		html,body{
+			height: 100%;
+		}
+		.loading{
+			height: 100%;
+			background: url(http://res.hzhy.netease.com/pc/zt/20160316140351/img/loadbg_634b938.jpg) no-repeat center/cover;
+		}
+		.progress{
+			width: 100px;
+			height: 100px;
+			background: url(http://res.hzhy.netease.com/pc/zt/20160316140351/img/load_circle_77cd93b.png) no-repeat center;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-left: -50px;
+			margin-top: -50px;
+			transform: rotateZ(180deg);
+			text-align: center;
+			line-height: 100px;
+			color: #fff;
+			animation: rotate 1.5s infinite;
+		}
+		@keyframes rotate{
+			0% {
+				transform: rotateZ(0deg);
+			},
+			20% {
+				transform: rotateZ(180deg);
+			},
+			100% {
+				transform: rotateZ(180deg);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="loading">
+		<div class="progress">100%</div>
+	</div>
+
+	<script type="text/javascript">
+		$(function(){
+
+		})
+	</script>
+</body>
+</html>

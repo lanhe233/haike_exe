@@ -1,0 +1,6 @@
+[
+  { "userid": 1, "msg": "你好!", "avatarUrl": "./images/pangtouyu.jpg", "time": "2017-02-08 13:30" },
+  { "userid": 1, "msg": "有什么需要帮助的？", "avatarUrl": "./images/pangtouyu.jpg", "time": "" },
+  { "userid": 1, "msg": "呵呵", "avatarUrl": "./images/pangtouyu.jpg", "time": "2017-02-08 13:40" },
+  { "userid": 1, "msg": "再见!", "avatarUrl": "./images/pangtouyu.jpg", "time": "" }
+]

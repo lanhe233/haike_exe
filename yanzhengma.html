@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>验证码</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-size: 14px;
+			font-family: "MicroSoft Yahei"
+		}
+		.box{
+			width: 500px;
+			height: 200px;
+			border: 1px solid #eee;
+			margin: 100px auto;
+			padding: 50px;
+		}
+		.box .line{
+			height: 40px;
+			padding: 0 50px;
+		}
+		.line .ma{
+			color: #ff3333;
+			margin: 0 10px;
+			display: inline-block;
+			width: 45px;
+		}
+		.line .de{
+			text-decoration: underline;
+			cursor: pointer;
+		}
+		.line .button{
+			width: 60px;
+			height: 30px;
+			background-color: #ff3333;
+			border-radius: 6px;
+			outline: none;
+			border: none;
+			color: #fff;
+		}
+		.line .validate{
+			color: red;
+			margin-left: 5px;
+			position: absolute;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="line">验证码<span class="ma"></span><span class="de">换一张</span></div>
+		<div class="line">输入验证码 <input class="txt" type="text" name="" placeholder="输入验证码"><span class="validate"></span></div>
+		<div class="line"><input class="button" type="button" name="" value="确定"></div>
+	</div>
+
+	<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var ma = [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+			var maLen = ma.length - 1;
+			var code;
+
+			getMa();
+
+			// $('.de').click(function(){
+			// 	getMa();
+			// }); 不用写这么长，简写↓
+			$('.de').on("click",getMa);
+
+			$('.button').click(function(){
+				if ( $('.txt').val().toLowerCase() == $('.ma').text().toLowerCase() ) {
+					$('.validate').text('验证码正确');
+				}else{
+					$('.validate').text('验证码错误');
+				}
+			});
+
+			$('.txt').focus(function(){
+				$('.validate').text("");
+			})
+
+			function getMa(){
+				// $('.ma').text(ma[Math.floor(Math.random()*maLen)]+ma[Math.floor(Math.random()*maLen)]+ma[Math.floor(Math.random()*maLen)]+ma[Math.floor(Math.random()*maLen)]);
+				code = "";
+				for (var i = 0; i <4; i++) {
+					code += ma[Math.floor(Math.random()*maLen)];
+				}
+				$('.ma').text(code.toUpperCase());
+			}
+		})
+	</script>
+</body>
+</html>

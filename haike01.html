@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		*{
+			box-sizing: border-box;
+			font-size: 12px;
+			font-family: '黑体','楷体';
+		}
+		.red{
+			color: red;
+		}
+		.div{
+			width: 200px;
+			margin: 5px;
+			display: inline-block;
+			float: left;
+			border: 1px solid #eee;
+			text-align: center;
+			padding: 10px;
+		}
+		.div>div{
+			width: 100%;
+			height: 100px;
+			border: 1px solid #ccc;
+			box-shadow: 0 0 5px #ccc;
+			margin-bottom: 8px;
+			padding: 4px;
+		}
+		.div span{
+			display: block;
+			width: 100%;
+		}
+		.d1{
+			cursor: none;
+		}
+		.d2{
+			font-size: 14px;
+			word-break: break-all;
+		}
+		.d3{
+			color: transparent; /*文字透明 即不可见*/
+			text-shadow: 0 0 5px #111;
+		}
+		.d4 .border{
+			width: 50px;
+			height: 50px;
+			box-shadow: 0 0 0 4px rgba(0,0,0,.2), 0 0 0 8px rgba(0,0,0,.2), 0 0 0 12px rgba(0,0,0,.2), 0 0 0 16px rgba(0,0,0,.2);
+			/* 除了四条四边均有长度不同的阴影，还有四条每边样式不同的阴影 ，还有内外不同的阴影，前面的覆盖后面的 */
+			margin: 20px auto 0;
+		}
+		.borRadius{
+			width: 50px; 
+			height: 50px;
+			border: 1px solid blue;
+			border-radius: 5px 22px 22px 5px/ 10px 10px 10px 10px;
+			/* 前四个为四角分别的水平半径，后四个为四角分别的垂直半径 */
+			border-top-left-radius: 5px 22px;
+			/* 此时两个参数表示左上角圆形半径的水平半径、垂直半径 */
+		}
+		.simpleCal{
+			width: calc(100% - 20px);
+			height: 20px;
+			background-color: lightblue;
+		}
+		.outline{
+			outline: none;
+			border: 1px solid #eee;
+			outline: 1px solid red;
+			outline-offset: 4px;
+		}
+		.d10{
+			word-break: break-all;
+		}
+		.vert1{
+			width: 100%;
+			height: 30px;
+			border: 1px solid #d0d0d0;
+		}
+		.vert1 span{
+			display: inline-block;
+			height: 100%;
+			width: 0;
+			vertical-align: middle;
+		}
+		.vert1 img{
+			vertical-align: middle;
+		}
+		.vert2{
+			width: 100%;
+			height: 30px;
+			border: 1px solid #d0d0d0;
+			/*line-height: 30px;*/
+		}
+		.vert2 img{
+			vertical-align: middle;
+			height: 24px;
+		}
+		.d23{
+			overflow: auto;
+		}
+	</style>
+</head>
+<body>
+	
+
+	<div class="div">
+		<div class="d18">
+			<a href="aboutverticalalign.html">aboutverticalalign.html</a>
+		</div>
+		<span>29.关于vertical-align</span>
+	</div>
+
+	<div class="div">
+		<div class="d18">
+			<a href="aboutoverflow.html">aboutoverflow.html</a>
+		</div>
+		<span>28.关于overflow</span>
+	</div>
+
+	<div class="div">
+		<div class="d18">
+			<a href="aboutabsolute.html">aboutabsolute.html</a>
+		</div>
+		<span>27.关于absolute</span>
+	</div>
+
+	<div class="div">
+		<div class="d18">
+			<a href="aboutz-index.html">aboutz-index.html</a>
+		</div>
+		<span>26.关于z-index</span>
+	</div>
+
+	<div class="div">
+		<div class="d18">
+			<a href="aboutfloat.html">aboutfloat.html</a>
+		</div>
+		<span>25.关于float</span>
+	</div>
+
+	<div class="div">
+		<div class="d18">
+			<a href="aboutborder.html">aboutborder.html</a>
+		</div>
+		<span>24.关于border</span>
+	</div>
+	
+	<div class="div">
+		<div class="d23">
+			meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0"
+
+			实例1：
+			如果页面宽度小于 300 像素,则修改body的背景颜色为红色:
+			@media screen and (max-width: 300px) { body { background-color:red; } }
+			如果页面宽度大于 300 像素并且小于600像素，则修改body的背景颜色为绿色:
+			@media screen and (min-width: 300px) and (max-width:600px) { body { background-color:green; } }
+			如果页面宽度大于 600 像素，则修改body的背景颜色为蓝色:
+			@media screen and (min-width: 600px) { body { background-color:blue; } }
+			代码解释：
+			screen 表示电脑屏幕，平板电脑，智能手机等，min-width和max-width 用于定义设备中页面的最小和最大宽度。
+
+			<a href="http://www.toutiao.com/i6365793168062939650/?tt_from=mobile_qq&utm_campaign=client_share&app=news_article&utm_source=mobile_qq&iid=5542174972&utm_medium=toutiao_android">浅谈移动端的自适应问题（JS控制）</a>
+		</div>
+		<span>23.手机端自适应</span>
+	</div>
+
+	<div class="div">
+		<div class="d18">
+			<a href="https://tympanus.net/Development/HoverEffectIdeas/">图片及其文字动画</a><br>
+			<a href="animate_imgWords.html">图片及其文字动画 by me</a>
+		</div>
+		<span>22.仿网页上的一些图片动画</span>
+	</div>
+	
+	<div class="div">
+		<div class="d18">
+			<a href="lunboLY.html">插件-轮播</a>
+		</div>
+		<span>21.仿插件-轮播图</span>
+	</div>
+	
+	<div class="div">
+		<div class="d18">
+			<a href="xiayu.html">下雨</a>
+		</div>
+		<span>20.模仿战警官网下雨效果</span>
+	</div>
+	
+	<div class="div">
+		<div class="d18">
+			<input class="defBtn" type="button" name="" value="点一下发送ajax请求，检测回调函数">
+		</div>
+		<span>19.jquery deferred对象</span>
+	</div>
+	
+	<div class="div">
+		<div class="d18">
+			<div class="vert1">
+				<span></span>
+				<img src="images/languageBtn.png">
+			</div>
+			<div class="vert2">
+				<img src="images/languageBtn.png">
+			</div>
+		</div>
+		<span>18.vertical-align 未知高度img垂直居中解决办法<br>但此法中貌似span不能加文字？</span>
+	</div>
+
+	<div class="div">
+		<div class="d17">常见DOM事件：<br>鼠标：click dblclick mouseenter mouseleave 键盘：keypress keydown keyup 表单：submit change focus blur 文档/窗口：load resize scroll unload</div>
+		<span>17.jquery小知识</span>
+	</div>
+
+	<div class="div">
+		<div class="d16">不熟悉的css选择器：<br>:focus :first-letter :first-line...<br><a href="http://www.runoob.com/cssref/css-selectors.html">详见</a></div>
+		<span>16.css小知识</span>
+	</div>
+
+	<div class="div">
+		<div class="d15">$(function(){}) = $(document).ready(function(){}) 作用是在文档完全加载之后再运行其中的jquery代码</div>
+		<span>15.jquery小知识</span>
+	</div>
+
+	<div class="div">
+		<div class="d14">H5中，导入js文件不需要写type="text/javascript"了，因为js现在是默认脚本语言</div>
+		<span>14.jquery小知识</span>
+	</div>
+
+	<div class="div">
+		<div class="d13"><a href="css画小图标.html">css画小图标</a></div>
+		<span>13.css画小图标</span>
+	</div>
+
+	<div class="div">
+		<div class="d12"><a href="images/jquery高度说明.png">jQuery：width(), innerWidth(), outerWidth()</a><br><a href="images/js高度说明.png">原生JS:clientWidth, offsetWidth, scrollWidth</a></div>
+		<span>12.html中各种高度</span>
+	</div>
+
+	<div class="div">
+		<div class="d11"></div>
+		<span>11.阴阳师轮播图<br><a href="仿阴阳师轮播图by me.html">仿阴阳师轮播图by me.html</a><br><a href="仿阴阳师官网轮播图.html">仿阴阳师轮播图.html</a></span>
+	</div>
+
+	<div class="div">
+		<div class="d10">http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=tuicool</div>
+		<span>10.flex布局<br>display:flex弹性布局</span>
+	</div>
+
+	<div class="div">
+		<div class="d9"></div>
+		<span>9.大白demo<br><a href="大白.html">大白.html</a><br><a href="大白-原示例.html">大白-原示例.html</a></span>
+	</div>
+
+	<div class="div">
+		<div class="d8"><input class="outline" type="text" placeholder="调调看"></div>
+		<span>8.outline-offset<br>一般去掉input默认外框时用outline:none<br>outline-offset属性 对轮廓进行偏移，并在边框边缘进行绘制。轮廓在两方面与边框不同：轮廓不占用空间；轮廓可能是非矩形</span>
+	</div>
+
+	<div class="div">
+		<div class="d7"><div class="simpleCal"></div></div>
+		<span>7.css中简单运算<br>width: calc(100% - 20px);<br>注意：运算符左右要有空格！</span>
+	</div>
+
+	<div class="div">
+		<div class="d6">
+			<style contentEditable style='display: block;border: 1px solid #eee'>
+				.d6{ color: lightblue }
+			</style>
+		</div>
+		<span>6.实时编辑css</span>
+	</div>
+
+	<div class="div">
+		<div class="d5"><div class="borRadius"></div></div>
+		<span>5.border-radius<br>可1-4个参数，或斜杠后加上四个参数，分别表示水平半径、垂直半径；也可四角分别设置，四角分别设置时还可两个参数表示水平半径、垂直半径</span>
+	</div>
+
+	<div class="div">
+		<div class="d4"><div class="border"></div></div>
+		<span>4.多重边框阴影<br>box-shadow:[inset] x-offset y-offset blur-radius spread-radius color<br><a href="images/pic_boxshadow.png">图解</a></span>		
+	</div>
+
+	<div class="div">
+		<div class="d3">福如东海</div>
+		<span>3.简单的文字模糊效果<br>text-shadow:x-offset y-offset blur color</span>		
+	</div>
+
+	<div class="div">
+		<div class="d2">http://www.w3cplus.com/css/the-important-css-declaration-how-and-when-to-use-it.html<br>了解能懂，但尽量不要使用</div>
+		<span>2.!importment</span>		
+	</div>
+
+	<div class="div">
+		<div class="d1"></div>
+		<span>1.鼠标移进网页 消失</span>		
+	</div>
+	
+	<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+	<script src="js/haike01.js"></script>
+</body>
+</html>

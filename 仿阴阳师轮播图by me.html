@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		*{
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+		html,body{
+			width: 100%;
+			height: 100%;
+		}
+		.stage{
+			width: 1000px;
+			height: 550px;
+			margin: 50px auto;
+			border: 1px solid #eee;
+			padding: 15px;
+			overflow: hidden;
+		}
+		.container{
+			opacity: 0;
+			width: 720px;
+			height: 520px;
+			position: relative;
+			top: 50%;
+			left: 50%;
+			-webkit-transform: translate(-50%,0);
+			-moz-transform: translate(-50%,0);
+			-o-transform: translate(-50%,0);
+			transform: translate(-50%,0);
+			-webkit-transition: all 1s;
+			-o-transition: all 1s;
+			transition: all 1s;
+		    -webkit-perspective: 720px;
+		    -moz-perspective: 720px;
+		    -ms-perspective: 720px;
+			perspective: 720px;
+		}
+		.stage.whenShow .container{
+			opacity: 1;
+			-webkit-transform: translate(-50%,-50%);
+			-moz-transform: translate(-50%,-50%);
+			-o-transform: translate(-50%,-50%);
+			transform: translate(-50%,-50%);
+		}
+		.pic{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			-webkit-transition: all .5s ease;
+			-moz-transition: all .5s ease;
+			-o-transition: all .5s ease;
+			transition: all .5s ease;
+			opacity: 1;
+		}
+		.pic a{
+			cursor: default;
+			display: inline-block;
+			width: 100%;
+			height: 100%;
+		}
+		.pic img{
+			width: 100%;
+		}
+		.pic.left{
+			-webkit-transform: rotateY(30deg) translateX(-220px) translateZ(-300px) scale(.6);
+			-moz-transform: rotateY(30deg) translateX(-220px) translateZ(-300px) scale(.6);
+			-o-transform: rotateY(30deg) translateX(-220px) translateZ(-300px) scale(.6);
+			transform: rotateY(30deg) translateX(-220px) translateZ(-300px) scale(.6);
+		}
+		.pic.front{  /*虽然写不写并没有用。。*/
+			z-index: 10;
+			-webkit-transform: rotateY(0) translateX(0) translateZ(0) scale(1);
+			-moz-transform: rotateY(0) translateX(1) translateZ(0) scale(0);
+			-o-transform: rotateY(0) translateX(0) translateZ(0) scale(1);
+			transform: rotateY(0) translateX(0) translateZ(0) scale(1);
+		}
+		.pic.right{
+			-webkit-transform: rotateY(-30deg) translateX(220px) translateZ(-300px) scale(.6);
+			-moz-transform: rotateY(-30deg) translateX(220px) translateZ(-300px) scale(.6);
+			-o-transform: rotateY(-30deg) translateX(220px) translateZ(-300px) scale(.6);
+			transform: rotateY(-30deg) translateX(220px) translateZ(-300px) scale(.6);
+		}
+		.pic.out{
+			-webkit-transform: scale(.6);
+			-moz-transform: scale(.6);
+			-o-transform: scale(.6);
+			transform: scale(.6);
+			opacity: 0;
+			z-index: -1;
+		}
+		.line_t,.line_r,.line_b,.line_l{
+			position: absolute;
+			background-color: #fff;
+			opacity: 0;
+		}
+		.line_t{
+			top: 10px;
+			left: 10px;
+			height: 1px;
+			width: 0;
+			-webkit-transition: width .2s ease .2s;
+			-moz-transition: width .2s ease .2s;
+			-o-transition: width .2s ease .2s;
+			transition: width .2s ease .2s;
+		}
+		.line_r{
+			top: 10px;
+			right: 10px;
+			height: 0;
+			width: 1px;
+			-webkit-transition: height .2s ease .4s;
+			-moz-transition: height .2s ease .4s;
+			-o-transition: height .2s ease .4s;
+			transition: height .2s ease .4s;
+		}
+		.line_b{
+			bottom: 10px;
+			right: 10px;
+			height: 1px;
+			width: 0;
+			-webkit-transition: width .2s ease .6s;
+			-moz-transition: width .2s ease .6s;
+			-o-transition: width .2s ease .6s;
+			transition: width .2s ease .6s;
+		}
+		.line_l{
+			bottom: 10px;
+			left: 10px;
+			height: 0;
+			width: 1px;
+			-webkit-transition: height .2s ease .8s;
+			-moz-transition: height .2s ease .8s;
+			-o-transition: height .2s ease .8s;
+			transition: height .2s ease .8s;
+		}
+		.pic.front .line_t,.pic.front .line_b{
+			-webkit-width: calc(100% - 2*10px);
+			-moz-width: calc(100% - 2*10px);
+			width: calc(100% - 2*10px);
+			opacity: 1;
+		}
+		.pic.front .line_r,.pic.front .line_l{
+			-webkit-height: calc(100% - 2*10px);
+			-moz-height: calc(100% - 2*10px);
+			height: calc(100% - 2*10px);
+			opacity: 1;
+		}
+	</style>
+</head>
+<body>
+	<div class="stage">
+		<div class="container">
+			<div class="pic left">
+				<a href="javascript:;"><img src="images/tese-pic-5_75fa5be.jpg"></a>
+				<div class="line_t"></div>
+				<div class="line_r"></div>
+				<div class="line_b"></div>
+				<div class="line_l"></div>
+			</div>
+			<div class="pic front">
+				<a href="javascript:;"><img src="images/tese-pic-1_3762c79.jpg"></a>
+				<div class="line_t"></div>
+				<div class="line_r"></div>
+				<div class="line_b"></div>
+				<div class="line_l"></div>
+			</div>
+			<div class="pic right">
+				<a href="javascript:;"><img src="images/tese-pic-2_dbbe4a6.jpg"></a>
+				<div class="line_t"></div>
+				<div class="line_r"></div>
+				<div class="line_b"></div>
+				<div class="line_l"></div>
+			</div>
+			<div class="pic out">
+				<a href="javascript:;"><img src="images/tese-pic-3_f3d43ab.jpg"></a>
+				<div class="line_t"></div>
+				<div class="line_r"></div>
+				<div class="line_b"></div>
+				<div class="line_l"></div>
+			</div>
+			<div class="pic out">
+				<a href="javascript:;"><img src="images/tese-pic-4_eb592d7.jpg"></a>
+				<div class="line_t"></div>
+				<div class="line_r"></div>
+				<div class="line_b"></div>
+				<div class="line_l"></div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+	<script>
+		//定义一些需要预先定义的函数 slider()函数-插件
+		(function($){
+			//fn=prototype $.fn是jquery的命名空间 添加一个所有jquery实例均可用的方法
+			//参数options是上方加载后执行的调用slider函数时传入的参数
+			$.fn.slider = function(options){
+				//将传入的参数和插件本身的参数融合，传入覆盖本身
+				var _ops = $.extend({
+					_length:5, //一共有几张图片
+					_left:'.pic.left',
+					_right:'.pic.right',
+					_front:'.pic.front',
+					_pic:'.pic'
+				},options);
+				$(document).on('click',_ops._left,function(){
+					
+					var idx = parseInt($(this).index());
+					
+					//给当前left的图扶正为front
+					$(this).removeClass('left').addClass('front');
+
+					//给当前front的图转为right
+					$(_ops._pic).eq(needRight(idx)).removeClass('front').addClass('right');
+
+					//找到需要left的图
+					$(_ops._pic).eq(needLeft(idx)).removeClass('out').addClass('left');
+
+					//给当前right的图转为out
+					$(_ops._pic).eq(needOut1(idx)).removeClass('right').addClass('out');
+				});
+				function needLeft(idx){
+					if (idx == 0) {
+						return _ops._length-1;
+					}else
+						return idx-1;
+				}
+				function needRight(idx){
+					if (idx == _ops._length-1) {
+						return 0;
+					}else
+						return idx+1;
+				}
+				function needOut1(idx){
+					if (idx == _ops._length-2) {
+						return 0;
+					}else if(idx == _ops._length-1){
+						return 1;
+					}else
+						return idx+2;
+				}
+				function needOut2(idx){
+					if (idx == 0) {
+						return _ops._length-2;
+					}else if(idx == 1){
+						return _ops._length-1;
+					}else
+						return idx-2;
+				}
+				$(document).on('click',_ops._right,function(){
+					
+					var idx = parseInt($(this).index());
+					
+					//给当前right的图扶正为front
+					$(this).removeClass('right').addClass('front');
+
+					//给当前front的图转为left
+					$(_ops._pic).eq(needLeft(idx)).removeClass('front').addClass('left');
+
+					//找到需要right的图
+					$(_ops._pic).eq(needRight(idx)).removeClass('out').addClass('right');
+
+					//给当前left的图转为out
+					$(_ops._pic).eq(needOut2(idx)).removeClass('left').addClass('out');
+				});
+			};		
+		})(jQuery);
+
+		// 加载完后执行
+		$(function(){
+			$('.stage').addClass('whenShow');
+			$('.container').slider({
+				//传参数
+				_length:5, //一共有几张图片
+				_left:'.pic.left',
+				_right:'.pic.right',
+				_front:'.pic.front',
+				_pic:'.pic'
+			});
+		});
+	</script>
+</body>
+</html>

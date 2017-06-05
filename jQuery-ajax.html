@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		i{
+			font-style: normal;
+			color: #f00;
+		}
+		ul,li{
+			list-style: none;
+		}
+		*{	
+			font-size: 12px;
+			font-family: "Verdana";
+		}
+	</style>
+</head>
+<body>
+<pre>
+<strong>1.使用load()方法异步请求数据</strong>
+使用load()方法通过ajax请求加载服务器中的数据，并把返回的数据放到指定的元素中，它的调用格式为：
+	load(url,[data],[callback])
+	url:加载服务器的地址
+	data:可选。请求时发送的数据
+	callback:可选。请求成功后，执行的回调函数
+</pre>
+<div style="border:1px solid #ccc;">
+<pre>	$(function(){
+		$('#btn').click(function(){
+			$this = $(this);
+			$('.con').<i>load</i>("http://www.imooc.com/data/<i>fruit_part.html</i>",function(){
+				$this.addClass('disabled');
+			})
+		})
+	})</pre>
+</div>
+<pre>
+<strong><br>2.使用getJSON()方法异步加载json数据</strong>
+使用getJSON()方法通过ajax请求加载服务器中的数据，并对获取的数据进行解析，显示在页面中，它的调用格式为：
+	$.getJSON(url,[data],[callback])
+	url:加载服务器的地址
+	data:可选。请求时发送的数据
+	callback:可选。请求成功后，执行的回调函数
+</pre>
+<div style="border:1px solid #ccc;">
+<pre>	$(function(){
+		$('#btn').click(function(){
+			$this = $(this);
+			<i>$.getJSON</i>("http://www.imooc.com/data/<i>sport.json</i>",function(<i>data</i>){
+				var html;
+				<i>$.each</i>(data,function(index,element){
+					html += data["name"]+"\n";
+				})
+				$('.con').html(html);
+				$this.addClass('disabled');
+			})
+		})
+	})</pre>
+</div>
+<pre>
+<strong><br>3.使用getScript()方法异步加载json数据</strong>
+使用getScript()方法异步请求并执行服务器中的JavaScript文件，显示在页面中，它的调用格式为：
+	$.getScript(url,[callback])
+	url:加载服务器的地址
+	callback:可选。请求成功后，执行的回调函数
+</pre>
+<div style="border:1px solid #ccc;">
+<pre>	$(function(){
+		$('#btn').click(function(){
+			$this = $(this);
+			<i>$.getScript</i>("http://www.imooc.com/data/<i>sport.js</i>",function(){
+				$this.addClass('disabled');
+			})
+		})
+	})</pre>
+</div>
+<pre>
+<strong><br>4.使用get()方法以GET方式从服务器获取数据</strong>
+使用get()方法时采用GET方式从服务器请求数据，并通过方法中的回调函数的参数返回请求的数据，它的调用格式为：
+	$.get(url,[callback])
+	url:加载服务器的地址
+	callback:可选。请求成功后，执行的回调函数
+</pre>
+<div style="border:1px solid #ccc;">
+<pre>	$(function(){
+		$('#btn').click(function(){
+			var $this = $(this);
+            $.get("http://www.imooc.com/data/<i>info_f.php</i>",function(<i>data</i>){
+                $this.attr("disabled", "true");
+                $("ul").append("< li>我的名字叫：" + data.name + "< /li>");
+                $("ul").append("< li>男朋友对我说：" + data.say + "< /li>");
+            }, <i>"json"</i>);
+		})
+	})
+		
+		< ? php
+			echo json_encode( array( "name"=>"土豪","say"=>"我们做朋友吧！" ) );
+		?>
+	</pre>
+</div>
+<pre>
+<strong><br>5.使用post()方法以POST方式从服务器获取数据</strong>
+使用post()方法多用于采用POST方式从服务器发送数据，服务器接受到数据之后，进行处理，并将处理结果返回页面，它的调用格式为：
+	$.post(url,[data],[callback])
+	url:加载服务器的地址
+	callback:可选。请求成功后，执行的回调函数
+</pre>
+<div style="border:1px solid #ccc;">
+<pre>	$(function(){
+		$('#btn').click(function(){
+			var $this = $(this);
+            $.post("http://www.imooc.com/data/<i>check.php</i>",<i>{num:$('input').val}</i>,function(<i>data</i>){
+                 $("ul").append("< li>你输入的< b>  "+ $("input").val() + " < /b>是< b> "
+                        + data + " < /b>< /li>");
+		})
+	})
+		
+		< ? php
+			$num = $_POST["num"];
+			if($num%2==0)
+				echo "偶数";
+			else
+				echo "奇数";
+		?>
+	</pre>
+</div>
+
+<pre>
+<strong><br>6.使用serialize()方法序列化表单元素值</strong>
+使用serialize()方法可以将表单中<i>有name属性</i>的元素值进行序列化，生成标准url编码文本字符串，直接可用于ajax请求。它的调用格式为：
+	$(selector).serialize()
+</pre>
+<div style="border:1px solid #ccc;">
+<pre>	$(function(){
+		$('#btn').click(function(){
+			$('span').html($('<i>form</i>').serialize());
+		})
+	})
+	</pre>
+</div>
+<pre>
+<strong><br>7.使用ajax()方法加载服务器数据</strong>
+使用ajax()方法是最底层、功能最强大的请求服务器数据的方法。它不仅可以获取服务器返回的数据，还能向服务器发送请求并返回数值。它的调用格式为：
+	$.ajax([settings])
+	settings:发送ajax请求时的配置对象。在该对象中，
+		url:服务器请求的路径
+		data:请求时传递的数据
+		datatype:服务器<i>返回的数据类型</i>
+		success:请求成功时执行的回调函数
+		type:发送数据请求的方式，默认为get
+</pre>
+<div style="border:1px solid #ccc;">
+<pre>	$(function(){
+		$('#btn').click(function(){
+			<i>$.ajax</i>({
+				<i>url</i>:"data/data.txt",
+				<i>datatype</i>:"text",
+				<i>success</i>:function(<i>data</i>){
+					$('.con').append(data);
+				}
+			})
+		})
+	})
+	</pre>
+</div>
+<pre>
+<strong><br>8.使用ajaxSetup()方法设置全局ajax默认选项</strong>
+使用ajaxSetup()方法可以设置ajax请求的一些全局性选项值，设置完成后，后面的ajax请求将不需要再添加这些选项值。它的调用格式为：
+	$.ajaxSetup([options])
+	options:一个对象，通过该对象设置ajax请求时的全局选项值。
+</pre>
+<div style="border:1px solid #ccc;">
+<pre>	$(function(){
+		<i>$.ajaxSetup</i>({
+			datatype:"text",
+			success:function(data){
+				$('.con').empty().append(data);
+			}
+		})
+
+		$('#btn1').click(function(){
+			$.ajax({ url:"data/article1.txt" });
+		})
+
+		$('#btn2').click(function(){
+			$.ajax({ url:"data/article2.txt" });
+		})
+	})
+	</pre>
+</div>
+<pre>
+<strong><br>9.使用ajaxStart()和ajaxStop()方法</strong>
+ajaxStart()和ajaxStop()方法是绑定ajax事件，ajaxStart()用于在ajax请求发出前触发函数，ajaxStop()用于在ajax请求完成后触发函数。它的调用格式为：
+	$(selector).ajaxStart(function()) / $(selector).ajaxStop(function())
+例如，在调用ajax()方法请求服务器数据前，使用动画显示正在加载中，当请求成功后，该动画自动隐藏
+</pre>
+<div style="border:1px solid #ccc;">
+<pre>	$(function(){
+		$('.loadAnimation').<i>ajaxStart</i>(function(){
+			$(this).show();
+		})
+
+		$('.loadAnimation').<i>ajaxStop</i>(function(){
+			$(this).hide();
+		})
+
+		$('#btn').click(function(){
+			$.ajax({ 
+				url:"data/deal.php" ,
+				datatype:"json",
+				success:function(data){
+					$('ul').append(data);
+				}
+			});
+		})
+	})
+	</pre>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+</script>
+</body>
+</html>

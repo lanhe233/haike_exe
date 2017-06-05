@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CSS3实现曲线阴影和翘边阴影</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		.wrap{
+			width: 300px;
+			height: 150px;
+			margin: 100px auto;
+			font-size: 20px;
+			font-family: Arial;
+			text-align: center;
+			line-height: 150px;
+			border-radius: 2px;
+			background-color: #fff;
+		}
+		.effect{
+			position: relative;
+			box-shadow: 0 1px 4px rgba(0,0,0,.3),
+						0 0 40px rgba(0,0,0,.1) inset;
+		}
+		.effect:before,.effect:after{
+			content: '';
+			position: absolute;
+			z-index: -1;
+			top: 50%;
+			bottom: 0px;
+			left: 15px;
+			right: 15px;
+			/*box-shadow: 0 0 13px 1px rgba(0,0,0,.8);     此处采用两个阴影重叠使之颜色更实，其实一个阴影然后加上阴影半径达到的效果也是不错的*/
+			box-shadow: 0 0 15px rgba(0,0,0,.8);
+			border-radius: 100px / 10px;
+		}
+		ul{
+			width: 660px;
+			height: 190px;
+			overflow: hidden;
+			list-style: none;
+			margin: 0 auto;
+		}
+		li{
+			width: 200px;
+			height: 150px;
+			margin: 20px 10px;
+			position: relative;
+			float: left;
+			box-shadow: 0 1px 4px rgba(0,0,0,.3),
+						0 0 60px rgba(0,0,0,.1) inset;
+			background-color: #fff;
+		}
+		li img{
+			display: block;
+			width: 190px;
+			height: 140px;
+			margin: 5px;
+		}
+		li::before,li::after{
+			content: '';
+			position: absolute;
+			z-index: -2;
+			left: 19px;
+			bottom: 8px;
+			width: 85%;
+			height: 80%;
+			background-color: transparent;
+			box-shadow: 0 10px 15px rgba(0,0,0,.6);
+			transform: skew(-15deg) rotate(-4deg);
+		}
+		li::after{
+			left: auto;
+			right: 19px;
+			transform: skew(15deg) rotate(4deg);
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap effect">
+		<span>Shadow Effect</span>
+	</div>
+
+	<ul>
+		<li><img src="images/11.jpg" alt=""></li>
+		<li><img src="images/12.jpg" alt=""></li>
+		<li><img src="images/13.jpg" alt=""></li>
+	</ul>
+
+</body>
+</html>

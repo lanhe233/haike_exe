@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>五子棋-canvas/js/算法</title>
+	<style type="text/css">
+		canvas{
+			/*不能在CSS里定义canvas的宽高，看起来是没错的，但绘制时会发现坐标点不对*/
+			/*width: 450px;
+			height: 450px;*/
+			/* canvas是一个inline-block标签，要实现水平居中，必须先block化 
+			内联元素是无法设置高宽的，但是内联置换元素却是可以的*/
+			display: block;
+			margin: 50px auto;
+			/*记住阴影的使用。这个效果简单好看*/
+			box-shadow: -2px -2px 2px #efefef,5px 5px 5px #bfbfbf;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="chess" width="450" height= "450">不支持canvas</canvas>
+
+	<script type="text/javascript">
+		//取到canvas元素
+		var chess = document.getElementById('chess'),
+			context = chess.getContext('2d');
+
+		//默认是黑棋
+		var me = true;
+		//二维数组存储棋盘的落子情况
+			//定义二维数组不能用[][]。。。
+		var chessBoard = [];
+		for (var i = 0; i < 15; i++) {
+			chessBoard[i] = [];
+			for (var j = 0; j < 15; j++) {
+				chessBoard[i][j] = 0;
+			}
+		}
+
+		//记录本局是否结束
+		over = false;
+
+		//赢法数组 三维数组
+		var wins = [];
+		for (var i = 0; i < 15; i++) {
+			wins[i] = [];
+			for (var j = 0; j < 15; j++) {
+				wins[i][j] = [];
+			}
+		}
+		//赢法种类的索引,即第几种赢法
+		var count = 0;
+		//统计所有能赢的五子横线
+			//仔细思考,这个循环枚举了棋盘上所有能达到的五子横线。每一条五子横线标记了一个count表示是第几条五子横线
+			//三维数组中没有定义的地方js默认为undefined
+		for (var i = 0; i < 15; i++) {
+			for (var j = 0; j < 11; j++) {
+				for (var k = 0; k < 5; k++) {
+					wins[i][j+k][count] = true;
+				}
+				count++;
+			}
+		}
+		//统计所有能赢的五子竖线
+		for (var i = 0; i < 15; i++) {
+			for (var j = 0; j < 11; j++) {
+				for (var k = 0; k < 5; k++) {
+					wins[j+k][i][count] = true;
+				}
+				count++;
+			}
+		}
+		//统计所有能赢的五子斜线
+		for (var i = 0; i < 11; i++) {
+			for (var j = 0; j < 11; j++) {
+				for (var k = 0; k < 5; k++) {
+					wins[i+k][j+k][count] = true;
+				}
+				count++;
+			}
+		}
+		//统计所有能赢的五子反斜线
+		for (var i = 4; i < 15; i++) {
+			for (var j = 0; j < 11; j++) {
+				for (var k = 0; k < 5; k++) {
+					wins[i-k][j+k][count] = true;
+				}
+				count++;
+			}
+		}
+		//本15x15五子棋中一共有count=572种赢法
+		console.log(count);
+
+		//赢法的统计数组 一维数组
+		//此数组的维度就是赢法种类count
+			//我方
+		var myWin = [];
+			//计算机方
+		var computerWin = [];
+		for (var i = 0; i < count; i++) {
+			myWin[i] = 0;
+			computerWin[i] = 0;
+		}
+
+		context.strokeStyle = '#bfbfbf';
+
+		//画出logo图
+		//创建一个Image对象
+		var logo = new Image();
+		logo.src = "images/imooc-logo1.png";
+		//logo可以是自己新建的一个Image对象。也可以是dom中的img标签
+		//图片加载需要时间，所以必须在图片加载完成之后调用drawImage才有效。当然如果是dom的img标签，由于先加载dom后执行js，所以不须多写这一步
+		//由于logo.onload需要等待，js会先执行下面的for循环，导致图标位于棋盘格之上。解决办法，将for循环封装，放入logo.onload中
+		logo.onload = function(){
+			//绘制背景logo
+			context.drawImage(logo,0,0,450,450);
+
+			//画棋盘格子
+			drawChessBoard();
+		}
+
+		//画棋盘格子
+		function drawChessBoard() {
+			//循环，画出棋盘
+				//i取15是因为棋盘横纵方向有15条线
+			for (var i = 0; i < 15; i++) {
+				//棋盘距边框15px留白。每个棋格相距30px
+
+				//画横线
+				context.moveTo(15, 15+i*30);
+				context.lineTo(435, 15+i*30);
+				context.stroke();
+
+				//画纵线
+				context.moveTo(15+i*30, 15);
+				context.lineTo(15+i*30, 435);
+				context.stroke();
+			}
+		}
+
+		//画棋子
+		//i,j:鼠标落下的坐标
+		//me:黑子还是白子
+		function oneStep(i,j,me) {
+			//棋子是一个闭合圆，可以beginPath()和closePath()配套使用
+			context.beginPath();
+				//圆的位置
+			context.arc(15+i*30,15+j*30,13,0,2*Math.PI);
+			context.closePath();
+			//为棋子添加渐变色
+				//渐变色圆心不在圆正中央，在偏右上角的位置
+			var gradient = context.createRadialGradient(15+i*30+2,15+j*30-2,13, 15+i*30+2,15+j*30-2,0);
+			//判断黑白棋
+			var beginCol,endCol;
+			if (me) {
+				beginCol = '#0a0a0a';
+				endCol = '#636766';
+			}else{
+				beginCol = '#d1d1d1';
+				endCol = '#f9f9f9';
+			}
+			gradient.addColorStop(0,beginCol);
+			gradient.addColorStop(1,endCol);
+			context.fillStyle = gradient;
+			context.fill();
+		}
+
+		chess.onclick = function(e) {
+			if (over) {
+				return;
+			}
+
+			//设置只有在我方下棋时，点击事件才有效
+			if (!me) {
+				return;
+			}
+
+			//e.offsetX表示鼠标落下的坐标，以canvas的左上角为原点
+			var x = e.offsetX,
+				y = e.offsetY;
+			//鼠标点击到每个格点30px以内都算作该格点
+				//x/30然后向下取整即为该格点的坐标值，注意不是实际坐标，而是单位坐标。oneStep函数在画圆时将单位坐标i,j换算成实际坐标画的
+			var i = Math.floor(x/30),
+				j = Math.floor(y/30);
+
+			if (!chessBoard[i][j]) {
+				oneStep(i,j,me);
+				//黑子置1
+				chessBoard[i][j] = 1;
+				//遍历每一种赢法
+				for (var k = 0; k < count; k++) {
+					//如果这个黑子落下的地方是这个五点赢法中的一个点
+					if (wins[i][j][k]) {
+						//离我成功又进了一步
+						myWin[k]++;
+						//既然我占了这个位置，白子就不可能在这种赢法上取得胜利了
+							//置一个无意义数字
+						computerWin[k]=6;
+						if (myWin[k]==5) {
+							alert('你赢了,本局结束');
+							over = true;
+						}
+					}
+				}
+				//如果本局未结束，则轮到计算机下一个白子了
+				if (!over) {
+					me = !me;
+					setTimeout(computerAI,200);
+				}
+			}
+		};
+
+		//计算机下白子
+			//计算棋盘上每一个空闲点的得分，得分最高的点即为下棋点
+			//原则为阻止我连五子，尽量自己连五子
+		function computerAI() {
+			//棋盘上每个点我方得分和计算机得分。二维数组
+			var myScore = [];
+			var computerScore = [];
+			for (var i = 0; i < 15; i++) {
+				myScore[i] = [];
+				computerScore[i] = [];
+				for (var j = 0; j < 15; j++) {
+					myScore[i][j] = 0;
+					computerScore[i][j] = 0;
+				}
+			}
+
+			//myScore和computerScore中的最大值max，坐标u,v
+			var max = 0,u = 0,v = 0;
+
+			//遍历整个棋盘
+			for (var i = 0; i < 15; i++) {
+				for (var j = 0; j < 15; j++) {
+					//如果该点没有棋子
+					if (!chessBoard[i][j]) {
+						//遍历所有赢法
+							//由于遍历了所有赢法，某一点如果出现在多个赢法中，分数会叠加
+						for (var k = 0; k < count; k++) {
+							//少了这一行！！
+							if (wins[i][j][k]) {
+								//根据我方的赢法统计数组(下子情况)，为myScore[][]在该点增加相应的分数
+								if (myWin[k]==1) {
+									myScore[i][j] +=200;
+								}else if (myWin[k]==2) {
+									myScore[i][j] +=400;
+								}else if (myWin[k]==3) {
+									myScore[i][j] +=2000;
+								}else if (myWin[k]==4) {
+									myScore[i][j] +=10000;
+								}
+								
+								//根据计算机方的赢法统计数组(下子情况)，为computerScore[][]在该点增加相应的分数
+								if (computerWin[k]==1) {
+									computerScore[i][j] +=220;
+								}else if (computerWin[k]==2) {
+									computerScore[i][j] +=420;
+								}else if (computerWin[k]==3) {
+									computerScore[i][j] +=2100;
+								}else if (computerWin[k]==4) {
+									computerScore[i][j] +=20000;
+								}
+							}
+						}
+					}
+
+					if (myScore[i][j]>max) {
+						max = myScore[i][j];
+						u = i;
+						v = j;
+					}else if (myScore[i][j] == max) {
+						if (computerScore[i][j] > computerScore[u][v]) {
+							//这里max就不重新赋值了
+							u = i;
+							v = j;
+						}
+					}
+
+					//为什么要反过来再比较一遍？
+					if (computerScore[i][j]>max) {
+						max = computerScore[i][j];
+						u = i;
+						v = j;
+					}else if (computerScore[i][j] == max) {
+						if (myScore[i][j] > myScore[u][v]) {
+							//这里max就不重新赋值了
+							u = i;
+							v = j;
+						}
+					}
+
+				}
+			}
+			
+			oneStep(u,v,me);
+			//白子置2
+			chessBoard[u][v] = 2;
+			//遍历每一种赢法
+			for (var k = 0; k < count; k++) {
+				//如果这个白子落下的地方是这个五点赢法中的一个点
+				if (wins[u][v][k]) {
+					//离计算机成功又进了一步
+					computerWin[k]++;
+					//既然计算机占了这个位置，黑子就不可能在这种赢法上取得胜利了
+						//置一个无意义数字
+					myWin[k]=6;
+					if (computerWin[k]==5) {
+						alert('计算机赢了,本局结束');
+						over = true;
+					}
+				}
+			}
+			if (!over) {
+				me = !me;
+			}
+		}
+	</script>
+</body>
+</html>
+
+
+<!-- canvas注释 -->
+<!--
+getContext() 返回一个用于在画布上绘图的环境。
+strokeStyle	设置或返回用于笔触的颜色、渐变或模式。颜色值要写成字符串形式
+moveTo()	把路径移动到画布中的指定点，不创建线条。就像是准备开始一条路径，起点移动到位置 0,0。
+lineTo()	添加一个新点，然后在画布中创建从该点到最后指定点的线条，不创建线条
+stroke()	绘制已定义的路径。绘制出通过 moveTo() 和 lineTo() 方法定义的路径。默认颜色是黑色。
+drawImage()	向画布上绘制图像、画布或视频
+			也能够绘制图像的某些部分，以及/或者增加或减少图像的尺寸。
+			在画布上定位图像：context.drawImage(img,x,y);
+			在画布上定位图像，并规定图像的宽度和高度：context.drawImage(img,x,y,width,height);
+			剪切图像，并在画布上定位被剪切的部分：context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+beginPath()	起始一条路径，或重置当前路径
+closePath()	创建从当前点回到起始点的路径
+			beginPath()并不必须和closePath()同时使用。只有当画的图形是一个闭合图形时，使用closePath()可以少写一条lineTo(图形起始坐标)
+arc()	创建弧/曲线（用于创建圆形或部分圆）
+		如需通过 arc() 来创建圆，请把起始角设置为 0，结束角设置为 2*Math.PI。（）
+		起始角位于x正轴方向，顺时钟绘制
+		context.arc(x,y,r,sAngle,eAngle,counterclockwise);
+			x:圆中心的x坐标
+			y:圆中心的y坐标
+			r:圆半径
+			sAngle:起始角度
+			eAngle:结束角度
+			counterclockwise:false顺时钟，true逆时钟。可选
+fill()	填充当前绘图（路径）
+fillStyle	设置或返回用于填充绘画的颜色、渐变或模式
+createLinearGradient()	创建线性渐变（用在画布内容上）
+						context.createLinearGradient(x0,y0,x1,y1)
+							x0,y0:渐变开始点坐标
+							x1,y1:渐变结束点坐标
+createRadialGradient()	创建放射状/环形的渐变（用在画布内容上）
+						context.createRadialGradient(x0,y0,r0,x1,y1,r1);
+							x0,y0,r0:渐变的开始圆的坐标和半径
+							x1,y1,r1:渐变的结束圆的坐标和半径
+addColorStop()	规定渐变对象中的颜色和停止位置
+				与 createLinearGradient() 或 createRadialGradient() 一起使用。
+				可以多次调用 addColorStop() 方法来改变渐变。如果不对 gradient 对象使用该方法，那么渐变将不可见。为了获得可见的渐变，需要创建至少一个色标。
+				gradient.addColorStop(stop,color);
+					stop:0~1
+					color:CSS颜色值
+createPattern()	在指定的方向上重复指定的元素。元素可以是图片、视频，或者其他 <canvas> 元素。
+				context.createPattern(image,"repeat|repeat-x|repeat-y|no-repeat");
+					image:规定要使用的图片、画布或视频元素。
+				例：
+					var pat=ctx.createPattern(img,"repeat");
+					ctx.rect(0,0,150,100);
+					ctx.fillStyle=pat;
+					ctx.fill();
+ele.onclick=function(e){ x=e.offsetX; } 	x表示鼠标落下的位置距ele元素左上角的坐标
+-->
+
+<!-- 难点 -->
+<!-- 
+赢法数组：记录了所有五子棋赢法，三维数组
+每一种赢法的统计数组，一维数组
+如何判断胜负
+计算机落子规则 
+-->
+<!-- 算法的分析方法： -->
+<!-- 
+简化一下，分析i=0等特定情况，在按照计算机思维往下推一两步，一般就能找到一些规律 
+-->

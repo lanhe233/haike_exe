@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>抽奖-学习键盘事件</title>
+	<style type="text/css">
+		*{margin:0;
+		  padding:0;}
+
+		.title{width:400px;
+		       height:70px;
+		       margin:0 auto;
+		       padding-top:30px;
+		       text-align:center;
+		       font-size:24px;
+		       font-weight:bold;
+		       color:#F00;}
+
+		.btns{width:190px;
+		      height:30px;
+		      margin:0 auto;}
+
+		.btns span{display:block;
+		           float:left;
+		           width:80px;
+		           height:27px;
+		           line-height:27px;
+		           background:#036;
+		           border:1px solid #eee;
+		           border-radius:7px;
+		           margin-right:10px;
+		           color:#FFF;
+		           text-align:center;
+		           font-size:14px;
+		           font-family:"微软雅黑";
+		           cursor:pointer;}
+	</style>
+</head>
+<body>
+    <div id="title" class="title">开始抽奖啦！</div>
+    <div class="btns">
+       <span id="play">开 始</span>
+       <span id="stop">停 止</span>
+    </div>
+
+    <script type="text/javascript">
+    	window.onload = function(){
+    		var data = ['iPhone5','Ipad','三星笔记本','佳能相机','惠普打印机','50元充值卡','1000元超市购物券','谢谢参与'],
+    			title = document.querySelector('#title'),
+    			play = document.querySelector('#play'),
+    			stop = document.querySelector('#stop');
+
+    		var timer;
+
+    		//把点击事件用函数封装是因为js没有jquery的trigger触发函数，而后面键盘事件又必须用到，为此把plays()中的this改掉了
+    		play.onclick = plays;
+    		stop.onclick = stops;
+
+    		function plays(){
+    			//解决76行bug
+    			clearInterval(timer);
+
+    			timer = setInterval(function(){
+    				title.innerHTML = data[Math.floor(Math.random()*data.length)];
+    			},50);
+
+    			play.style.background = '#999';
+    		}
+
+    		function stops(){
+    			clearInterval(timer);
+
+    			play.style.background = '#036';
+    		}
+
+    		//这样会有一个bug：一直点开始，变换速度会越来越快！！而且点停止也没有用了！！！
+
+    		//添加键盘事件
+    		//敲回车，第一次开始，第二次停止
+    		var flag = 0;
+
+    		document.onkeyup = function(e){
+    			//回车键键码 13
+    			if( e.keyCode == 13 ){
+    				if (!flag) {
+    					plays();
+    					flag = 1;
+    				}else{
+    					stops();
+    					flag = 0;
+    				}
+    			}
+    		}
+
+    	}
+    </script>
+</body>
+</html>

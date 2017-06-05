@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>帧动画</title>
+	<style type="text/css">
+		#rabbit{
+			width: 102px;
+			height: 80px;
+			background: url(images/rabbit-big.png) no-repeat;
+		}
+	</style>
+</head>
+<body>
+	<div id="rabbit"></div>
+
+	<script type="text/javascript">
+		var imgUrl; //这个我写css里面去了，所以用不到这个参数
+		var ele = document.getElementById('rabbit'); 
+		var positions = ['0 -852','-174 -852','-349 -852','-524 -852','-698 -852','-873 -848']
+
+		animation(ele,positions);
+
+		function animation(ele,positions){
+			var index = 0;
+
+			function run(){
+				var pos = positions[index].split(' ');
+
+				ele.style.backgroundPosition = pos[0] + 'px '+pos[1] +'px';
+
+				index>=(positions.length-1) ? index=0 : index++;
+
+				setTimeout(run,80);
+			}
+
+			run();
+		}
+	</script>
+</body>
+</html>

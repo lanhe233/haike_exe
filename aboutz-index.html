@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-size: 14px;
+		}
+		body{
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+<pre>
+
+<strong>1.z-index基础</strong>
+值：auto 默认 / integer 整数 / inherit
+特性：支持负值 / 支持css3 animation动画 / css2.1中只能和定位元素配合起作用（relative absolute fixed sticky）
+
+<strong>2.z-index与定位属性</strong>
+重复：z-index只对定位元素起作用（也就是对默认的position值static不起作用）
+
+<strong>3.理解css中的层叠上下文和层叠水平</strong>
+层叠上下文stacking context     层叠水平 stacking level
+7阶层叠水平：层叠顺序从低到高（stacking order）
+层叠上下文的background/border → 负z-index → block块状水平盒子 → float浮动盒子 → inline/inline-block水平盒子 → z-index:auto或看成z-index:0 → 正z-index
+
+<strong>4.z-index与层叠上下文</strong>
+1）定位元素默认z-index:auto可以看成z-index:0；
+2)z-index不为auto的定位元素会创建层叠上下文；
+3）z-index层叠顺序的比较止步于父级层叠上下文；
+
+<strong>5.其他css元素与层叠上下文</strong>
+</pre>
+</body>
+</html>

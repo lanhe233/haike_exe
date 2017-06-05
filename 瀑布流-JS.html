@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.clearfix:after{
+			content: '';
+			display: block;
+			clear: both;
+		}
+		#stage{
+			position: relative;
+		}
+		.box{
+			padding: 15px 0 0 15px;    /* 采用padding方便js获取高度 */
+			float: left;
+		}
+		.pic{
+			padding: 5px;
+			border: 1px solid #ccc;
+			box-shadow: 0 0 5px #ccc;
+			border-radius: 8px;
+		}
+		.pic img{
+			width: 165px;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="stage" class="clearfix">
+		<div class="box">
+			<div class="pic"><img src="images/dt1.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt2.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt3.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt4.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt5.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt6.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt7.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt8.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt9.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt10.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt11.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt12.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt13.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt14.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt15.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt10.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt11.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt12.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt13.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt14.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt15.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt10.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt11.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt12.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt13.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt14.jpeg" alt=""></div>
+		</div>
+		<div class="box">
+			<div class="pic"><img src="images/dt15.jpeg" alt=""></div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+
+			var dataInt = { "data":[{"src":"16.jpeg"},{"src":"17.jpeg"},{"src":"18.jpeg"},{"src":"19.jpeg"},{"src":"20.jpeg"}] };
+
+			//传递盒子的id名，class名
+			waterfall('stage','box');
+
+			//浏览器滚动时
+			window.onscroll = function(){
+				//判断是否满足加载新数据的条件
+				if (isLoad('stage','box')) {
+					var oParent = document.getElementById('stage');
+					
+					for (var i = 0; i < dataInt.data.length; i++) {
+						var oBox = document.createElement('div'),
+							oPic = document.createElement('div'),
+							oImg = document.createElement('img');
+						oBox.className = 'box';
+						oPic.className = 'pic';
+						oImg.src = 'images/'+dataInt.data[i].src;
+
+						oParent.appendChild(oBox);
+						oBox.appendChild(oPic);
+						oPic.appendChild(oImg);
+					}
+
+					waterfall('stage','box');
+				}
+			}
+		}
+
+		function waterfall(parent,box){
+			var oParent = document.getElementById(parent),  //找到父盒子
+				oBoxs = getByClass(oParent,box);	//根据父盒子找到类名为box的所有子盒子
+
+			//计算图片列数   document.documentElement.clientWidth√
+			var boxWidth = oBoxs[0].offsetWidth,    //图片盒子宽度
+				cols = Math.floor(document.documentElement.clientWidth / boxWidth);   //图片列数
+			//为stage盒子添加CSS样式  obj.style.cssText√
+			oParent.style.cssText = 'width:'+boxWidth*cols+'px;margin:0 auto;';
+
+			//定位图片
+			var HeightArr = [];
+			for (var i = 0; i < oBoxs.length; i++) {
+				if(i<cols){
+					HeightArr.push(oBoxs[i].offsetHeight);
+				}else{
+					// Math.min.apply(null,HeightArr)√
+					var minHeight = Math.min.apply(null,HeightArr),
+						minIndex = getMinIndex(HeightArr,minHeight);
+					oBoxs[i].style.cssText = 'position:absolute;top:'+minHeight+'px;left:'+minIndex*boxWidth+'px';
+					//更新高度数组
+					HeightArr[minIndex] += oBoxs[i].offsetHeight;
+				}
+			}
+			// console.log(oBoxs.length);
+		}
+
+		//根据父元素、需求的class名找到元素
+		function getByClass(oparent,clsName){
+			var allChild = oparent.getElementsByTagName('*'),
+				oBoxs = [];
+
+			for (var i = 0; i < allChild.length; i++) {
+				if (allChild[i].className == clsName) {
+					oBoxs.push(allChild[i]);
+				}
+			}
+
+			return oBoxs;
+		}
+
+		//计算最小高度出现的index
+		function getMinIndex(HeightArr,minHeight){
+			for(var i in HeightArr){
+				if (HeightArr[i] == minHeight) {
+					return i;
+				}
+			}
+		}
+
+		//判断是否加载新数据
+		function isLoad(parent,clsName){
+			var oParent = document.getElementById(parent),
+				oBoxs = getByClass(oParent,clsName),
+				oBoxLast = oBoxs[oBoxs.length-1],
+				//最后一张图片的top值 + 最后一张图片高度的一半（要取整）
+				height = oBoxLast.offsetTop + Math.floor(oBoxLast.offsetHeight/2),
+				//由于浏览器混杂模式和标准模式的不同，求该值需要两种写法
+				scrollTop = document.body.scrollTop || document.documentElement.scrollTop,
+				clientHeight = document.body.clientHeight || document.documentElement.clientHeight;
+			return (height>scrollTop+clientHeight) ? true:false;
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-size: 14px;
+		}
+		body{
+			padding: 10px;
+		}
+		.dance{
+			width: 600px;
+			border: 1px solid #eee;
+			padding: 10px;
+			overflow: hidden;
+		}
+		.touxiang{
+			float: left;
+			margin-right: 20px;
+		}
+		.conimg{
+			width: 56px;
+			height: 56px;
+		}
+		.content{
+    		display: table-cell; 
+    		*display: inline-block; /* *号是为了ie7 */
+    		width: 2000px; 
+    		*width: auto;
+		}
+		.content2Box{
+			width: 100%;
+			float: left;
+		}
+		.content2{
+			margin-right: 70px;
+		}
+		.touxiang2{
+			width: 70px;
+			margin-left: -70px;
+			float: left;
+		}
+	</style>
+</head>
+<body>
+<pre>
+<strong>1.float的历史</strong>
+float历史很久了，设计初衷是文字环绕效果
+
+<strong>2.包裹与破坏</strong>
+<a href="http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html">BFC</a>
+具有包裹性的除float的其他小伙伴：display——inline-block/table-cell/...
+				 position——absolute/fixed/sticky
+				 overflow——hidden/scroll
+破坏：表现为父容器的塌陷，高度没有了
+具有破坏性的除float的其他小伙伴：display——none
+				 position——absolute/fixed/sticky
+
+<strong>3.清除浮动带来的影响</strong>
+方法1 底部插入clear:both （插入block div / css父元素声明:after{clear:both/*ie6-7不兼容*/}）
+方法2 父元素BFC（ie8+）或haslayout（ie6-7）（{float:left/right} {position:absolute/fixed} {overflow:hidden/scroll ie7+} {display:inline-block/table-cell ie8+} {width/height/zoom:1 ie6-7}）
+比较好的权衡策略 .clearfix:after{content:'';display:block;height:0;overflow:hidden;clear:both}  .clearfix{*zoom:1}
+或者 .clearfix:after{content:'';display:table;clear:both}  .clearfix{*zoom:1}
+应用在包含浮动子元素的父级元素上
+
+<strong style="color: red">4.浮动与流体布局</strong>
+----文字环绕效果----
+----文字环绕衍生 单侧固定----
+</pre>
+	<div class="dance">
+		<a class="touxiang"><img class="conimg" src="images/2.jpg"></a>
+		<div class="content">
+			<p>这是一个浮动与两侧皆自适应的流体布局，比下面那个截图的好，还考虑到了兼容ie7-------无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无</p>
+			<img src="images/focus_btn.png">
+		</div>
+	</div>
+<a href="images/文字环绕衍生-单侧固定.png">文字环绕衍生-单侧固定 划重点</a>
+<pre>
+如果是头像在右侧呢？ 可以用floatRight加上marginRight，但这种方法会改变流体布局写法，<a href="images/文字环绕衍生-右侧固定.png">比较好的写法</a> 下面是自己试试的
+</pre>
+	<div class="dance">
+		<div class="content2Box">
+			<div class="content2">
+				<p>这是一个浮动与右侧尺寸固定的流体布局,给内容加一个父div，让它宽度100%，左浮动，里面的内容marginRight值为头像宽度，头像也左浮动，marginLeft取头像宽度的负值-------无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无</p>
+				<img src="images/focus_btn.png">
+			</div>
+		</div>
+		<a class="touxiang2"><img class="conimg" src="images/2.jpg"></a>
+	</div>
+<pre>
+<strong>5.浮动与兼容性</strong>
+ie6不管了(ˇˍˇ) 
+ie7的问题：<a href="images/ie7浮动问题01.png">含clear的浮动元素包裹不正确</a>
+	   <a href="images/ie7浮动问题02.png">浮动元素倒数两个莫名垂直间距</a>
+	   <a href="images/ie7浮动问题03.png">浮动元素最后一个字符重复</a>
+	   <a href="images/ie7浮动问题04.png">浮动元素楼梯排列</a>
+	   <a href="images/ie7浮动问题05.png">浮动元素和文本不在同一行</a>  解决方法：让标题也左浮动起来
+至于1-4的问题，合理使用浮动，最好用流体布局方式，避免这些问题
+</pre>
+</body>
+</html>

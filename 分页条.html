@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		pre{
+			width: 670px;
+			margin: 0 auto;
+		}
+		.clearfix{
+			*zoom: 1;
+		}
+		.clearfix:after{
+			content: '';
+			display: block;
+			clear: both;
+		}
+		table{
+			text-align: center;
+			width: 670px;
+			margin: 100px auto;
+			border-collapse: collapse;
+		}
+		td{
+			border: 1px solid #bbb;
+		}
+		.page{
+			user-select: none;
+			margin: 50px auto;
+		}
+		.pageul{
+			width: 670px;
+			margin: 0 auto;
+		}
+		.pageul li{
+			display: inline-block;
+			float: left;
+			margin: 0 5px;
+		}
+		.pageul li a{
+			display: block;
+			border: 1px solid #ddd;
+			padding: 5px 10px;
+			text-decoration: none;
+			color: inherit;
+			cursor: pointer;
+		}
+		.pageul li span{
+			display: inline-block;
+			padding: 5px 10px;
+			height: 100%;
+		}
+		.pageul li a:hover{
+			background-color: #bbb;
+			color: #fff;
+		}
+		.pageul li.checked a{
+			background-color: #bbb;
+			color: #fff;
+		}
+		.pageul li.disabled a{
+			color: #ccc;
+			cursor: not-allowed;
+		}
+		.pageul li.disabled a:hover{
+			background-color: #fff;
+		}
+		input[type='text']{
+			width: 25px;
+			height: 25px;
+			border: 1px solid #eee;
+			outline: none;
+			margin: 0 -7px;
+		}
+		input[type='button']{
+			padding: 5px 7px;
+			border: 1px solid #eee;
+			outline: none;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<table></table>
+	<div class="page"></div>
+
+	
+
+<pre>
+user-select:none / onselectstart="return false" 禁止选中
+注意事项见代码注释
+</pre>
+
+	<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+	<script type="text/javascript">
+
+		
+
+		//调用分页插件
+		$(function(){ //要使用函数，记得写这一行。。。
+
+			//一个json字符串
+			var data = [
+				{id:1,name:"人01",txt:"这是一句话01"},{id:2,name:"人02",txt:"这是一句话02"},{id:3,name:"人03",txt:"这是一句话03"},{id:4,name:"人04",txt:"这是一句话04"},{id:5,name:"人05",txt:"这是一句话05"},{id:6,name:"人06",txt:"这是一句话06"},{id:7,name:"人07",txt:"这是一句话07"},{id:8,name:"人08",txt:"这是一句话08"},{id:9,name:"人09",txt:"这是一句话09"},{id:10,name:"人10",txt:"这是一句话10"},{id:11,name:"人11",txt:"这是一句话11"},{id:12,name:"人12",txt:"这是一句话12"},{id:13,name:"人13",txt:"这是一句话13"},{id:14,name:"人14",txt:"这是一句话14"},{id:15,name:"人15",txt:"这是一句话15"},{id:16,name:"人16",txt:"这是一句话16"},{id:17,name:"人17",txt:"这是一句话17"},{id:18,name:"人18",txt:"这是一句话18"},{id:19,name:"人19",txt:"这是一句话19"},{id:20,name:"人20",txt:"这是一句话20"},{id:21,name:"人21",txt:"这是一句话21"},{id:22,name:"人22",txt:"这是一句话22"},{id:23,name:"人23",txt:"这是一句话23"},{id:24,name:"人24",txt:"这是一句话24"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"},{id:25,name:"人25",txt:"这是一句话25"}
+			];
+
+			$('.page').initPaging({
+				currentPage: 1,
+				// totalPage: 18,
+				eachPage: 4,    //每页显示几条数据
+				data: data
+			});
+		});
+
+		//分页插件
+		(function($){
+
+			var data;
+			var eachPage;
+
+			//获取当前的五个页码,可能小于五个
+			function getPageList(currentPage,totalPage){
+				var pageList = [];
+				if (totalPage <= 5) {
+					for (var i = 0; i < totalPage ; i++){
+						pageList[i] = i+1; 
+					}
+				}else{
+					if (currentPage <= 2) {
+						for (var i = 0; i < 5 ; i++){
+							pageList[i] = i+1; 
+						}
+					}else if (currentPage >= totalPage - 2) {
+						for (var i = 0; i < 5 ; i++){
+							pageList[i] = totalPage - 4 + i; 
+						}
+					}else{
+						for (var i = 0; i < 5 ; i++){
+							pageList[i] = currentPage - 2 + i; 
+						}
+					}
+				}
+				return pageList;
+			}
+
+			//获取分页条内html代码
+			function getPageHtml(totalPage,pageList){
+				var pageHtml = '<ul class="pageul clearfix">'+
+							   '<li><a>首页</a></li>'+
+							   '<li class="forward"><a><</a></li>';
+				for (var i = 0; i < pageList.length; i++) {
+					pageHtml += '<li data-page="'+pageList[i]+'"><a>'+pageList[i]+'</a></li>'
+				}
+				pageHtml += '<li class="backward"><a>></a></li>'+
+							'<li data-totalPage="'+totalPage+'"><a>尾页</a></li>'+
+							'<li class="record"><span></span></li>'+
+							'<li><span>转到</span><input type="text" name="" id="skipPage"><span>页</span>'+
+								'<input type="button" name="" id="skip" value="Go"></li></ul>'	
+				return pageHtml;
+			}
+
+			//建立分页条
+			function setPage(currentPage,totalPage){
+				var pageList = getPageList(currentPage,totalPage);
+				var forward_disabled = false;
+				var backward_disabled = false;
+
+				//清除分页条本来有的内容，添加新内容
+				$('.page').empty().append(getPageHtml(totalPage,pageList));
+
+				//注意这里是==不是=！！！
+				currentPage == 1 ? forward_disabled = true : forward_disabled = false;
+				currentPage == totalPage ? backward_disabled = true : backward_disabled = false;
+
+				if (forward_disabled) {
+					$('.forward').addClass('disabled');
+				}else{
+					$('.forward').removeClass('disabled');
+				}
+
+				if (backward_disabled) {
+					$('.backward').addClass('disabled');
+				}else{
+					$('.backward').removeClass('disabled');
+				}
+
+				$('li[data-page="'+currentPage+'"]').addClass('checked').siblings().removeClass('checked');
+
+				$('.record').find('span').text(currentPage+"/"+totalPage);
+
+				//设置浏览器url
+				window.location.hash = "#page="+currentPage;
+			}
+
+			//处理数据
+			function getTable(currentPage,eachPage,data){
+				var tableHtml = '<tr><th>编号</th><th>名字</th><th>文本</th></tr>';
+				var firstPage = (currentPage-1)*eachPage; //本页第一条数据的下标
+				for(var i=0; i<eachPage; i++){
+					var dataI = data[firstPage+i];
+					if(dataI){
+						tableHtml += '<tr><td>'+dataI["id"]+'</td><td>'+dataI["name"]+'</td><td>'+dataI["txt"]+'</td></tr>';
+					}
+				}
+				$('table').empty().append(tableHtml);
+			}
+
+			//计算totalPage
+				function getTotalPage(eachPage,data){
+					var length = data.length;
+					return Math.ceil(length/eachPage);
+				}
+
+			//把所有函数集合一下
+			function doWhat(eachPage,data,currentPage,totalPage){
+
+				setPage(currentPage,totalPage,eachPage);
+
+				getTable(currentPage,eachPage,data);
+			}
+
+			//初始化函数
+			$.fn.initPaging = function(param){
+				var param_ = $.extend({
+					currentPage: 1,
+					// totalPage: 18,
+					eachPage: 4,
+					data: "data"
+				},param);
+
+				data = param_.data;
+				eachPage = param_.eachPage;
+
+				//计算totalPage
+				var totalPage = getTotalPage(param_.eachPage,param_.data);
+
+				doWhat(param_.eachPage,param_.data,param_.currentPage,totalPage);
+
+			};
+
+			//为首页-尾页的按钮绑定点击事件
+			//注意on函数的写法，不是$(selector).on('click',function(){})
+			//必须写window.document
+			$(window.document).on('click','.page li a',function(){
+				//判断被点击元素的父元素有没有disabled类。没有的话才执行
+				//注意要加[0]，不然的话作为一个jquery对象，就算长度为0，那也是true
+				if (!$(this).parent('.disabled')[0]) {
+					var text = $(this).text().trim();
+					var currentPage = parseInt($('.page').find('.checked').attr('data-page'));
+					var totalPage = parseInt($('.page').find('[data-totalPage]').attr('data-totalPage'));
+					// var eachPage = $('table tr').length - 1;
+					// var data = param_.data; 蒙圈
+					// var data = $.fn.initPaging();
+
+					//又把==写成=了。。。
+					if (text == "首页") {
+						currentPage = 1;
+					}else if (text == "尾页") {
+						currentPage = totalPage;
+					}else if (text == "<") {
+						currentPage -= 1;
+					}else if (text == ">") {
+						currentPage += 1;
+					}else{
+						currentPage = parseInt(text);
+					}
+
+					//由于这里算是一个新函数了，currentPage、totalPage需要重新获取一下
+					doWhat(eachPage,data,currentPage,totalPage);
+				}
+			});
+
+			//为Go按钮添加事件
+			$(window.document).on('click','#skip',function(){
+				var skipPage = parseInt($('#skipPage').val());
+
+				if (!isNaN(skipPage)) {
+					var currentPage = parseInt($('.page').find('.checked').attr('data-page'));
+					var totalPage = parseInt($('.page').find('[data-totalPage]').attr('data-totalPage'));
+					// var eachPage = $('table tr').length - 1;
+
+					if (skipPage >=1 && skipPage<=totalPage) {
+						doWhat(eachPage,data,currentPage,totalPage);
+					}else{
+						alert('请输入正确的页码');
+						$('#skipPage').val('');
+					}
+				}else{
+					alert('请输入正确的页码');
+					$('#skipPage').val('');
+				}
+			});
+
+			//当聚焦在跳转文本框时，按回车触发Go的点击事件
+			$(window.document).on('keydown','#skipPage',function(e){
+				if(e.keyCode == 13){  //回车键
+					$(this).siblings('#skip').trigger('click');
+				}
+			});
+
+			//按键盘左方向触发上一页的点击事件
+			$(window.document).on('keydown','body',function(e){
+				if(e.keyCode == 37){  //左方向
+					$('.forward a').trigger('click');
+				}
+			});
+
+			//按键盘右方向触发下一页的点击事件
+			$(window.document).on('keydown','body',function(e){
+				if(e.keyCode == 39){  //右方向
+					$('.backward a').trigger('click');
+				}
+			});
+
+		})(jQuery)
+	</script>
+</body>
+</html>

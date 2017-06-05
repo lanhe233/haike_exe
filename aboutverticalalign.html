@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-size: 14px;
+			font-family: "MicroSoft Yahei"
+		}
+		body{
+			padding: 10px;
+		}
+		.tuver{
+			padding: 10px;
+			border: 1px solid #eee;
+			width: 400px;
+			height: 170px;
+		}
+		.tuver img{
+			vertical-align: middle;
+		}
+		.list{
+			text-align: justify;
+		}
+		.item{
+			width: 300px;
+			height: 180px;
+			border: 1px solid #eee;
+			line-height: 180px;
+		}
+		.item span{
+			display: inline-block;
+			width: 130px;
+			vertical-align: middle;
+			line-height: normal;
+		}
+		.item img{
+			vertical-align: middle;
+		}
+		.duan{
+			background-color: #eee;
+			width: 300px;
+			text-align: center;
+			/*line-height: 0;*/
+			/*font-size: 0;*/
+		}
+		.duan img{
+			/*display: block;*/
+			/*margin: 0 auto;*/
+			/*vertical-align: top;*/
+		}
+	</style>
+</head>
+<body>
+<pre>
+<strong>1.vertical-align属性认识</strong>
+1)线类    baseline(默认) / top / middle / bottom
+2)文本类    text-top / text-bottom
+3)上标下标类    sub下标 / super上标
+4)数值百分比类    20px / 20em / 20% /...
+	支持负值（vertical-align margin letter-spacing word-spacing）
+	在baseline对齐的基础上上下偏移对应数值大小
+	百分比值是相对于line-height计算的，ie7下百分比值不支持小数line-height
+5)inherit
+
+<strong>2.vertical-align起作用的前提</strong>
+apply to：inline and table-cell元素(默认状态下，大致为图片、按钮、文字、单元格)
+	inline水平：inline -- img、span、strong、em、未知元素、...
+			   inline-block -- input(ie8+)、button(ie8+)、...
+	table-cell元素： table-cell -- td
+由于display、某些CSS声明会更改元素的显示水平，所以不止以上
+<div class="tuver">左边是一些文字<img src="images/1-1.jpg" alt="">右边还是一些文字<br>给图片一个vertical-align:middle<br>左右两句话各自是一个匿名行内元素</div>
+某些CSS声明，比如float/position-absolute等，会display:block
+<div class="tuver" style="line-height: 150px"><img src="images/1-1.jpg" alt=""></div>img有vertical-align:middle却并未居中。
+添加容器行高=容器高度（注意，之前犯错，line-height的高度值不能算上padding）,此时近似垂直居中（近似？）
+通过行高及垂直居中共同的作用实现垂直居中效果，ie7+以上支持，不过ie7的div和img必须换行
+总结，不是vertical-align没起作用，而是太短，不够居中
+<div class="tuver" style="display:table-cell;vertical-align: middle;"><img style="vertical-align: baseline;" src="images/1-1.jpg" alt=""></div>div层display:table-cell + img层ver:middle并不能实现图片的垂直居中，把ver:middle从图片挪到div却可以近似居中
+table-cell控制垂直居中时，vertical-align只对自身起作用，不对其需要垂直居中的子元素起作用
+
+<strong>3.实战：个数不定文字内容和图片垂直居中对齐</strong>
+分析：不能用float，会使block，且容器高度不固定。借助vertical-align。
+	左右对齐不能用float，那用text-align:justify？？？？？？？？？？？？？？？？
+	该demo  item加了line-height=容器高，span加了line-height=normal才使整体看起来近似垂直居中
+</pre>
+<div class="list">
+	<div class="item"><span>文字</span><img src="images/1-1.jpg" alt=""></div>
+	<div class="item"><span>文字<br>文字</span><img src="images/2-2.jpg" alt=""></div>
+	<div class="item"><span>文字<br>文字<br>文字</span><img src="images/3-3.jpg" alt=""></div>
+</div>
+<pre>
+
+<strong>3.vertical-align与line-height</strong>
+下方有一点空白，原理已知。
+消灭方法：
+1) 消灭vertical-align: 使img display:block + margin:0 auto
+2) 改变vertical-align：使img vertical-align:top/bottom/middle
+3) 改变line-height: 使p line-height:0 / font-size:0
+</pre>
+<p class="duan"><img src="images/2-2.jpg" alt=""></p>
+<pre>
+拓展：大小不固定的图片（近似）垂直居中 ie7+
+p设置一个大于图片的line-height，且图片ver:middle，可以达到近似垂直居中的效果
+要想不近似，则图片和后面的虚拟文字都ver:middle
+
+中间有漏东西...
+</pre >
+<p class="duan" style="line-height: 160px"><img style="vertical-align: middle;" src="images/2-2.jpg" alt=""></p>html结构上p闭合标签之前需要一个折行或者空格才能兼容ie7
+<pre>
+
+<strong>4.vertical-align一些实际应用</strong>
+1）小图标和文字的对齐
+vertical-align:middle 实现的垂直居中并不理想（原因见前文），以至于没得法只能用float，但成本太高尽量少用
+比较好的：
+img{vertical-align: -10px;}  ----  vertical-align负值
+20x20的图片，后面跟14px文字，负值用5px效果是比较好的
+2）大小不定的图片的垂直居中
+方法很多，这是其中一种。
+	step1 主体元素inline-block化(图片本身就是)
+	step2 0宽度100%高度辅助元素
+	step3 vertical-align:middle
+</pre >
+<p class="ju" style="height: 160px;background-color: #eee"><img style="vertical-align: middle;" src="images/1-1.jpg" alt=""><i style="display: inline-block;height: 100%;vertical-align: middle;"></i></p>
+<pre>
+3）任意多行文字的垂直居中
+方法完全同上，只是文字需要inline-block而图片本身就是不需要
+</pre >
+<p class="ju" style="height: 100px;background-color: #eee"><span style="display: inline-block;vertical-align: middle;">一行文字<br>两行文字<br>三行文字</span><i style="display: inline-block;height: 100%;vertical-align: middle;"></i></p>
+<pre>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>QQ空间时光轴效果模拟</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		body{
+			background: url(images/shiguang.jpg) no-repeat center 0 #1c0c0f fixed;
+			padding-top: 40px;
+		}
+		a{
+			text-decoration: none;
+			color: inherit;
+		}
+		.diary::before,.diary::after,.praise_num_icon,.comment_icon{
+			background: url(images/timeline.png) no-repeat;
+		}
+		.top{
+			width: 100%;
+			height: 40px;
+			position: fixed;
+			top: 0;
+			background: #001e3b;
+			z-index: 99;
+			box-shadow: 0 1px 0 rgba(0,0,0,.2);
+		}
+		.header{
+			width: 960px;
+			height: 200px;
+			margin: 0 auto;
+			background-color: rgba(255,255,255,.2);
+		}
+		.container{
+			width: 960px;
+			margin: 0 auto;
+			position: relative;
+		}
+		.scrubber{
+			width: 47px;
+			min-height: 200px;
+			position: absolute;
+			top: 29px;
+			left: 0;
+			z-index: 999;
+		}
+		.scrubber a{
+			display: block;
+			height: 26px;
+			line-height: 26px;
+			font-size: 12px;
+			color: rgba(0,0,0,.5);
+			border-right: 1px solid rgba(0,0,0,.5);
+			padding-right: 5px;
+			text-align: right;
+			text-shadow: 0 1px 1px rgba(0,0,0,.3);
+		}
+		.scrubber a:hover,
+		.scrubber a.current{
+			color: #5ebad0;
+			font-weight: bold;
+			border-right-color: #5ebad0;
+		}
+		.content{
+			min-height: 1000px;
+			background: url(images/spine.png) repeat-y 120px 0;
+			padding: 50px 0 0 160px;
+			position: relative;
+			overflow: hidden;
+		}
+		.content_year,.content_month{
+			height: 30px;
+			line-height: 30px;
+			color: #aaa;
+			text-shadow: 0 1px 1px rgba(0,0,0,.3);
+			font-size: 14px;
+			font-weight: bold;
+			position: relative;
+			left: -90px;
+			clear: both;  /*  这句话的作用？？？ */
+		}
+		.content_item{
+			width: 370px;
+			border-radius: 4px;
+			background-color: #fff;
+			position: relative;
+			color: #888;
+			margin-bottom: 20px;
+		}
+		.content_item::before{
+			content: '';
+			position: absolute;
+			left: -20px;
+			top: 20px;
+			border-top: 10px solid transparent;
+			border-left: 10px solid transparent;
+			border-bottom: 10px solid transparent;
+			border-right: 10px solid #fff;
+		}
+		.content_item::after{
+			content: '';
+			position: absolute;
+			width: 7px;
+			height: 7px;
+			border-radius: 50%;
+			background-color: #b3dae9;
+			border: 2px solid #fff;
+			left: -44px;
+			top: 24px;
+		}
+		.content_item:nth-child(odd){
+			float: left;
+			top: -40px;
+		}
+		.content_item:nth-child(even){
+			float: right;
+			margin-right: 30px;
+		}
+		.content_item:nth-child(even):after{
+			left: -444px;
+		}
+		.content_item:first{
+			margin-top: -50px;
+		}
+		.item_head{
+			padding: 15px;
+		}
+		.lunCal{
+			display: inline-block;
+			width: 46px;
+			height: 46px;
+			background-color: #b3dae9;
+			font-size: 23px;
+			color: #fff;
+			border-radius: 10px;
+			line-height: 23px;
+			position: relative;
+			vertical-align: middle;
+			margin-right: 10px;
+			overflow: hidden;
+		}
+		.lunCal:before{
+			content: '';
+			display: block;
+			position: absolute;
+			width: 23px;
+			height: 23px;
+			border-top-right-radius: 10px;
+			background-color: #b3dae9;
+			top: 0;
+			left: 23px;
+		}
+		.lunCal:after{
+			content: '';
+			display: block;
+			position: absolute;
+			width: 23px;
+			height: 23px;
+			border-bottom-left-radius: 10px;
+			background-color: #b3dae9;
+			top: 23px;
+			left: 0;
+		}
+		.cal{
+			display: inline-block;
+			font-size: 28px;
+			line-height: 46px;
+			vertical-align: middle;
+		}
+		/* 同一行的两个display:inine-block;元素，利用消除html空白符的方式消除了间隔，但遇到阶梯状排布的问题。
+		通过将两个行内块状元素vertical:middle得以解决; */
+		.diary{
+			font-size: 14px;
+			padding: 10px 15px 0;
+			text-indent: 28px;
+			line-height: 22px;
+			position: relative;
+		}
+		.diary::before,.diary::after{
+			content: '';
+			display: block;
+			width: 18px;
+			height: 15px;
+			background: url(images/timeline.png) no-repeat;
+			/* 注意position参数是负数！！！ */
+			background-position: -985px -85px;
+			position: absolute;
+		}
+		.diary::after{
+			display: inline;
+			background-position: -985px -104px;
+			margin: 9px 0 0 10px;
+		}
+		.item_media{
+			max-height: 278px;
+			overflow: hidden;
+		}
+		.item_media img{
+			width: 100%;
+		}
+		.item_footer{
+			padding: 10px 30px;
+			font-size: 12px;
+		}
+		.praise_num,.comment{
+			display: inline-block;
+			line-height: 20px;
+			margin-right: 12px;
+		}
+		.praise_num_icon,.comment_icon{
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			vertical-align: -5px;
+		}
+		.praise_num_icon{
+			background-position: -883px -20px;
+		}
+		.comment_icon{
+			background-position: -897px -42px;
+		}
+		.praise_txt{
+			display: block;
+			line-height: 25px;
+			margin-top: 2px;
+		}
+	</style>
+</head>
+<body>
+	<div class="top"></div>
+	<div class="header"></div>
+	<div class="container">
+		<div class="scrubber" id="scrubber"></div>
+		<div class="content" id="content"></div>
+	</div>
+
+	<!-- <script type="text/javascript" src="js/jquery-1.11.3.js"></script> -->
+
+	<script type="text/javascript" src="js/data.js"></script>
+	<script type="text/javascript" src="js/GetLunarDay.js"></script>
+	<script type="text/javascript">
+		/*//格式化数据
+			{
+				//若干年
+				2014: {
+					//若干月
+					2: [
+						//若干日志 
+						{ 'date':'2014-3-31' ,
+						  'intro' : '在这春林初盛',
+						  'media' : '<img src="images/psb.jpeg">',
+						  'like' : 302,
+						  'comment' : 883,
+						  //从原始数据中提取新东西
+						  'year':'2014'，
+						  'month':'3',
+						  'lunar':'廿九廿九'，
+						  'like_abbre':'3.5万' }
+					],
+					3:[]
+				},
+				2013: {}
+			}*/	
+
+		//存储格式化后的数据
+		var dataFormat = {};
+		//格式化数据
+		for (var i = 0; i < data.length; i++) {
+			var item = data[i], //item里包括了原始数据,是一个对象
+				//新增数据
+				date = new Date(item.date),
+				year = date.getFullYear(),
+				//月份是从0开始计算的
+				month = date.getMonth() + 1,
+				//调用计算农历的插件
+				lunar = GetLunarDateString(date),
+				like_abbre = item.like<10000 ? item.like : (item.like/10000).toFixed(1)+'万' ;
+
+			item.year = year;
+			item.month = month;
+			//由于样式原因，lunar是重复了一下的
+			item.lunar = lunar+lunar;
+			item.like_abbre = like_abbre;
+
+			//导入dataFormat
+			//如果当前年份或月份还没有数据，则初始化一个
+			if(!dataFormat[year]) { dataFormat[year] = {}; }
+			if(!dataFormat[year][month]) { dataFormat[year][month] = []; }
+
+			dataFormat[year][month].push(item);
+		}
+
+
+		//重新给dataFormat按照时间最近的在前的顺序排序
+		// var dataFormatSort = {};
+		// var keyYearArr = [];
+		// var t = 0; 
+		// for (var keyYear in dataFormat) {
+		// 	if( dataFormatSort ){
+		// 		dataFormatSort[keyYear] = dataFormat[keyYear];
+		// 		keyYearArr.push(keyYear);
+		// 	}else{
+		// 		if (keyYear>keyYearArr[t]) {
+		// 			dataFormatSort[keyYear] = dataFormat[keyYear];
+		// 		}
+		// 	}
+		// }
+		// 失败了。。。。。。。。。。。。。。。。。。。。。。。。。
+
+		//几个通用函数
+		//通过id获取元素
+		function g(id){
+			return document.getElementById(id);
+		}
+
+		var $scrubber = g('scrubber');
+		var $content = g('content');
+		for (var keyYear in dataFormat) {
+			//keyYear:2014,2013,...
+			var scrubber_year_html = '<a href="" class="year">'+keyYear+'</a>';
+			//这个用法是错误的！！！js中appendchild只能插入一个node节点，不能插入字符串。。。。。
+			// $scrubber.appendChild(scrubber_year_html);
+			$scrubber.innerHTML += scrubber_year_html;
+			//有个问题，初始数据data年份月份没有排序的，产生的dataFormat也会有一个年份月份大小排序不定的问题，但我想要时间最近的排在前面
+
+			var content_year_html = '<div class="content_year">'+keyYear+'</div>';
+			$content.innerHTML += content_year_html;
+
+			//每一个年份要继续遍历月份，月份也是dataFormat[key]里面的key
+			for(var keyMonth in dataFormat[keyYear]){
+				var scrubber_month_html = '<a href="" class="month">'+keyMonth+'月</a>';
+				$scrubber.innerHTML += scrubber_month_html;
+
+				var content_month_html = '<div class="content_month">'+keyMonth+'月</div>'
+				$content.innerHTML += content_month_html;
+
+				//每一个月份里有多条日志
+				// var isFirst = true; //标志是否是每月第一条日志，是的话martop = -50px;
+				for (var i = 0; i < dataFormat[keyYear][keyMonth].length; i++) {
+					var itemA = dataFormat[keyYear][keyMonth][i];
+
+					var content_item_html = '<div class="content_item">'+
+											'<div class="item_head">'+
+											'<div class="head_time">'+
+											'<span class="lunCal">'+itemA.lunar+'</span><span class="cal">'+itemA.date+'</span>'+
+											'<p class="diary">'+itemA.intro+'</p></div></div>'+
+											'<div class="item_media">'+itemA.media+'</div>'+
+											'<div class="item_footer">'+
+											'<a href="" class="praise_num"><i class="praise_num_icon"></i>（'+itemA.like+'）</a><a href="" class="comment"><i class="comment_icon"></i>（'+itemA.comment+'）</a>'+
+											'<span class="praise_txt">'+itemA.like_abbre+'人觉得很赞</span></div></div>';
+					$content.innerHTML += content_item_html;
+				}
+			}
+		}
+
+		//根据类名获取元素
+		function getClass(cls){
+			var classes = [];
+			var all = $scrubber.getElementsByTagName('*');
+
+			console.log(all[0].className == cls);
+			console.log(all.sort);
+			console.log([].sort);
+
+			classes = all.filter(function(el,i,all){
+				console.log(el);
+				return el.className == cls;
+			});
+			return classes;
+		}
+		//获取时序列表所有表示年份的element
+		var scrubber_years = getClass('year');
+		scrubber_years.onclick = function(){
+			console.log(this);
+		};
+
+	</script>
+</body>
+</html>

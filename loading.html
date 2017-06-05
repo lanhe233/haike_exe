@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-size: 14px;
+			font-family: "MicroSoft Yahei"
+		}
+		ul{
+			list-style: none;
+		}
+		.clearfix{
+			*zoom = 1;
+		}
+		.clearfix:after{
+			content: '';
+			display: block;
+			clear: both;
+		}
+		.box{
+			width: 200px;
+			height: 200px;
+			margin: 20px 20px 80px;
+			border: 1px solid #eee;
+			float: left;
+			position: relative;
+		}
+		.box span{
+			display: block;
+			position: relative;
+			top: 200px;
+			font-size: 12px;
+			word-break: break-all;
+		}
+		.box .load{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+		}
+		/* load1开始 */
+		.load1{
+			position: relative;
+			top: 50%;
+			left: 0;
+			transform: translate(0,-50%);
+			padding: 0 calc((198px - 8*5px)/2);
+		}
+		.load1 .item{
+			width: 5px;
+			height: 5px;
+			border-radius: 50%;
+			background-color: rgba(27, 255, 204, 0.82);
+			float: left;
+			position: relative;
+			animation: load1 1s ease infinite;
+		}
+		@keyframes load1{
+			0%{
+				opacity: .3;
+				transform: scale(1);
+			}
+			50%{
+				opacity: 1;
+				transform: scale(3);
+			}
+			100%{
+				opacity: .3;
+				transform: scale(1);
+			}
+		}
+		.load1 .item4{
+			top: -30px;
+			left: 2.5px;
+		}
+		.load1 .item5{
+			top: 30px;
+			left: -2.5px;
+			animation-delay: .4s;
+		}
+		.load1 .item1{
+			left: -15px;
+			animation-delay: .2s;
+		}
+		.load1 .item8{
+			left: 15px;
+			animation-delay: .6s;
+		}
+		.load1 .item2{
+			top: -20px;
+			left: -10px;
+			animation-delay: .1s;
+		}
+		.load1 .item3{
+			top: 20px;
+			left: -15px;
+			animation-delay: .3s;
+		}
+		.load1 .item6{
+			top: 20px;
+			left: 15px;
+			animation-delay: .5s;
+		}
+		.load1 .item7{
+			top: -20px;
+			left: 10px;
+			animation-delay: .7s;
+		}
+		/* load1结束 */
+		/* load2开始 */
+		.load2{
+			width: 80px;
+			height: 80px;
+		}
+		.load2 .item{
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			border-radius: 50%;
+			top: 50%;
+			left: 50%;
+			opacity: 0;
+			background-color: rgba(0,0,0,.2);
+			animation: load2 2s ease infinite;
+		}
+		@keyframes load2{
+			0%{
+				opacity: 0;
+				transform: scale(0);
+			}
+			50%{
+				opacity: 1;
+				transform: scale(0);
+			}
+			100%{
+				opacity: 0;
+				transform: scale(60);
+			}
+		}
+		.load2 .item2{
+			animation-delay: -.5s;
+		}
+		.load2 .item3{
+			animation-delay: -1s;
+		}
+		.load2 .item4{
+			animation-delay: -1.5s;
+		}
+		/* load2结束 */
+		/* load3开始 */
+		.load3{
+			width: 120px;
+			height: 40px;
+		}
+		.load3 .item{
+			width: 5px;
+			height: 100%;
+			background-color: #8a8686;
+			float: left;
+			margin: 0 5px;
+			animation: load3 .8s ease infinite;
+		}
+		@keyframes load3{
+			0%{
+				transform: scaleY(1);
+			}
+			25%{
+				transform: scaleY(.75);
+			}
+			50%{
+				transform: scaleY(.5);
+			}
+			75%{
+				transform: scaleY(.25);
+			}
+			100%{
+				transform: scaleY(1);
+			}
+		}
+		.load3 .item2{
+			animation-delay: .1s;
+		}
+		.load3 .item3{
+			animation-delay: .2s;
+		}
+		.load3 .item4{
+			animation-delay: .3s;
+		}
+		.load3 .item5{
+			animation-delay: .4s;
+		}
+		.load3 .item6{
+			animation-delay: .5s;
+		}
+		.load3 .item7{
+			animation-delay: .6s;
+		}
+		.load3 .item8{
+			animation-delay: .7s;
+		}
+		/* load3结束 */
+		/* load4开始 */
+		.load4{
+			width: 120px;
+			height: 20px;
+		}
+		.load4 .item{
+			width: 20px;
+			height: 100%;
+			border-radius: 50%;
+			background-color: rgba(27, 255, 204, 0.82);
+			margin: 0 2px;
+			text-align: center;
+			position: absolute;
+			animation: load4 2s linear infinite;
+		}
+		@keyframes load4{
+			0%{
+				top: 0px;
+				left: 96px;
+			}
+			75%{
+				top: 0px;
+				left: 0px;
+			}
+			85%{
+				top: -16px;
+				left: 0px;
+			}
+			95%{
+				top: -16px;
+				left: 96px;
+			}
+			100%{
+				top: 0px;
+				left: 96px;
+			}
+		}
+		.load4 .item2{
+			animation-delay: .4s;
+		}
+		.load4 .item3{
+			animation-delay: .8s;
+		}
+		.load4 .item4{
+			animation-delay: 1.2s;
+		}
+		.load4 .item5{
+			animation-delay: 1.6s;
+		}
+		/* load4结束 */
+		/* load5开始 */
+		.load5{
+			width: 80px;
+			height: 80px;
+		}
+		.load5 .item{
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			background: linear-gradient(transparent,transparent 75%,rgba(47, 233,288,.92));
+			animation: load5 .5s linear infinite;
+		}
+		@keyframes load5{
+			0%{
+				transform: rotate(0deg);
+			}
+			100%{
+				transform: rotate(360deg);
+			}
+		}
+		/* load5结束 */
+		/* load6开始 */
+		.load6{
+			width: 80px;
+			height: 80px;
+		}
+		.load6 .item{
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			background: linear-gradient(60deg,transparent,rgba(53, 255, 174, 0.45) 65%,#35ffae 85%, #05961e 100%);
+			position: relative;
+			animation: load5 1s linear infinite;
+		}
+		.load6 .item:after{
+			content: '';
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			background-color: #fff;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin: -25px;
+		}
+		/* load6结束 */
+	</style>
+</head>
+<body>
+
+	<div class="box">
+		<div class="load load6">
+			<div class="item"></div>
+		</div>
+		<span>这个和右边的不同之处就在于配色。这个渐变用到了角度变化，多色变化，掌握好百分点比较重要，不然出不来这个效果。。。。</span>
+	</div>
+
+	<div class="box">
+		<div class="load load5">
+			<div class="item"></div>
+		</div>
+		<span>第一个想到的问题，怎么处理环的渐变？不仅转圈还向内渐变。其实圈圈没有渐变，只是因为50%的圆边框看起来像变了而已，只有向内的渐变。animation用linear。background:linear-gradient()语法仔细记忆一下（注意不能写成background-color）。load容器用了transform，所以不能直接load容器写旋转，要里面加个div写</span>
+	</div>
+
+	<div class="box">
+		<ul class="load load4 clearfix">
+			<li class="item item1">1</li>
+			<li class="item item2">2</li>
+			<li class="item item3">3</li>
+			<li class="item item4">4</li>
+			<li class="item item5">5</li>
+		</ul>
+		<span>开始就对怎么自动排到队尾没有思路。基本上是看源码才弄出来的。首先这个由于要共用一个动画，所以不能float:left先排好队。设定都从最后一个开始往前挪，横向挪动直接一段，当然占据的时间要长。剩下的上移右移下移操作分段，时间较少。由于要控制好每个之间时刻保持一定距离，所以这里不用ease而用linear</span>
+	</div>
+
+	<div class="box">
+		<ul class="load load3 clearfix">
+			<li class="item item1"></li>
+			<li class="item item2"></li>
+			<li class="item item3"></li>
+			<li class="item item4"></li>
+			<li class="item item5"></li>
+			<li class="item item6"></li>
+			<li class="item item7"></li>
+			<li class="item item8"></li>
+		</ul>
+		<span>我之前做的是从小到大再到小，动画分为两段，结果始终没有想要的一顿一顿的效果，根据源代码改为从大到小再到大，动画分为5段，并且不是均匀的五段，看清楚，缩小时一点一点的缩，缩到最小直接放大到最大</span>
+	</div>
+
+	<div class="box">
+		<ul class="load load2">
+			<li class="item item1"></li>
+			<li class="item item2"></li>
+			<li class="item item3"></li>
+			<li class="item item4"></li>
+		</ul>
+		<span>改动画，原本只是0%:opac(1),scal(0);100%:opac(0),scal(60)<br>整个时长2s，取四个li，每个延迟.5s,延迟取负数可以避免开头的1s空白；循环同样为ease</span>
+	</div>
+
+	<div class="box">
+		<ul class="load1 clearfix">
+			<li class="item item1"></li>
+			<li class="item item2"></li>
+			<li class="item item3"></li>
+			<li class="item item4"></li>
+			<li class="item item5"></li>
+			<li class="item item6"></li>
+			<li class="item item7"></li>
+			<li class="item item8"></li>
+		</ul>
+		<span>改了linear为ease之后，循环的效果强烈多了;ul完全可以固定宽高的，不用纠结那么久怎么居中</span>
+	</div>
+</body>
+</html>
