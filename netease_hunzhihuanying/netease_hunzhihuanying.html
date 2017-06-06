@@ -4,15 +4,19 @@
 	<meta charset="utf-8">
 	<title>网易-魂之幻影</title>
 	<!-- fullpage -->
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.7/jquery.fullPage.css">
+	<link rel="stylesheet" type="text/css" href="./css/jquery.fullPage.css">
 
 	<style type="text/css">
 		*{
 			margin: 0;
 			padding: 0;
+			box-sizing: border-box;
 		}
 		html,body{
 			height: 100%;
+		}
+		.main{
+			min-width: 1024px;
 		}
 		ul,li{
 			list-style: none;
@@ -21,9 +25,17 @@
 			color: inherit;
 			text-decoration: none;
 		}
+		.logo,.icon_home,.icon_music,.download,
+		.download .button a,
+		.download .open a,
+		.slogan,.down_arrow,
+		.sidenav_open_icon,
+		.sidenav .title .title_text,.sidenav .title .title_close{
+			background-image: url(./images/xuebi.png);
+		}
 		.loading{
 			height: 100%;
-			background: url(http://res.hzhy.netease.com/pc/zt/20160316140351/img/loadbg_634b938.jpg) no-repeat center/cover;
+			background: url(./images/bg_loading.jpg) no-repeat center/cover;
 			display: none;
 		}
 		.progress,.progress_num{
@@ -36,7 +48,7 @@
 			margin-top: -50px;
 		}
 		.progress{
-			background: url(http://res.hzhy.netease.com/pc/zt/20160316140351/img/load_circle_77cd93b.png) no-repeat center;
+			background: url(./images/loading.png) no-repeat center;
 			animation: loading 2s linear infinite;
 		}
 		.progress_num{
@@ -70,23 +82,23 @@
 			background-color: #fbfbfb;
 		}
 		.section1{
-			background: url(http://res.hzhy.netease.com/pc/zt/20160316140351/img/sect1bg_d9b8e18.jpg) top center no-repeat;
+			position: relative;
+			background: url(./images/bg_section1.jpg) top center no-repeat;
 		}
 		.menu{
-			
 			color: #fff;
 			padding-top: 36px;
 			padding-left: 180px;
 		}
-		.menu li{
+		.menu > li{
 			display: inline-block;
-			border-bottom: 1px solid #436fd0;
 			margin: 0 25px;
 			font-size: 14px;
 			line-height: 26px;
+			transition: all .5s ;
 		}
-		.logo{
-			background-image: url(http://res.hzhy.netease.com/pc/zt/20160316140351/img/spriter/index_z_ad12f08.png);
+		.menu > li.active,.menu > li:hover{
+			border-bottom: 1px solid #436fd0;
 		}
 		.logo{
 			background-position: -437px -262px;
@@ -95,6 +107,325 @@
 			position: fixed;
 			left: 30px;
 			top: 85px;
+			z-index: 10;
+		}
+		.icon_home{
+			background-position: -352px -344px;
+		}
+		.icon_music{
+			background-position: -296px -344px;
+		}
+		.icon_home,.icon_music{
+			display: inline-block;
+			width: 28px;
+			height: 28px;
+			margin: 0 5px;
+		}
+		.icon{
+			position: fixed;
+			right: 30px;
+			top: 85px;
+		}
+		.icon_home:hover{
+			background-position: -742px -223px;
+		}
+		.icon_music:hover{
+			background-position: -714px -223px;
+		}
+		.share{
+			padding-top: 56px;
+			padding-left: 25px;
+			font-size: 12px;
+			line-height: 22px;
+			z-index: 9;
+		}
+		.share > li > span{
+			color: #2d6ea3;
+		}
+		.share > li{
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.share > li > a{
+			display: block;
+			width: 22px;
+			height: 22px;
+			opacity: .6;
+		}
+		.share > li > a:hover{
+			opacity: .8;
+		}
+		.icon_wechat{
+			background: url(./images/wechat.svg) no-repeat center;
+		}
+		.icon_yixin{
+			background: url(./images/qq.svg) no-repeat center;
+		}
+		.icon_weibo{
+			background: url(./images/weibo.svg) no-repeat center;
+		}
+		.icon_qzone{
+			background: url(./images/qqzone.svg) no-repeat center;
+		}
+		.icon_more{
+			background: url(./images/more.svg) no-repeat center;
+		}
+		.share_more{
+			position: absolute;
+			left: 15px;
+			top: 15px;
+			background-color: #ffffff;
+			border: 1px solid #c2c2c2;
+			width: 204px;
+			overflow: hidden;
+			padding: 2px;
+			display: none;
+		}
+		.share_more > li{
+			display: inline-block;
+			float: left;
+			width: 50%;
+		}
+		.share_more > li a{
+			display: block;
+			height: 26px;
+			line-height: 26px;
+			border: 1px solid transparent;
+			padding-left: 32px;
+		}
+		.share_more > li a:hover{
+			background-color: #f0f0f0;
+			border-color: #e0e0e0;
+		}
+		.share_more_box{
+			position: relative;
+		}
+		.icon_renren,
+		.icon_tencentweibo,
+		.icon_qq,
+		.icon_douban,
+		.icon_tieba{
+			background-image: url(./images/xuebi_icon.png);
+		}
+		.icon_renren{
+			background-position: 4px -172px;
+		}
+		.icon_tencentweibo{
+			background-position: 4px -47px;
+		}
+		.icon_qq{
+			background-position: 4px -472px;
+		}
+		.icon_douban{
+			background-position: 4px -247px;
+		}
+		.icon_tieba{
+			background-position: 4px -447px;
+		}
+		.download{
+			position: absolute;
+			bottom: 137px;
+			left: 0;
+			width: 337px;
+			height: 165px;
+			background-position: -437px 0px;
+			padding: 38px 0 0 10px;
+			transition: left .5s linear;
+			z-index: 8;
+		}
+		.download .code{
+			display: inline-block;
+			width: 112px;
+			height: 112px;
+		}
+		.download .code img{
+			width: 100%;
+			height: 100%;
+		}
+		.download .button{
+			display: inline-block;
+			margin-left: 8px;
+			height: 112px;
+		}
+		.download .button a{
+			display: block;
+			width: 171px;
+			height: 51px;
+		}
+		.download .button .apple{
+			background-position: 0px -449px;
+			margin-bottom: 10px;
+		}
+		.download .button .android{
+			background-position: -171px -449px;
+		}
+		.download .button .apple:hover{
+			background-position: -513px -449px;
+		}
+		.download .button .android:hover{
+			background-position: -342px -449px;
+		}
+		.download .open{
+			display: inline-block;
+			height: 112px;
+		}
+		.download .open a{
+			display: block;
+			width: 6px;
+			height: 22px;
+			margin-top: 41px;
+			margin-left: 14px;
+			background-position: -761px -340px;
+		}
+		.download .open a:hover{
+			background-position: -755px -340px;
+		}
+		.slogan{
+			position: relative;
+			width: 437px;
+			height: 206px;
+			left: 50%;
+			top: 80px;
+			margin-left: -218.5px;
+			background-position: 0px 0px;
+			pointer-events: none;
+		}
+		.down_arrow{
+			position: absolute;
+			width: 20px;
+			height: 45px;
+			left: 50%;
+			bottom: 80px;
+			margin-left: -10px;
+			background-position: -416px -275px;
+			animation: down_arrow .5s ease-out alternate infinite;
+		}
+		@keyframes down_arrow{
+			0%{
+				bottom: 80px;
+			}
+			100%{
+				bottom: 100px;
+			}
+		}
+		.person{
+			position: absolute;
+			width: 35px;
+			height: 35px;
+			border: 1px solid rgba(255,255,255,.7);
+			border-radius: 50%;
+			margin: 5px;
+			padding: 6px;
+			animation: circledot 1s linear infinite alternate;
+			cursor: pointer;
+		}
+		.person i{
+			display: block;
+			width: 22px;
+			height: 22px;
+			border: 4px solid rgba(255,255,255,.7);
+			border-radius: 50%;
+		}
+		.person_l{
+			left: calc(50% - 504px);
+			top: 300px;
+		}
+		.person_m{
+			left: calc(50% + 64px);
+			top: 235px;
+		}
+		.person_r{
+			left: calc(50% + 523px);
+			top: 374px;
+		}
+		@keyframes circledot{
+			0%{
+				transform: scale(.9);
+				opacity: 0;
+			}
+			100%{
+				transform: scale(1);
+				opacity: 1;
+			}
+		}
+		.sidenav_open_icon{
+			position: fixed;
+			top: 50%;
+			right: 24px;
+			margin-top: -66px;
+			width: 14px;
+			height: 10px;
+			background-position: -654px -251px;
+			cursor: pointer;
+		}
+		.sidenav_open_icon:hover{
+			background-position: -640px -251px;
+		}
+		.sidenav{
+			position: fixed;
+			width: 200px;
+			top: 55px;
+			right: -200px;
+			bottom: 0;
+			background-color: #1d2126;
+			z-index: 101;
+			padding-top: 186px;
+			transition: all .5s linear;
+		}
+		.sidenav.active{
+			right: 0;
+		}
+		.sidenav .title{
+			height: 45px;
+			border-bottom: 1px solid #272b2e;
+		}
+		.sidenav .title .title_text{
+			display: inline-block;
+			width: 118px;
+			height: 30px;
+			margin: 0 15px 0 26px;
+			background-position: -150px -344px;
+		}
+		.sidenav .title .title_close{
+			display: inline-block;
+			width: 19px;
+			height: 19px;
+			margin: 5px 0;
+			background-position: -755px -384px;
+		}
+		.sidenav .nav{
+			padding-top: 16px;
+		}
+		.sidenav .nav li a{	
+			display: block;
+			color: #a4a6ab;
+			font-size: 14px;
+			line-height: 34px;
+		}
+		.sidenav .nav li a i{
+			display: inline-block;
+			width: 12px;
+			height: 12px;
+			background-color: #454d56;
+			border-radius: 50%;
+			margin: 0 10px 0 22px;
+			vertical-align: middle;
+		}
+		.sidenav .nav li a,.sidenav .nav li a i{
+			transition: all .4s linear;
+		}
+		.sidenav .nav li a:hover{
+			background-color: #30363e;
+		}
+		.sidenav .nav li a:hover i{
+			background-color: #fff;
+		}
+		.section2{
+			position: relative;
+			background: url(./images/bg_section2.jpg) no-repeat top center;
+		}
+		.character{
+			
 		}
 	</style>
 </head>
@@ -105,31 +436,91 @@
 	</div>
 
 	<div class="main">
-		<div id="header">
-			
-		</div>
+		<div id="header"></div>
 		<div id="fullpage">
 			<div class="section section1">
 				<ul class="menu">
-					<li data-menuanchor="page1"><a href="#page1">首页</a></li>
-					<li data-menuanchor="page2"><a href="#page2">角色介绍</a></li>
-					<li data-menuanchor="page3"><a href="#page3">魂兽图鉴</a></li>
-					<li data-menuanchor="page4"><a href="#page4">世界观</a></li>
+					<li class="active"><a href="#page1">首页</a></li>
+					<li><a href="#page2">角色介绍</a></li>
+					<li><a href="#page3">魂兽图鉴</a></li>
+					<li><a href="#page4">世界观</a></li>
 				</ul>
+				<ul class="share">
+					<li><span>分享到：</span></li>
+					<li><a href="javascript:;" class="icon_wechat" title="分享到微信二维码"></a></li>
+					<li><a href="javascript:;" class="icon_yixin" title="分享到易信"></a></li>
+					<li><a href="javascript:;" class="icon_weibo" title="分享到新浪微博"></a></li>
+					<li><a href="javascript:;" class="icon_qzone" title="分享到QQ空间"></a></li>
+					<li class="share_more_box">
+						<a href="javascript:;" class="icon_more"></a>
+						<ul class="share_more">
+							<li><a href="javascript:;" class="icon_renren" title="分享到人人网">人人网</a></li>
+							<li><a href="javascript:;" class="icon_tencentweibo" title="分享到腾讯微博">腾讯微博</a></li>
+							<li><a href="javascript:;" class="icon_qq" title="分享到QQ好友">QQ好友</a></li>
+							<li><a href="javascript:;" class="icon_douban" title="分享到豆瓣">豆瓣</a></li>
+							<li><a href="javascript:;" class="icon_tieba" title="分享到百度贴吧">百度贴吧</a></li>
+						</ul>
+					</li>
+				</ul>
+				<div class="download">
+					<div class="code"><img src="./images/code.png"></div>
+					<div class="button">
+						<a href="javascript:;" class="apple"></a>
+						<a href="javascript:;" class="android"></a>
+					</div>
+					<div class="open"><a href="javascript:;"></a></div>
+				</div>
+				<div class="slogan"></div>
+				<div class="down_arrow"></div>
+				<div class="person person_l"><i></i></div>
+				<div class="person person_m"><i></i></div>
+				<div class="person person_r"><i></i></div>
 			</div>
-			<div class="section section2"></div>
+			<div class="section section2">
+				<div class="character">
+					<ul class="char_list">
+						<li><a href="javascript:;"></a></li>
+						<li><a href="javascript:;"></a></li>
+						<li><a href="javascript:;"></a></li>
+					</ul>
+					<div class="rolename"></div>
+					<div class="declaration">“我无意与任何人为敌。不过，挡在路上的另当别论。"</div>
+					<div class="subtitle">人物介绍</div>
+					<div class="introduce">银发皓目的菲特，剑术精湛，招式多变。他善用灵魂之力注入剑中，使冰冷锋利的剑气破刃而出，给予四面八方的敌人致命打击。身躯轻盈矫健，战斗走位瞬移，剑一出鞘，必定刀刀见血。</div>
+					<div class="subtitle">人物技能</div>
+					<ul class="skill">
+						
+					</ul>
+				</div>
+			</div>
 			<div class="section section3"></div>
 			<div class="section section4"></div>
 		</div>
+		<div class="logo"></div>
+		<div class="icon">
+			<a class="icon_home" href="javascript:;"></a>
+			<a class="icon_music" href="javascript:;"></a>
+		</div>
+		<div class="sidenav_open_icon"></div>
+		<div class="sidenav">
+			<div class="title">
+				<div class="title_text"></div>
+				<div class="title_close"></div>
+			</div>
+			<ul class="nav">
+				<li><a href="#page1"><i></i>首页</a></li>
+				<li><a href="#page2"><i></i>角色介绍</a></li>
+				<li><a href="#page3"><i></i>魂兽图鉴</a></li>
+				<li><a href="#page4"><i></i>世界观</a></li>
+			</ul>
+		</div>
 	</div>
-
-	<div class="logo"></div>
 
 	<!-- jquery -->
 	<script src="../js/jquery-1.11.3.js"></script>
 	<!-- fullpage -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.7/jquery.fullPage.js"></script>
+	<script src="../js/jquery.easing.min.js"></script>
+	<script src="../js/jquery.fullPage.js"></script>
 
 	<script>
 		$(function(){
@@ -153,6 +544,51 @@
 				// fixedElements: '#header',
 				// menu: '.menu'
 			})
+
+			$('.download .open a').click(function(){
+				var left = $('.download').offset().left==0 ? -321 : 0;
+				$('.download').css('left',left+'px');
+			})
+
+			var time_more;
+			$('.share_more_box').hover(function(){
+				clearTimeout(time_more);//离开又马上回来，需要这个来控制不要执行离开的hover
+				$('.share_more').css({'left':'15px','top':'15px'});//初始化，必须，不然下面的算式取值不对了
+
+				var box_left = $('.share_more_box').offset().left;
+				var self_css_left = parseInt($('.share_more').css('left'));
+				var self_width = $('.share_more').outerWidth();
+				var box_top = $('.share_more_box').offset().top;
+				var self_css_top = parseInt($('.share_more').css('top'));
+				var self_height = $('.share_more').outerHeight();
+
+				var screen_width = $(window).width();
+				var screen_height = $(window).height();
+
+				var isWidth = Boolean(box_left+self_css_left+self_width > screen_width);//宽度不够
+				var isHeight = Boolean(box_top+self_css_top+self_height > screen_height);//高度不够
+
+				if (isWidth) {
+					$('.share_more').css('left','-144px');
+				}
+				if (isHeight) {
+					$('.share_more').css('top','-72px');
+				}
+
+				$('.share_more').fadeIn(200);
+			},function(){
+				time_more = setTimeout(function(){
+					$('.share_more').fadeOut(200);
+				},500)
+			})
+
+			$('.sidenav .title .title_close').click(function(){
+				$('.sidenav').removeClass('active');
+			})
+			$('.sidenav_open_icon').click(function(){
+				$('.sidenav').addClass('active');
+			})
+
 		})
 	</script>
 </body>
