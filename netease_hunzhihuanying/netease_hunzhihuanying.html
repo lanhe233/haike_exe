@@ -25,12 +25,22 @@
 			color: inherit;
 			text-decoration: none;
 		}
+		.clx{
+			*zoom: 1;
+		}
+		.clx:after{
+			content: '';
+			display: block;
+			clear: both;
+		}
 		.logo,.icon_home,.icon_music,.download,
 		.download .button a,
 		.download .open a,
 		.slogan,.down_arrow,
 		.sidenav_open_icon,
-		.sidenav .title .title_text,.sidenav .title .title_close{
+		.sidenav .title .title_text,.sidenav .title .title_close,
+		.char_info .rolename,
+		.char_info .skill_arrow{
 			background-image: url(./images/xuebi.png);
 		}
 		.loading{
@@ -392,6 +402,7 @@
 			height: 19px;
 			margin: 5px 0;
 			background-position: -755px -384px;
+			cursor: pointer;
 		}
 		.sidenav .nav{
 			padding-top: 16px;
@@ -425,7 +436,238 @@
 			background: url(./images/bg_section2.jpg) no-repeat top center;
 		}
 		.character{
-			
+			width: 484px;
+			margin-left: 165px;
+			position: relative;
+		}
+		.char_list{
+			padding-top: 15px;
+			overflow: hidden;
+		}
+		.char_list li{
+			display: inline-block;
+			float: left;
+		}
+		.char_list li a{
+			display: block;
+			width: 112px;
+			height: 135px;
+			background: no-repeat bottom left;
+			transition: all .3s linear;
+			/*	这个动画很纠结。。。原处是将grey和colorful作为a的背景，a里面包裹一个span，span的背景是active，active时span从opacity:0;visibility:hidden转变为opacity:1;visibility:visible	
+					a和span有各自的transition: all .3s linear; 	
+					但是我这儿是一个a里面根据hover和click放了三张背景。。来切换。。*/
+		}
+		.char_list li a.fate{
+			background-image: url(./images/fate_grey.png);
+		}
+		.char_list li a.fate:hover{
+			background-image: url(./images/fate_colorful.png);
+		}
+		.char_list li.active a.fate{
+			background-image: url(./images/fate_active.png);
+		}
+		.char_list li a.kross{
+			background-image: url(./images/kross_grey.png);
+		}
+		.char_list li a.kross:hover{
+			background-image: url(./images/kross_colorful.png);
+		}
+		.char_list li.active a.kross{
+			background-image: url(./images/kross_active.png);
+		}
+		.char_list li a.vwill{
+			background-image: url(./images/vwill_grey.png);
+		}
+		.char_list li a.vwill:hover{
+			background-image: url(./images/vwill_colorful.png);
+		}
+		.char_list li.active a.vwill{
+			background-image: url(./images/vwill_active.png);
+		}
+		.char_info{
+			opacity: 0;
+			transition: top .2s linear;
+			position: absolute;
+			left: 0;
+			top: 235px;
+			pointer-events: none;
+		}
+		.char_info.active{
+			opacity: 1;
+			top: 152px;
+			pointer-events: auto;
+		}
+		.char_info .rolename{
+			height: 47px;
+			margin-top: 18px;
+			margin-bottom: 15px;
+		}
+		.char_info .rolename.fate{
+			width: 107px;
+			background-position: -648px -384px;
+		}
+		.char_info .rolename.kross{
+			width: 161px;
+			background-position: -167px -500px;
+		}
+		.char_info .rolename.vwill{
+			width: 167px;
+			background-position: 0px -500px;
+		}
+		.char_info .introduce{
+			font-size: 13px;
+			line-height: 18px;
+			color: #a5aab5;
+		}
+		.char_info .subtitle{
+			font-size: 18px;
+			color: #fff;
+			margin-top: 15px;
+			margin-bottom: 5px;
+		}
+		.char_info .skill{
+			height: 100px;
+			margin-top: 16px;
+		}
+		.char_info .skill_con{
+			display: inline-block;
+			width: 405px;
+			height: 100%;
+			overflow: hidden;
+		}
+		.char_info .skill_arrow{
+			display: inline-block;
+			width: 58px;
+			height: 58px;
+			background-position: -314px -275px;
+			opacity: .5;
+			vertical-align: top;
+			cursor: pointer;
+		}
+		.char_info .skill_arrow.next{
+			background-position: -714px -165px;
+		}
+		.char_info .skill_arrow:hover{
+			opacity: .8;
+		}
+		.char_info .skill_ul{
+			width: 810px;
+			overflow: hidden;
+			height: 100%;
+			transition: all .5s linear;
+		}
+		.char_info .skill_ul li{
+			display: inline-block;
+			float: left;
+			width: 58px;
+			margin-right: 23px;
+			cursor: pointer;
+			height: 100%;
+			position: relative;
+		}
+		.char_info .skill_ul li .skill_image{
+			width: 58px;
+			height: 58px;
+		}
+		.char_info .skill_ul li em{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 58px;
+			height: 58px;
+			border-radius: 50%;
+			border: 2px solid transparent;
+		}
+		.char_info.fate .skill_ul li:hover em{
+			border-color: #5f9ef6;
+		}
+		.char_info.kross .skill_ul li:hover em{
+			border-color: #ff6d47;
+		}
+		.char_info.vwill .skill_ul li:hover em{
+			border-color: #35acff;
+		}
+		.char_info .skill_ul li .skill_name{
+			color: #6382ff;
+			font-size: 13px;
+			line-height: 30px;
+			text-align: center;
+		}
+		.char_info .skill_ul li i{
+			display: none;
+			width: 0;
+			border: 5px solid transparent;
+			border-left-width: 7px;
+			border-right-width: 7px;
+			border-bottom-color: #a1a3a8; 
+			position: absolute;
+			bottom: 0;
+			left: 16px;
+		}
+		/*.char_info .skill_ul li:hover i{
+			display: block;
+		}*/
+		.char_info .skill_text{
+			width: 490px;
+			height: 60px;
+			border: 1px solid #303a4f;
+			font-size: 13px;
+			color: #a5aab5;
+			padding: 8px 23px;
+			display: none;
+		}
+		.char_animation{
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			width: 
+		}
+		.char_big{
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			width: 1247px;
+			pointer-events: none;
+			/*left: 1000px;*/
+		}
+		.char_big_pic{
+			position: absolute;
+			top: 0;
+			right: 0;
+			opacity: 0;
+			visibility: hidden;
+			/*animation: fadeIn 1s linear;*/
+			transition: all 1s linear;
+		}
+		@keyframes fadeIn{
+			0%{
+				opacity: 0;
+			}
+			100%{
+				opacity: 1;
+			}
+		}
+		.char_big_pic.fate{
+			width: 868px;
+			height: 100%;
+			background: url(./images/fate_big.png) no-repeat top left;
+		}
+		.char_big_pic.kross{
+			width: 840px;
+			height: 100%;
+			background: url(./images/kross_big.png) no-repeat top left;
+		}
+		.char_big_pic.vwill{
+			width: 725px;
+			height: 100%;
+			background: url(./images/vwill_big.png) no-repeat top left;
+			margin-top: 50px;
+		}
+		.char_big_pic.active{
+			opacity: 1;
+			visibility: visible;
 		}
 	</style>
 </head>
@@ -479,18 +721,57 @@
 			<div class="section section2">
 				<div class="character">
 					<ul class="char_list">
-						<li><a href="javascript:;"></a></li>
-						<li><a href="javascript:;"></a></li>
-						<li><a href="javascript:;"></a></li>
+						<li class="active"><a href="javascript:;" class="fate"></a></li>
+						<li><a href="javascript:;" class="kross"></a></li>
+						<li><a href="javascript:;" class="vwill"></a></li>
 					</ul>
-					<div class="rolename"></div>
-					<div class="declaration">“我无意与任何人为敌。不过，挡在路上的另当别论。"</div>
-					<div class="subtitle">人物介绍</div>
-					<div class="introduce">银发皓目的菲特，剑术精湛，招式多变。他善用灵魂之力注入剑中，使冰冷锋利的剑气破刃而出，给予四面八方的敌人致命打击。身躯轻盈矫健，战斗走位瞬移，剑一出鞘，必定刀刀见血。</div>
-					<div class="subtitle">人物技能</div>
-					<ul class="skill">
-						
-					</ul>
+					<div class="char_info fate active">
+						<div class="rolename fate"></div>
+						<div class="introduce">“我无意与任何人为敌。不过，挡在路上的另当别论。"</div>
+						<div class="subtitle">人物介绍</div>
+						<div class="introduce">银发皓目的菲特，剑术精湛，招式多变。他善用灵魂之力注入剑中，使冰冷锋利的剑气破刃而出，给予四面八方的敌人致命打击。身躯轻盈矫健，战斗走位瞬移，剑一出鞘，必定刀刀见血。</div>
+						<div class="subtitle">人物技能</div>
+						<div class="skill">
+							<div class="skill_con">
+								<ul class="skill_ul clx"></ul>
+							</div>
+							<div class="skill_arrow"></div>
+						</div>
+						<div class="skill_text"></div>
+					</div>
+					<div class="char_info kross">
+						<div class="rolename kross"></div>
+						<div class="introduce">“强者有强者的生存方式！""</div>
+						<div class="subtitle">人物介绍</div>
+						<div class="introduce">热血的库洛斯，拥有钢铁般的身躯，爆发力十足。双手铁拳聚集魂火，强大的破坏力量震飞一切敌人。出拳速度十分惊人，敌人感受到拳风的时候，往往已经被打倒在地。</div>
+						<div class="subtitle">人物技能</div>
+						<div class="skill">
+							<div class="skill_con">
+								<ul class="skill_ul clx"></ul>
+							</div>
+							<div class="skill_arrow"></div>
+						</div>
+						<div class="skill_text"></div>
+					</div>
+					<div class="char_info vwill">
+						<div class="rolename vwill"></div>
+						<div class="introduce">“只有冰与血拥有存在的价值。""</div>
+						<div class="subtitle">人物介绍</div>
+						<div class="introduce">冰冷的御姐维薇儿，剑技优雅却拥有致命的杀伤力召唤冰霜即可杀人于无形！在她剑锋之下，所有的敌人凝成鲜血百合。</div>
+						<div class="subtitle">人物技能</div>
+						<div class="skill">
+							<div class="skill_con">
+								<ul class="skill_ul clx"></ul>
+							</div>
+							<div class="skill_arrow"></div>
+						</div>
+						<div class="skill_text"></div>
+					</div>
+				</div>
+				<div class="char_big">
+					<div class="char_big_pic fate active"></div>
+					<div class="char_big_pic kross"></div>
+					<div class="char_big_pic vwill"></div>
 				</div>
 			</div>
 			<div class="section section3"></div>
@@ -589,7 +870,104 @@
 				$('.sidenav').addClass('active');
 			})
 
+			$('.char_list li').click(function(){
+				$(this).addClass('active').siblings().removeClass('active');
+				$('.skill_arrow').removeClass('next');
+				$('.skill_ul').css('margin-left','0');
+				$('.char_info').eq($(this).index()).addClass('active').siblings().removeClass('active');
+				$('.char_big_pic').eq($(this).index()).addClass('active').siblings().removeClass('active');
+			})
+
+			var skill_fate = [
+				{image:'1.png',name:'魂击斩',text:'挥刀前冲，将沿途的所有怪物全部挑空。'},
+				{image:'2.png',name:'急速连斩',text:'迅速拔刀，然后连续对前方地面敌人造成多段斩击。'},
+				{image:'3.png',name:'觉醒之魂',text:'瞬间连续在身体周围划出多道魂气，最后划破一刀将魂气激发，攻击大范围的敌人。对于近处的敌人，具有粘附效果。'},
+				{image:'4.png',name:'空落斩',text:'用刀聚集灵魂之力并砸落地面，对地面和空中的单位同时造成伤害。'},
+				{image:'5.png',name:'真空拔刀斩',text:'用魂火注入裂魂刀里强化力量，随后瞬间拔刀穿越地面的所有敌人。'},
+				{image:'6.png',name:'双身之魂',text:'原地瞬间消失，然后在远方出现自己的分身。分身将怪物迅速的推进到自己的位置之后，消散成魂状并攻击敌人。角色消失时，角色处于短暂无敌的状态。'},
+				{image:'7.png',name:'疾风斩',text:'迅速朝前方突进的三段攻击。可以使用摇杆控制攻击的方向。'},
+				{image:'8.png',name:'残影陷阱',text:'瞬间斩出一刀，并留下自己的灵魂残像吸引敌人，残像经过短暂时间爆开，浮空敌人。'},
+				{image:'9.png',name:'魂火爆发',text:'朝天跃起后对在空中来回拔刀穿梭的招式。'},
+				{image:'10.png',name:'十字封印斩',text:'连续在空气中划过两道刀气，然后将刀气推送出去攻击敌人。'}
+			];
+			var skill_kross = [
+				{image:'1.png',name:'狂热拳雨',text:'用拳法连续攻击，形成暴雨般的攻势。'},
+				{image:'2.png',name:'撕裂大地',text:'前冲并用将力量集聚在拳心，向地面打出足以撕裂地面的一击。'},
+				{image:'3.png',name:'俯冲攻击',text:'从空中下砸，连续造成多段伤害'},
+				{image:'4.png',name:'灌魔冲拳',text:'经过长时间蓄力之后，向前打出力量极大的一拳。能够打断部分怪物的蓄力状态。'},
+				{image:'5.png',name:'能量放射',text:'将魂火全部聚集于手中，然后将魂火转化为能量全部激射出去的放射式技能。'},
+				{image:'6.png',name:'燃魂之手',text:'使用暗魂之力，将敌人牵引至面前，然后一击将敌人浮空。可以将空中和地面的怪物抓取到面前。'},
+				{image:'7.png',name:'牵引燃魂',text:'用魂火之力创造出黑洞吸附所有怪物，然后再用一拳打爆，将燃魂全部解放。'},
+				{image:'8.png',name:'乱舞连击',text:'对对手饱以老拳打定，然后最后一击将敌人打飞。'},
+				{image:'9.png',name:'魂火冲击',text:'将魂火转化为纯净的能量，然后将这股能量完全爆发出去。'},
+				{image:'10.png',name:'炎盾格挡',text:'格挡即将到来的攻击，并以魂火弹飞敌人。格挡的持续时间内，进入霸体状态。'}
+			];
+			var skill_vwill = [
+				{image:'1.png',name:'碎晶斩',text:'在前方呼唤符文，然后冲刺将敌人连续挑空。'},
+				{image:'2.png',name:'圆舞一闪',text:'划出冰霜的符文将周围敌人打定，然后突刺一剑将敌人浮空。'},
+				{image:'3.png',name:'碎月',text:'从空中召唤冰霜龙卷风，俯冲袭击地面的敌人。'},
+				{image:'4.png',name:'暴风雪',text:'从空中召唤剑雨袭击地面。'},
+				{image:'5.png',name:'曙光之风',text:'呼唤冰霜女神吹出拂晓之风，覆盖大面积的敌人。'},
+				{image:'6.png',name:'霜之遗产',text:'召唤冰蝶的法阵并呼唤冰蝶攻击前方所有敌人。'},
+				{image:'7.png',name:'冰之封印',text:'以快速的腿技将敌人挑空之后，再迅速突前追击。'},
+				{image:'8.png',name:'闪现',text:'瞬间移动到附近的位置，躲避即将到来的攻击。可以在受击时使用。'},
+				{image:'9.png',name:'霜冻之球',text:'以手中的花为媒介，召唤吸附周围敌人的冰霜之球。'},
+				{image:'10.png',name:'魂影一闪',text:'在魂火中注入冰雪的威力，以冻气攻击大范围的敌人。'}
+			];
+			var skill_fate_html='',skill_kross_html='',skill_vwill_html='';
+			for (var i = 0; i < 10; i++) {
+				skill_fate_html += 	'<li>'+
+															'<img class="skill_image" src="./images/fate/'+skill_fate[i].image+'">'+
+															'<div class="skill_name">'+skill_fate[i].name+'</div>'+
+															'<i></i><em></em>'+
+														'</li>';
+				skill_kross_html += 	'<li>'+
+															'<img class="skill_image" src="./images/kross/'+skill_kross[i].image+'">'+
+															'<div class="skill_name">'+skill_kross[i].name+'</div>'+
+															'<i></i><em></em>'+
+														'</li>';
+				skill_vwill_html += 	'<li>'+
+															'<img class="skill_image" src="./images/vwill/'+skill_vwill[i].image+'">'+
+															'<div class="skill_name">'+skill_vwill[i].name+'</div>'+
+															'<i></i><em></em>'+
+														'</li>';
+			}
+			$('.char_info.fate .skill_ul').append(skill_fate_html);
+			$('.char_info.kross .skill_ul').append(skill_kross_html);
+			$('.char_info.vwill .skill_ul').append(skill_vwill_html);
+			$('.char_info .skill_ul li').hover(function(e){
+				$('.skill_text').stop();
+				var clsName = $(this).parents().find('.char_info.active')[0].className;
+				var clsName_which = clsName.split(' ')[1];
+				$(this).find('i').stop().fadeIn();
+				if (clsName_which == 'fate') {
+					$('.skill_text').fadeIn().text(skill_fate[$(this).index()].text);
+				}else if (clsName_which == 'kross') {
+					$('.skill_text').fadeIn().text(skill_kross[$(this).index()].text);
+				}if (clsName_which == 'vwill') {
+					$('.skill_text').fadeIn().text(skill_vwill[$(this).index()].text);
+				}
+			},function(){
+				$(this).find('i').stop().hide();
+				$('.skill_text').stop().hide();
+			})
+
+			$('.skill_arrow').click(function(e){
+				if(e.target.className.indexOf('next') == -1){
+					$(this).addClass('next');
+					$(this).siblings().find('.skill_ul').css('margin-left','-405px');
+				}else{
+					$(this).removeClass('next');
+					$(this).siblings().find('.skill_ul').css('margin-left','0');
+				}
+			})
 		})
 	</script>
 </body>
 </html>
+
+
+
+<!-- 遗留问题 -->
+<!-- 1.第二部分，tab切换的动画 -->
+<!-- 2.第二部分，画canvas动画	 -->
