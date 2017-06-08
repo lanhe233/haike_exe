@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>picture标签用法</title>
+</head>
+<body>
+
+</body>
+</html>
+
+
+<!-- picture标签基本工作步骤 -->
+创建picture标签
+创建source元素
+添加media属性，如viewport height，width，orientation
+添加srcset属性与相应的图像文件名相匹配，进行加载
+添加一个回退的img元素
+
+<picture>
+	<source srcset="small.jpg" media="(max-width:768px)">
+	<source srcset="default.jpg">
+	<img srcset="default.jpg" alt="My default image">
+</picture>
+media中使用的语法和创建css媒体查询的语法一致，这意味着可以查询
+	max-width min-width max-height min-height orientation
+等属性
+
+同时，可以使用这些特性判断设备的方向，从而加载横向或纵向版本的图像，也可以进行大小特性的混合
+	orientation: landscape 横屏 | portrait 竖屏
+<picture>
+	<source srcset="small_landscape.jpg" media="(max-width:40em) and (orientation:landscape)">
+	<source srcset="small_portrait.jpg" media="(max-width:40em) and (orientation:small_portrait)">
+	<source srcset="default_landscape.jpg" media="(min-width:40em) and (orientation:landscape)">
+	<source srcset="default_portrait.jpg" media="(min-width:40em) and (orientation:small_portrait)">
+	<img srcset="default_landscape.jpg" alt="横屏下的默认图像">
+</picture>
+
+以上感觉是老版本的srcset属性，新的srcset属性和w描述以及sizes属性 见
+	http://www.zhangxinxu.com/wordpress/2014/10/responsive-images-srcset-size-w-descriptor/
+
+浏览器支持情况不好，ie11都不行
+
+

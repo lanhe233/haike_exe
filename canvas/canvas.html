@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>canvas</title>
+	<style type="text/css">
+		*{
+			box-sizing: border-box;
+		}
+		.box{
+			border-bottom: 1px solid #aaa;
+			padding: 10px;
+		}
+		canvas{
+			border: 1px solid #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<h3 class="title">画廊</h3>
+		<canvas id="cvs1" width="1000" height="200"></canvas>
+	</div>
+	<div class="box">
+		<h3 class="title">旋转</h3>
+		<canvas id="cvs2" width="1000" height="200"></canvas>
+	</div>
+	<div class="box">
+		<h3 class="title">星星</h3>
+		<canvas id="cvs3" width="200" height="200"></canvas>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+
+			function gallery(){
+				var cvs = document.getElementById('cvs1')
+				var ctx = cvs.getContext('2d')
+
+				cvs.setAttribute('height','240')
+
+				var frame = new Image()
+				frame.src = './images/frame.png'
+				frame.onload = function() {
+					var images = [], count = 0
+					for (var i = 0; i < 8; i++) {
+						images[i] = new Image()
+						images[i].src = '../images/dt'+(i+1)+'.jpeg'
+						images[i].onload = function(){
+							count++
+							if (count == 8) {
+								gallery_draw(ctx,frame,images)
+							}
+						}
+					}
+				}
+			}
+			function gallery_draw(ctx,frame,images){
+				var start_x = 15, start_y = 15, space = 10, sx = 300, sy = 50, width = 75, height = 100
+
+				for (var i = 0; i < 2; i++){
+					for (var j = 0; j < 4; j++) {
+						var dx = start_x + (width+space)*j
+						var dy = start_y + (height+space)*i
+					
+						ctx.drawImage(images[i*4+j],sx,sy,width,height,dx,dy,width,height)
+						ctx.drawImage(frame,dx,dy,width,height)
+					}
+				}
+			}
+			gallery()
+
+			function rotate(){
+				var cvs = document.getElementById('cvs2')
+				var ctx = cvs.getContext('2d')
+
+				ctx.translate(100,100)	//先移动canvas原点，因为后续的rotate操作只能以canvas原点旋转
+				var radius = 6, space = 18
+				for (var i = 0; i < 5; i++) {
+					ctx.save()
+
+					var x = (i+1)*space, y = 0, r = (i+1)*51, g = 255-r
+					ctx.fillStyle = 'rgb('+r+','+g+',255)'
+					var j_num = (i+1)*6, deg = 2*Math.PI/j_num
+
+					for (var j = 0; j < j_num; j++) {
+						ctx.rotate(deg)
+						ctx.beginPath()
+						ctx.arc(x,y,radius,0,2*Math.PI,false)
+						ctx.fill()
+					}
+
+					ctx.restore()
+				}
+			}
+			rotate()
+
+			function star(){
+				var cvs = document.getElementById('cvs3')
+				var ctx = cvs.getContext('2d')
+
+				ctx.fillRect(0,0,cvs.width,cvs.height);
+
+				for (var i = 0; i < 50; i++) {
+					var x = Math.floor(200*Math.random())
+					var y = Math.floor(200*Math.random())
+					draw_star(x,y)
+				}
+			}
+			function draw_star(x,y){
+				
+			}
+			star()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		}
+	</script>
+</body>
+</html>
+
+
+<!-- canvas知识点 -->
+<!--
+canvas标签只有两个属性：width和height。不设置则有默认值，尽量不要用css设定宽高，比例不一致会发生图形扭曲
+
+canvas可以像普通img元素一样拥有margin、border、background等，canvas本身没有样式规则时是透明的
+
+在不支持canvas的浏览器，如ie9之前的浏览器，需提供替换内容
+<canvas id="canvas" width="200" height="200">
+	请更新浏览器
+	or
+	<img src="images/clock.png" width="150" height="150" alt=""/>
+</canvas>
+
+渲染上下文
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2D');
+
+绘制矩形
+	ctx.fillStyle = 'rgba(0,0,0,.5)';
+	ctx.fillRect(30,30,55,50);
+
+	矩形是canvas中唯一不需要路径就能绘制的
+	关于矩形，有三种方法
+	ctx.fillRect(x,y,width,height)	一个填充矩形
+	ctx.strokeRect(x,y,width,height)	一个边框矩形
+	ctx.clearRect(x,y,width,height)	清除矩形中指定部分，使之完全透明
+
+栅格 grid
+	canvas元素默认被网格覆盖，通常来说一个单元格相当于一像素
+	栅格起点在左上角（0,0）
+
+绘制路径
+	1.创建路径起点	beginPath()
+	2.使用画图命令去画出路径
+	3.封闭路径,非必须	closePath()
+	4.一旦路径生成，就可以通过描边或填充来绘制图形	stroke() | fill()
+
+	fill()函数会自动闭合图形，stroke()不会
+
+绘制三角形
+	ctx.beginPath();
+	ctx.moveTo(75,50);
+	ctx.lineTo(100,75);
+	ctx.lineTo(100,25);
+	ctx.fill();
+
+移动笔触 
+	moveTo(x,y) 将笔触移动到指定的坐标上
+	canvas初始化或beginPath()之后,常使用moveTo()设置起点，也可以使用来绘制一些不连续的图形
+
+线
+	lineTo(x,y) 绘制一条从当前位置到指定坐标的直线
+
+圆弧
+	arc(x,y,radius,startAngle,endAngle,anticlockwise)
+		圆心坐标，半径，起始角度（弧度，x轴为基准），结束角度，方向（默认false顺时针,true逆时针）
+		tips. 180度 = π弧度  so  弧度 = π * 度 / 180 
+	arcTo(x1,y1,x2,y2,radius)	根据给定的两个点和半径画一段圆弧，再以直线连接两个点
+		两个点坐标，半径
+
+二次贝塞尔曲线 三次贝塞尔曲线
+	quadraticCurveTo(cp1x,cp2x,x,y)
+		控制点坐标，结束点坐标
+	bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y)
+		两个控制点坐标，结束点坐标
+
+矩形路径
+	ctx.rect(x,y,width,height)	将一个矩形路径增加到当前路径上，此时自动执行moveTo(0,0)
+	
+path2D对象
+
+色彩
+	fillStyle = color(颜色值、渐变对象、图案对象)
+	strokeStyle = color
+
+透明度
+	globalAlpha = transparencyValue
+	绘制大量相同透明的图案时比较高效，如果是单独几个直接用color表示即可
+
+线型
+	lineWidth	= value	线条宽度
+	lineCap = type	线条末端样式
+	lineJoin = type 线条与线条结合处的样式
+	……
+
+……
+
+图像引入
+	var image = new Image();
+	image.src = './images/bg.jpg';
+	image.onload = function(){
+		//drawImage()
+		//多张图片处理方式更复杂，试一下图片预加载策略
+	}
+
+	image.src = 'data:url'
+
+绘制图像
+	drawImage(image,x,y)  
+		图像对象，起始坐标
+	drawImage(image,x,y,width,height)
+		图像对象，起始坐标，图像缩放到什么大小
+	drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+		后8个参数，前4个是定义图像源的切片位置和大小，后4个则是定义切片的目标显示位置和大小。
+
+
+
+
+
+
+
+
+
+
+-->
