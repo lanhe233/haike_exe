@@ -19,15 +19,19 @@
 <body>
 	<div class="box">
 		<h3 class="title">画廊</h3>
-		<canvas id="cvs1" width="1000" height="200"></canvas>
+		<canvas id="cvs1" width="400" height="200"></canvas>
 	</div>
 	<div class="box">
 		<h3 class="title">旋转</h3>
-		<canvas id="cvs2" width="1000" height="200"></canvas>
+		<canvas id="cvs2" width="200" height="200"></canvas>
 	</div>
 	<div class="box">
-		<h3 class="title">星星</h3>
-		<canvas id="cvs3" width="200" height="200"></canvas>
+		<h3 class="title">星星（左：我）</h3>
+		<canvas id="cvs3" width="410" height="200"></canvas>
+	</div>
+	<div class="box">
+		<h3 class="title">太阳系模型</h3>
+		<canvas id="cvs4" width="200" height="200"></canvas>
 	</div>
 
 	<script type="text/javascript">
@@ -99,18 +103,114 @@
 				var cvs = document.getElementById('cvs3')
 				var ctx = cvs.getContext('2d')
 
+				star_prepare(cvs,ctx,'me')
+				ctx.translate(210,0)
+				star_prepare(cvs,ctx,'example')
+			}
+			function star_prepare(cvs,ctx,who){
+				ctx.save()
+				ctx.fillRect(0,0,200,200)
+				ctx.beginPath()
+				ctx.arc(100,100,85,0,2*Math.PI,true)
+				ctx.clip()
+
+				var gradient = ctx.createLinearGradient(0,0,0,cvs.height)
+				gradient.addColorStop(0,'#232256')
+				gradient.addColorStop(1,'#143778')
+				ctx.fillStyle = gradient
 				ctx.fillRect(0,0,cvs.width,cvs.height);
 
+				ctx.fillStyle = '#fff'
+				ctx.rotate(20 * Math.PI / 180)
 				for (var i = 0; i < 50; i++) {
 					var x = Math.floor(200*Math.random())
 					var y = Math.floor(200*Math.random())
-					draw_star(x,y)
+					who=='me' ? star_draw_by_me(ctx,x,y) : star_draw_by_example(ctx,x,y)
 				}
+				ctx.restore()
 			}
-			function draw_star(x,y){
-				
+			function star_draw_by_me(ctx,x,y){
+				ctx.save()
+				ctx.translate(x,y)
+
+				var space = 36*Math.PI/180, start_deg = 18*Math.PI/180
+				var r = Math.floor(4*Math.random()), R = r+2
+				var start_x = Math.cos(start_deg)*R, start_y = -Math.sin(start_deg)*R
+				ctx.beginPath()
+				ctx.moveTo(start_x, start_y)
+
+				for (var i = 0; i < 9; i++) {
+					var deg = start_deg + space*(i+1)
+					var radius = i%2==0 ? r : R
+					ctx.lineTo(Math.cos(deg)*radius,-Math.sin(deg)*radius)
+				}
+				ctx.closePath()
+				ctx.fill()
+				ctx.restore()
+			}
+			function star_draw_by_example(ctx,x,y){
+				ctx.save()
+				ctx.translate(x,y)
+
+				var R = Math.random()*4+2, r = R*0.381965	//长半径在2,5之间，短半径的参数怎么来的我也不知道。。
+				ctx.beginPath()
+				ctx.moveTo(R,0)
+				for (var i = 0; i < 9; i++) {
+					ctx.rotate(Math.PI / 5)
+					var radius = i%2==0 ? r : R
+					ctx.lineTo(radius,0)
+				}
+				ctx.closePath()
+				ctx.fill()
+				ctx.restore()
 			}
 			star()
+
+			var sun = new Image(), earth = new Image(), moon = new Image()
+			//为什么，这几个变量必须定义在全局，不能内部传一下参，一传就报堆栈溢出的错
+			function suns(){
+				sun.src = './images/canvas_sun.png'
+				earth.src = './images/canvas_earth.png'
+				moon.src = './images/canvas_moon.png'
+				window.requestAnimationFrame(sun_draw);
+			}
+			function sun_draw(){
+				var cvs = document.getElementById('cvs4')
+				var ctx = cvs.getContext('2d')
+				ctx.clearRect(0,0,200,200)
+				ctx.save()
+
+				ctx.globalCompositeOperation = 'destination-over'
+				ctx.translate(100,100)
+				var time = new Date()
+				ctx.save()
+
+				ctx.rotate(time.getSeconds()*2*Math.PI/60 + time.getMilliseconds()*2*Math.PI/60000)
+				ctx.translate(60,0)
+				ctx.drawImage(earth,-12,-12)
+
+				ctx.rotate(time.getSeconds()*2*Math.PI/6 + time.getMilliseconds()*2*Math.PI/6000)
+				ctx.translate(22,0)
+				ctx.drawImage(moon,-3.5,-3.5)
+
+				ctx.restore()
+
+				ctx.strokeStyle = 'rgba(0,153,255,0.4)'
+				ctx.beginPath()
+				ctx.arc(0,0,60,0,Math.PI*2,true)
+				ctx.stroke()
+
+				ctx.drawImage(sun,-100,-100,200,200)
+				ctx.restore()
+				
+				 window.requestAnimationFrame(sun_draw);
+			}
+			suns()
+
+			function clock(){
+				
+			}
+			clock()
 
 
 
