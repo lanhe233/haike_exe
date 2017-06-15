@@ -1,0 +1,232 @@
+@charset 'utf-8';
+
+// 变量
+@test_width:300px;
+
+.box{
+	width: @test_width;
+	height: @test_width;
+	.border;
+}
+
+// 混合
+.border{
+	border: 1px solid pink;
+}
+
+.box2{
+	.box;
+
+	margin-left: 10px;
+}
+
+//	参数
+.border_01(@border_width:10px){
+	border: @border_width solid #000;
+}
+
+.test{
+	.border_01(30px);
+}
+
+// 匹配模式
+.triangle(top,@width:5px,@color:#ccc){
+	border: @width solid transparent;
+	border-top-color: @color;
+}
+.triangle(bottom,@width:5px,@color:#ccc){
+	border: @width solid transparent;
+	border-bottom-color: @color;
+}
+.triangle(@_,@width:5px,@color:#ccc){
+	//@_ 表示无论该处是什么参数，都会被渲染进去
+	width: 0;
+	height: 0;
+}
+.tri{
+	.triangle(top);
+}
+
+//运算
+//变量，颜色，数字都可以参与运算
+@test_01:300px;
+.box3{
+	// 20的单位随本运算中有单位的
+	width: @test_01 + 20;
+	color: #ccc - 10;
+}
+
+// 嵌套
+.list{
+	width: 600px;
+	list-style: none;
+
+	li{
+		height: 40px;
+		padding: 5px;
+
+		a{
+			text-decoration: none;
+			// & 代表它的上一层选择器
+			&:hover{
+				color: red;
+			}
+		}
+	}
+
+	// 代表 .list_span{}
+	&_span{
+		color: #ccc;
+	}
+}
+
+// arguments
+.border_arg(@w:30px,@c:red,@xx:solid){
+	border: @arguments;
+}
+
+.test_argument{
+	.border_arg();
+}
+
+// 避免编译
+.box4{
+	width: 300px;
+	// 我们想要浏览器来计算，而不是less编译器计算，需要避免编译
+	// ~加双引号单引号均可
+	height: ~'calc(300px - 30px)'; 
+}
+
+// !important
+.box5{
+	//.border里面的每句话都会加上!important
+	.border !important;
+}
+
+@import 'ku';	//默认ku.less
+@import 'a.css';
+@import (less) 'a.css';	//与上一句不同在于，上一句变异后仍为import不变，这一句则把a.css的内容复制过来
+
+
+// 嵌套内部的样式也可以提取出来
+.one{
+	.two{
+		margin-top: 12px;
+	}
+	padding-right: 23px;
+}
+.three{
+	clear: both;
+	.one > .two;
+}
+
+// 变量和样式可以声明在被使用之后
+
+// 选择器
+@selector:banner;
+
+.@{selector}{
+	pointer-events: none;
+}
+
+// url
+// 类似的，可以用在任何有链接的地方，比如@import等
+@url: '../../images';
+
+.box6{
+	// 这里url()内必须打引号
+	background-image: url('@{url}/1.jpeg');
+}
+
+// 属性
+.border_7(@pos:top){
+	border-@{pos}:1px solid #ccc;
+}
+
+.box7{
+	.border_7(bottom);
+}
+
+// 变量名
+@var: 'hello';
+@hello: 'hello world';
+.box8::after{
+	content:@@var;
+}
+
+// extend
+.sprite{
+	background-image: url('@{url}/1.jpeg');
+}
+.sprite.num2{
+	background-image: url('@{url}/2.jpeg');
+}
+.b{
+	&:extend(.sprite);
+	background-position: 0 -50px;
+}
+.c{
+	&:extend(.sprite);
+	background-position: 0 0;
+}
+.d{
+	&:extend(.sprite);
+	background-position: -80px 0;
+}
+// 还可以写成这样
+.e:extend(.sprite){
+	background-position: -120px 0;
+}
+// 还有选择器的不同，这个例子中f的第二个会带上.f.num2
+.f:extend(.sprite all){
+	background-position: -200px 0;
+}
+// 可以拓展多个样式
+.g:extend(.sprite,.sprite.num2){
+	background-position: -300px 0;
+}
+// entend选择器必须位于最后 如 a:hover:entend(pre)
+
+// when
+.color(@c){
+	color: @c;
+}
+// 可以有多个条件，但是这是或不是且
+.color(@c) when (lightness(@c) >= 40%),(lightness(@c) <= 100%){
+	background-color: black;
+}
+.color(@c) when (lightness(@c) < 40%){
+	background-color: white;
+}
+// when 条件
+// when () , ()
+// when () and ()
+// when not ()
+// when (@a>=0){}  when (default()){}
+.box9{
+	.color(#000);
+}
+
+// 函数
+.box10{
+	// 杂项函数
+
+		// 颜色
+		color: color(red);	
+
+		// 单位转换
+		transform:rotate(convert(90deg, rad));
+
+		// 将资源内联进样式表 data-uri([mimetype,] url)
+		background-image: data-uri('@{url}/1.jpg');
+		
+		// default() 用于when的条件
+		
+		// 删除或更换单位
+		// unit(5,px)  -> 5px
+		// unit(5em)   -> 5
+
+	// 字符串函数
+
+		
+}
