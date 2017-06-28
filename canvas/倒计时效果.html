@@ -4,18 +4,327 @@
 	<meta charset="utf-8">
 	<title></title>
 	<style>
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 		canvas{
 			display: block;
-			margin: 50px auto;
 		}
 	</style>
 </head>
 <body>
-	<canvas id="canvas" width="1024" height="768">请升级你的浏览器</canvas>
+	<canvas id="canvas">请升级你的浏览器</canvas>
 	
-
 	<script>
+		// 数字的点阵排列数组，每一个数字都是一个二维数组，冒号相对较窄
+		let digit =
+		    [
+		        [
+		            [0,0,1,1,1,0,0],
+		            [0,1,1,0,1,1,0],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [0,1,1,0,1,1,0],
+		            [0,0,1,1,1,0,0]
+		        ],//0
+		        [
+		            [0,0,0,1,1,0,0],
+		            [0,1,1,1,1,0,0],
+		            [0,0,0,1,1,0,0],
+		            [0,0,0,1,1,0,0],
+		            [0,0,0,1,1,0,0],
+		            [0,0,0,1,1,0,0],
+		            [0,0,0,1,1,0,0],
+		            [0,0,0,1,1,0,0],
+		            [0,0,0,1,1,0,0],
+		            [1,1,1,1,1,1,1]
+		        ],//1
+		        [
+		            [0,1,1,1,1,1,0],
+		            [1,1,0,0,0,1,1],
+		            [0,0,0,0,0,1,1],
+		            [0,0,0,0,1,1,0],
+		            [0,0,0,1,1,0,0],
+		            [0,0,1,1,0,0,0],
+		            [0,1,1,0,0,0,0],
+		            [1,1,0,0,0,0,0],
+		            [1,1,0,0,0,1,1],
+		            [1,1,1,1,1,1,1]
+		        ],//2
+		        [
+		            [1,1,1,1,1,1,1],
+		            [0,0,0,0,0,1,1],
+		            [0,0,0,0,1,1,0],
+		            [0,0,0,1,1,0,0],
+		            [0,0,1,1,1,0,0],
+		            [0,0,0,0,1,1,0],
+		            [0,0,0,0,0,1,1],
+		            [0,0,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [0,1,1,1,1,1,0]
+		        ],//3
+		        [
+		            [0,0,0,0,1,1,0],
+		            [0,0,0,1,1,1,0],
+		            [0,0,1,1,1,1,0],
+		            [0,1,1,0,1,1,0],
+		            [1,1,0,0,1,1,0],
+		            [1,1,1,1,1,1,1],
+		            [0,0,0,0,1,1,0],
+		            [0,0,0,0,1,1,0],
+		            [0,0,0,0,1,1,0],
+		            [0,0,0,1,1,1,1]
+		        ],//4
+		        [
+		            [1,1,1,1,1,1,1],
+		            [1,1,0,0,0,0,0],
+		            [1,1,0,0,0,0,0],
+		            [1,1,1,1,1,1,0],
+		            [0,0,0,0,0,1,1],
+		            [0,0,0,0,0,1,1],
+		            [0,0,0,0,0,1,1],
+		            [0,0,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [0,1,1,1,1,1,0]
+		        ],//5
+		        [
+		            [0,0,0,0,1,1,0],
+		            [0,0,1,1,0,0,0],
+		            [0,1,1,0,0,0,0],
+		            [1,1,0,0,0,0,0],
+		            [1,1,0,1,1,1,0],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [0,1,1,1,1,1,0]
+		        ],//6
+		        [
+		            [1,1,1,1,1,1,1],
+		            [1,1,0,0,0,1,1],
+		            [0,0,0,0,1,1,0],
+		            [0,0,0,0,1,1,0],
+		            [0,0,0,1,1,0,0],
+		            [0,0,0,1,1,0,0],
+		            [0,0,1,1,0,0,0],
+		            [0,0,1,1,0,0,0],
+		            [0,0,1,1,0,0,0],
+		            [0,0,1,1,0,0,0]
+		        ],//7
+		        [
+		            [0,1,1,1,1,1,0],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [0,1,1,1,1,1,0],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [0,1,1,1,1,1,0]
+		        ],//8
+		        [
+		            [0,1,1,1,1,1,0],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [1,1,0,0,0,1,1],
+		            [0,1,1,1,0,1,1],
+		            [0,0,0,0,0,1,1],
+		            [0,0,0,0,0,1,1],
+		            [0,0,0,0,1,1,0],
+		            [0,0,0,1,1,0,0],
+		            [0,1,1,0,0,0,0]
+		        ],//9
+		        [
+		            [0,0,0,0],
+		            [0,0,0,0],
+		            [0,1,1,0],
+		            [0,1,1,0],
+		            [0,0,0,0],
+		            [0,0,0,0],
+		            [0,1,1,0],
+		            [0,1,1,0],
+		            [0,0,0,0],
+		            [0,0,0,0]
+		        ]//:
+		    ],
+		    winWidth = window.innerWidth,
+		    winHeight = window.innerHeight,
+		    // 数字的点阵长度
+		    numLength = digit[0][0].length,
+		    // 冒号的点阵长度
+		    colonLength = digit[10][0].length,
+				// 设置倒计时截止时间
+				// endTime = new Date('2017-6-27 11:48:00'),
+					// 为方便测试，自动设置截止时间为当前时间的一个小时后
+					endTime = new Date(new Date().getTime() + 60*60*1000),
+				// 记录屏幕显示的倒计时的秒数
+				recordTime = Math.round((endTime.getTime() - new Date().getTime()) / 1000),
+				// 记录彩色小球
+				balls = []
+
+		// 想要时间占据整个屏幕的1/5，左边和右边留白1/10
+		const MARGIN_LEFT = winWidth / 10,
+					MARGIN_TOP = 200,
+					// 数字与数字，数字与冒号之间的间隔。冒号本身只有4的点阵宽，左右还需要多一个间隔
+					// 球处于一个方框之内，球距边框左右半个sp,球与球不要紧挨着，紧挨着不好看，留点空隙
+					// 数字与数字之间相距r+sp
+					sp = 1,
+					// 球的半径
+					// 计算公式： (r+sp)*2*numLength*6 + (r+sp)*2*colonLength*2 + (r+sp)*5= winWidth*4/5
+					r = winWidth * 4 / (5 * (12*numLength+4*colonLength+5)) - sp,
+					colors = ['#33b5e5','#0099cc','#aa66cc','#9933cc','#99cc00','#669900','#ffbb33','#ff8800','#ff4444','#cc0000'],
+					DEFAULT_COLOR = '#005588',
+					// 小球运动的重力加速度 1.5~2.5
+					sg = 1.5,
+					// 小球运动的速度消耗
+					f = 0.5,
+					// 设置小球vx范围 -4 | 4，小球vy = -5
+					svx = 4,
+					svy = -5
 		
+		window.onload = function() {
+			let cvs = document.getElementById('canvas')
+			cvs.width = winWidth
+			cvs.height = winHeight
+
+		  let ctx = cvs.getContext('2d')
+
+		  let timer = setInterval( () => {
+		  	// 绘制时间
+		  	drawTime(ctx,timer)
+		  },50)
+		  document.addEventListener('visibilitychange', (e)=>{
+		  	if (e.target.hidden) {
+		  		document.title='不可见'
+		  		clearInterval(timer)
+		  	} else{
+		  		document.title='可见'
+		  		timer = setInterval( () => {
+				  	// 绘制时间
+				  	drawTime(ctx,timer)
+				  },50)
+		  	}
+		  })
+
+		}
+
+		// 绘制数字和冒号
+		function drawDigit(ctx, symbol, isColors, currentX, currentY){
+			let data = digit[symbol]
+			
+			ctx.fillStyle = DEFAULT_COLOR
+			// 绘制时间
+			for (let i = 0; i < data.length; i++) {
+				for (let j = 0; j < data[i].length; j++) {
+					if (data[i][j]) {
+						ctx.beginPath()
+						let x = (r+sp)*(1+2*j),
+								y = (r+sp)*(1+2*i)
+						ctx.arc(x, y, r, 0, 2*Math.PI)
+						ctx.fill()
+
+						if (isColors) {
+							balls.push({
+								x: currentX + x,
+								y: currentY + y,
+								g: sg + Math.random(),
+								vx: svx*Math.pow(-1,parseInt(Math.random()*1000)),
+								vy: svy,
+								color: colors[Math.floor(colors.length*Math.random())]
+							})
+						}
+					}
+				}
+			}
+		}
+
+		// 绘制时间
+		function drawTime(ctx, timer){
+
+			// if (!isTimeChange()) {
+			// 	return
+			// }
+	  	let date = Math.round((endTime.getTime() - new Date().getTime()) / 1000)
+	  	if (date<0) {
+	  		date = 0
+	  		clearInterval(timer)
+	  	}
+
+	  	
+	  	let timeArr = format(date),
+	  			recordArr = format(recordTime)
+		  ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height)
+		  ctx.save()
+		  ctx.translate(MARGIN_LEFT,MARGIN_TOP)
+		  let currentX = MARGIN_LEFT,
+		  		currentY = MARGIN_TOP
+			timeArr.forEach( (val, i, arr) => {
+				isColors = (val != recordArr[i])
+				drawDigit(ctx, val==':' ? 10 : val, isColors, currentX, currentY)
+				let moveX = (val==':'? 9 : 15) * (r+sp)
+				ctx.translate(moveX ,0)
+				currentX += moveX
+			})		
+			ctx.restore()	
+
+			drawBalls(ctx)
+
+	  	recordTime = date
+		}
+
+		// 绘制彩色小球
+		function drawBalls(ctx){
+			ctx.save()
+			balls.forEach( (val,i,arr) => {
+				if (val.x > winWidth || val.x < 0) {
+					balls.splice(i,1)
+					return
+				}
+				ctx.beginPath()
+				ctx.arc(val.x, val.y, r, 0, Math.PI*2)
+				ctx.fillStyle = val.color
+				ctx.fill()
+
+				val.x += val.vx
+				val.y += val.vy
+				val.vy += val.g
+
+				if (val.y+r >= winHeight && winHeight > MARGIN_TOP+digit[1].length*(r+sp)*2) {
+					val.y = winHeight - r
+					val.vy = - val.vy * f
+				}
+			})
+			ctx.restore()
+			// console.log('小球数量：'+balls.length)
+		}
+		
+		
+		// 检测50ms一次的定时器执行时秒钟是否变化，需不需要重新绘制时间
+		function isTimeChange(){
+			let currentTime = Math.round((endTime.getTime() - new Date().getTime()) / 1000)
+			if(currentTime != recordTime){
+				return true
+			}
+			return false
+		}
+
+		function format(date){
+			let	hour = (parseInt(date/3600)<10 ? '0' : '') + parseInt(date/3600),
+					minute = (parseInt(date/60-hour*60)<10 ? '0' : '') + parseInt(date/60-hour*60),
+					second = (date % 60<10 ? '0' : '') + (date % 60),
+					time = hour+':'+minute+':'+second
+			return time.split('')
+		}
 	</script>
 </body>
 </html>
+
+
+<!-- 怎么处理小球最后在地板上弹跳位置始终维持在两个数字之间的问题？？？？？ -->
