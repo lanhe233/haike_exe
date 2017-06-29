@@ -33,6 +33,10 @@
 		<h3 class="title">太阳系模型</h3>
 		<canvas id="cvs4" width="200" height="200"></canvas>
 	</div>
+	<div class="box">
+		<h3 class="title">时钟（测试）</h3>
+		<canvas id="cvs5" width="1000" height="1000"></canvas>
+	</div>
 
 	<script type="text/javascript">
 		window.onload = function(){
@@ -207,10 +211,38 @@
 			}
 			suns()
 
-			function clock(){
-				
+			function person(){
+				let cvs = document.getElementById('cvs5')
+				let ctx = cvs.getContext('2d')
+
+				let images = []
+				let count = 0
+				for (let i = 0; i < 20; i++) {
+					let val = new Image()
+					
+					val.src = './images/f_fate/'+(((i+1)<10?'0':'')+(i+1))+'-min.png'
+					images.push(val)
+					val.onload = () => {
+						count++
+						if (count==20) {
+							person_draw(ctx, images)
+							
+						}
+					}
+				}
 			}
-			clock()
+			function person_draw(ctx, images){
+				console.log(images)
+				images.forEach((val,i,arr)=>{
+					// setTimeout(()=>{
+						ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height)
+						setTimeout(()=>{
+							ctx.drawImage(val,0,0)
+						},1000)
+					// },1000)
+				})
+			}
+			person()
 
 
 
@@ -256,6 +288,7 @@ canvas可以像普通img元素一样拥有margin、border、background等，canv
 
 	矩形是canvas中唯一不需要路径就能绘制的
 	关于矩形，有三种方法
+	ctx.rect() 这个矩形只是路径，必须接着绘制
 	ctx.fillRect(x,y,width,height)	一个填充矩形
 	ctx.strokeRect(x,y,width,height)	一个边框矩形
 	ctx.clearRect(x,y,width,height)	清除矩形中指定部分，使之完全透明
@@ -348,3 +381,62 @@ path2D对象
 
 
 -->
+
+<!-- canvas图形绘制 -->
+<!-- 
+
+canvas基于状态绘制，每一次绘制会覆盖前面的东西，需要用beginPath隔开
+
+用了beginPath后面要画直线就可以不使用moveTo找起点而直接使用lineTo找起点，这在写某些多边形函数等时会统一一些
+
+能用closePath封闭图形更好，因为lineTo起点在线条比较宽的情况下会出现bug，有一个正方形空白矩形bug
+
+需要描边+填充时，先填充再描边，反过来描边会少一半的线条宽
+
+lineCap = butt | round | square
+lineCap只作用于线条开头和结尾，对于线条连接处不起作用
+
+canvas的坐标轴，x轴向右，y轴向下
+
+五角星，在两个圆上找点
+画一个标准五角星路径，然后通过图形变换达成想要的目的会比较好，时候后续改成四边形N边形等
+
+lineJoin = miter | bevel斜接 | round圆角
+miterLimit = 10默认，超过会自动bevel显示
+
+变换：
+	translate(x,y)
+	rotate(deg)
+	scale(sx,sy)
+使用图形变换是尽量都save和restore一下
+
+变换矩阵：
+	transform(a,b,c,d,e,f)
+	setTransform(a,b,c,d,e,f) 忽略之前所有的transform效果，使他们失效，只使用这个setTransform效果
+
+渐变
+	let grd = ctx.createLinearGradient(xstart,ystart,xend,yend)
+	grd.addColorStop(stop,color)	stop为【0,1】区间
+
+	ctx.createRadialGradient(x0,y0,r0,x1,y1,r1)
+
+填充
+	let pattern = createPattern(img|canvas|video,repeat-style=no-repeat|repeat-x|repeat-y|repeat)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -->
