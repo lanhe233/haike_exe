@@ -226,21 +226,18 @@
 						count++
 						if (count==20) {
 							person_draw(ctx, images)
-							
 						}
 					}
 				}
 			}
 			function person_draw(ctx, images){
-				console.log(images)
-				images.forEach((val,i,arr)=>{
-					// setTimeout(()=>{
+				let i = 0
+				setInterval(()=>{
+					if (i<20) {
 						ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height)
-						setTimeout(()=>{
-							ctx.drawImage(val,0,0)
-						},1000)
-					// },1000)
-				})
+						ctx.drawImage(images[i++],0,0)
+					}
+				},100)
 			}
 			person()
 

@@ -307,13 +307,13 @@
 		
 		
 		// 检测50ms一次的定时器执行时秒钟是否变化，需不需要重新绘制时间
-		function isTimeChange(){
-			let currentTime = Math.round((endTime.getTime() - new Date().getTime()) / 1000)
-			if(currentTime != recordTime){
-				return true
-			}
-			return false
-		}
+		// function isTimeChange(){
+		// 	let currentTime = Math.round((endTime.getTime() - new Date().getTime()) / 1000)
+		// 	if(currentTime != recordTime){
+		// 		return true
+		// 	}
+		// 	return false
+		// }
 
 		function format(date){
 			let	hour = (parseInt(date/3600)<10 ? '0' : '') + parseInt(date/3600),

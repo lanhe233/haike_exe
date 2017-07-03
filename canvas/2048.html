@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		#canvas{
+			display: block;
+			margin: 50px auto 0;
+			/*border: 1px solid #eee;*/
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="475" height="475">浏览器版本过低</canvas>
+
+	<script>
+		const bgColors = {
+						'2' : '#eee3da',
+						'4' : '#ede0c8',
+						'8' : '#f2b179',
+						'16' : '#f59563',
+						'32' : '#f67c5f',
+						'64' : '#f65e3b',
+						'128' : '#edcf72',
+						'256' : '#edcc61',
+						'512' : '#9c0',
+						'1024' : '#33b5e5',
+						'2048' : '#09c',
+						'4096' : '#a6c',
+						'8192' : '#93c'
+					},
+					initNumber = [2, 4]
+
+		let chesses = []
+		for (let i=0; i<4; i++){
+			chesses[i] = []
+			for (let j=0; j<4; j++){
+				chesses[i][j] = 0
+			}
+		}
+
+		let cvs = document.getElementById('canvas'),
+			  ctx = cvs.getContext('2d')
+
+		window.onload = function () {
+			
+			chessboard()
+
+			start()
+
+
+		}
+
+		window.onkeydown = function (e) {
+			switch e.keyCode {
+				case 38:
+					// 上
+					break
+				case 40:
+					// 下
+					break
+				case 37:
+					// 左
+					break
+				case 39:
+					// 右
+					break
+			}
+		}
+
+		// 绘制棋盘
+		function chessboard(){
+			// 绘制底图
+			ctx.fillStyle = '#bbada0'
+			roundRect(0,0,475,475,10)
+
+			// 绘制格子
+			ctx.fillStyle = '#ccc0b3'
+			for (let i = 0; i < 4; i++) {
+				for (let j = 0; j < 4; j++){
+					roundRect(getCoordinate(i), getCoordinate(j))
+				}
+			}
+		}
+		/**
+		 * 绘制圆角实心矩形
+		 * @param  x 起始坐标点
+		 * @param  y 起始坐标点
+		 * @param  w 矩形长
+		 * @param  h 矩形宽
+		 * @param  r 矩形圆角半径
+		 */
+		function roundRect(x,y,w=100,h=100,r=8){
+			ctx.beginPath()
+			ctx.moveTo(x+r, y)
+			ctx.arcTo(x+w,y,x+w,y+h,r)
+			ctx.arcTo(x+w,y+h,x,y+h,r)
+			ctx.arcTo(x,y+h,x,y,r)
+			ctx.arcTo(x,y,x+w,y,r)
+			ctx.fill()
+		}
+		/**
+		 * 绘制棋子
+		 * @param  i      栅格数
+		 * @param  j      栅格数
+		 * @param  number 绘制哪个数字
+		 */
+		function chesspiece(i,j,number){
+			let x = getCoordinate(i), y = getCoordinate(j), textMaxWidth = 80
+			ctx.fillStyle = bgColors[number]
+			roundRect(x, y)
+
+			// 文字颜色 #776e65 | #fff
+			ctx.font = '70px Source Code Pro'
+			ctx.fillStyle = number < 8 ? '#776e65' : '#fff'
+			ctx.textAlign = 'center'
+			ctx.fillText(number, x+50, y+70, textMaxWidth)
+
+			// 存储该棋子的位置以及数字值
+			chesses[i][j] = number
+		}
+		// 根据栅格位置获取实际坐标
+		function getCoordinate(i){
+			return 15+(100+15)*i
+		}
+		// 随机一个空位置出现2或4的小方块
+		function add(){
+			// 找到所有空栅格
+			let empty = []
+			for (let [i,row] of chesses.entries()){
+				for (let [j,chess] of row.entries()){
+					if (!chess) {
+						empty.push(`(${i},${j})`)
+					}
+				}
+			}
+			// 随机选中一个空栅格，绘制一个初始化棋子
+			let checked = empty[Math.floor(Math.random()*empty.length)],
+					cooArr = checked.match(/^\((\d+),(\d+)\)$/),
+					number = initNumber[Math.floor(Math.random()*initNumber.length)]
+			chesspiece(cooArr[1], cooArr[2], number)
+		}
+		// 进入游戏，初始化两个位置出现2或4的小方块
+		function start(){
+			add()
+			add()
+		}
+	</script>
+</body>
+</html>
