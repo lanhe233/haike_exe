@@ -225,10 +225,36 @@
 					val.onload = () => {
 						count++
 						if (count==20) {
-							person_draw(ctx, images)
+							// person_draw(ctx, images)
 						}
 					}
 				}
+
+
+				var t = Math.abs(5)*.04;
+				ctx.fillStyle = '#FFE600';
+				ctx.beginPath();
+				// 0.2π - 1.8π
+				ctx.arc(200,200,100/2,t*Math.PI,(2-t)*Math.PI);
+				ctx.lineTo(200,200);
+				ctx.closePath();
+				ctx.fill();
+				ctx.fillStyle = '#000';
+				ctx.beginPath();
+				ctx.arc(200+5,200-27,7,0,2*Math.PI,false);
+				ctx.closePath();
+				ctx.fill();
+
+				// 1100
+				let pos = {
+					x: 100,
+					y: 100
+				}
+				let size = 20
+				ctx.beginPath();
+				ctx.arc(pos.x+size/2,pos.y+size/2,size/2,Math.PI,1.5*Math.PI,false);
+				ctx.stroke();
+				ctx.closePath();
 			}
 			function person_draw(ctx, images){
 				let i = 0

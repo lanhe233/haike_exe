@@ -12,12 +12,37 @@
 		#canvas{
 			display: block;
 			margin: 50px auto 0;
-			/*border: 1px solid #eee;*/
+		}
+		.pop{
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			background-color: rgba(0,0,0,.5);
+			display: none;
+		}
+		.pop .content{
+			position: relative;
+			width: 200px;
+			height: 100px;
+			line-height: 100px;
+			text-align: center;
+			top: 50%;
+			left: 50%;
+			margin-left: -100px;
+			margin-top: -50px;
+			background-color: #fff;
+			border-radius: 5px;
 		}
 	</style>
 </head>
 <body>
 	<canvas id="canvas" width="475" height="475">浏览器版本过低</canvas>
+
+	<div class="pop">
+		<div class="content"></div>
+	</div>
 
 	<script>
 		const bgColors = {
@@ -53,23 +78,166 @@
 			chessboard()
 
 			start()
-
-
 		}
 
 		window.onkeydown = function (e) {
-			switch e.keyCode {
+			let haveAction = false
+			switch (e.keyCode) {
 				case 38:
 					// 上
+					for (let i=0; i<4; i++){
+						for (let j=0; j<4; j++){
+							if (chesses[i][j]) {
+								// 寻找当前行/列后方是否有相同邻近数字，是则合并
+								for (let t=i+1; t<4; t++){
+									if (chesses[t][j]) {
+										if (chesses[t][j] == chesses[i][j]) {
+											chesses[i][j] *= 2
+											chesses[t][j] = 0
+											haveAction = true
+										}
+										break
+									}
+								}
+								// 寻找当前行/列前方是否有空栅格，是则移位
+								let cur = -1
+								for (let t=i-1; t>=0; t--){
+									if (!chesses[t][j]) {
+										cur = t
+										haveAction = true
+									}else {
+										break
+									}
+								}
+								if (cur != -1) {
+									chesses[cur][j] = chesses[i][j]
+									chesses[i][j] = 0
+								}
+							}
+						}
+					}
+					if (haveAction) {
+						chessAll()
+						add()
+						isEnd()
+					}
 					break
 				case 40:
 					// 下
+					for (let i=3; i>=0; i--){
+						for (let j=0; j<4; j++){
+							if (chesses[i][j]) {
+								// 寻找当前行/列后方是否有相同邻近数字，是则合并
+								for (let t=i-1; t>=0; t--){
+									if (chesses[t][j]) {
+										if (chesses[t][j] == chesses[i][j]) {
+											chesses[i][j] *= 2
+											chesses[t][j] = 0
+											haveAction = true
+										}
+										break
+									}
+								}
+								// 寻找当前行/列前方是否有空栅格，是则移位
+								let cur = -1
+								for (let t=i+1; t<4; t++){
+									if (!chesses[t][j]) {
+										cur = t
+										haveAction = true
+									}else {
+										break
+									}
+								}
+								if (cur != -1) {
+									chesses[cur][j] = chesses[i][j]
+									chesses[i][j] = 0
+								}
+							}
+						}
+					}
+					if (haveAction) {
+						chessAll()
+						add()
+						isEnd()
+					}
 					break
 				case 37:
 					// 左
+					for (let i=0; i<4; i++){
+						for (let j=0; j<4; j++){
+							if (chesses[i][j]) {
+								// 寻找当前行/列后方是否有相同邻近数字，是则合并
+								for (let t=j+1; t<4; t++){
+									if (chesses[i][t]) {
+										if (chesses[i][t] == chesses[i][j]) {
+											chesses[i][j] *= 2
+											chesses[i][t] = 0
+											haveAction = true
+										}
+										break
+									}
+								}
+								// 寻找当前行/列前方是否有空栅格，是则移位
+								let cur = -1
+								for (let t=j-1; t>=0; t--){
+									if (!chesses[i][t]) {
+										cur = t
+										haveAction = true
+									}else {
+										break
+									}
+								}
+								if (cur != -1) {
+									chesses[i][cur] = chesses[i][j]
+									chesses[i][j] = 0
+								}
+							}
+						}
+					}
+					if (haveAction) {
+						chessAll()
+						add()
+						isEnd()
+					}
 					break
 				case 39:
 					// 右
+					for (let i=0; i<4; i++){
+						for (let j=3; j>=0; j--){
+							if (chesses[i][j]) {
+								// 寻找当前行/列后方是否有相同邻近数字，是则合并
+								for (let t=j-1; t>=0; t--){
+									if (chesses[i][t]) {
+										if (chesses[i][t] == chesses[i][j]) {
+											chesses[i][j] *= 2
+											chesses[i][t] = 0
+											haveAction = true
+										}
+										break
+									}
+								}
+								// 寻找当前行/列前方是否有空栅格，是则移位
+								let cur = -1
+								for (let t=j+1; t<4; t++){
+									if (!chesses[i][t]) {
+										cur = t
+										haveAction = true
+									}else {
+										break
+									}
+								}
+								if (cur != -1) {
+									chesses[i][cur] = chesses[i][j]
+									chesses[i][j] = 0
+								}
+							}
+						}
+					}
+					if (haveAction) {
+						chessAll()
+						add()
+						isEnd()
+					}
 					break
 			}
 		}
@@ -80,11 +248,18 @@
 			ctx.fillStyle = '#bbada0'
 			roundRect(0,0,475,475,10)
 
-			// 绘制格子
-			ctx.fillStyle = '#ccc0b3'
+			chessAll()
+		}
+		// 遍历chesses数组，绘制所有格子
+		function chessAll(){
 			for (let i = 0; i < 4; i++) {
 				for (let j = 0; j < 4; j++){
-					roundRect(getCoordinate(i), getCoordinate(j))
+					if (chesses[i][j]) {
+						chesspiece(i, j, chesses[i][j])
+					}else {
+						ctx.fillStyle = '#ccc0b3'
+						roundRect(getCoordinate(j), getCoordinate(i))
+					}
 				}
 			}
 		}
@@ -112,7 +287,7 @@
 		 * @param  number 绘制哪个数字
 		 */
 		function chesspiece(i,j,number){
-			let x = getCoordinate(i), y = getCoordinate(j), textMaxWidth = 80
+			let x = getCoordinate(j), y = getCoordinate(i), textMaxWidth = 80
 			ctx.fillStyle = bgColors[number]
 			roundRect(x, y)
 
@@ -125,23 +300,32 @@
 			// 存储该棋子的位置以及数字值
 			chesses[i][j] = number
 		}
+		/**
+		 * 清除棋子
+		 * @param  i      栅格数
+		 * @param  j      栅格数
+		 */
+		function clearchess(i,j){
+			ctx.fillStyle = '#ccc0b3'
+			roundRect(getCoordinate(j), getCoordinate(i))
+
+			// 存储该棋子的位置以及数字值
+			chesses[i][j] = 0
+		}
 		// 根据栅格位置获取实际坐标
-		function getCoordinate(i){
-			return 15+(100+15)*i
+		function getCoordinate(a){
+			return 15+(100+15)*a
 		}
 		// 随机一个空位置出现2或4的小方块
 		function add(){
 			// 找到所有空栅格
-			let empty = []
-			for (let [i,row] of chesses.entries()){
-				for (let [j,chess] of row.entries()){
-					if (!chess) {
-						empty.push(`(${i},${j})`)
-					}
-				}
+			let emptyArr = empty()
+			if (emptyArr.length == 0) {
+				return
 			}
+			
 			// 随机选中一个空栅格，绘制一个初始化棋子
-			let checked = empty[Math.floor(Math.random()*empty.length)],
+			let checked = emptyArr[Math.floor(Math.random()*emptyArr.length)],
 					cooArr = checked.match(/^\((\d+),(\d+)\)$/),
 					number = initNumber[Math.floor(Math.random()*initNumber.length)]
 			chesspiece(cooArr[1], cooArr[2], number)
@@ -150,6 +334,66 @@
 		function start(){
 			add()
 			add()
+		}
+		// 找到所有空栅格
+		function empty(){
+			let empty = []
+			for (let [i,row] of chesses.entries()){
+				for (let [j,chess] of row.entries()){
+					if (!chess) {
+						empty.push(`(${i},${j})`)
+					}
+				}
+			}
+			return empty
+		}
+		function success(){
+			for (let i = 0; i < 4; i++) {
+				for (let j = 0; j < 4; j++){
+					if (chesses[i][j] == 8192) {
+						return true
+					}
+				}
+			}
+			return false
+		}
+		function isEnd(){
+			if (success()) {
+				document.querySelector('.pop .content').innerText = '你赢了'
+				document.querySelector('.pop').style.display = 'block'
+				window.onkeydown = () => false
+			}else if (fail()) {
+				// 没有空位并且每个栅格四周都没有相同的可合并的数字时，游戏失败
+				document.querySelector('.pop .content').innerText = '游戏失败'
+				document.querySelector('.pop').style.display = 'block'
+				window.onkeydown = () => false
+			}
+		}
+		function fail(){
+			for (let i = 0; i < 4; i++) {
+				for (let j = 0; j < 4; j++){
+					if (!chesses[i][j]) {
+						return false
+					}
+					let neighbor = []
+					if (i>0) {
+						neighbor.push(chesses[i-1][j])
+					}
+					if (i<3) {
+						neighbor.push(chesses[i+1][j])
+					}
+					if (j>0) {
+						neighbor.push(chesses[i][j-1])
+					}
+					if (j<3) {
+						neighbor.push(chesses[i][j+1])
+					}
+					if (neighbor.includes(chesses[i][j])) {
+						return false
+					}
+				}
+			}
+			return true
 		}
 	</script>
 </body>
