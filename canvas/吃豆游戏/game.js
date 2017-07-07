@@ -22,7 +22,8 @@ function Game(id, options) {
 			id: 0,					//舞台编号
 			status: 0,			//舞台状态：0 未激活 | 1 激活中
 			maps: [],
-			items: []
+			items: [],
+			// events: []
 		}, params)
 	}
 
@@ -78,23 +79,33 @@ function Game(id, options) {
 		return stage
 	}
 
+	this.jumpToStage = function () {
+		// _index = 
+	}
+
 	this.start = function () {
+		let f = 0
 		let fn = function () {
+			f++
+
+			_ctx.clearRect(0, 0, _this._width, _this._height)
 			_ctx.fillStyle = '#000'
-			_ctx.clearRect(0, 0, this._width, this._height)
+			_ctx.fillRect(0, 0, _this._width, _this._height)
 
 			_stages[_index].items.forEach(function(item, i, arr){
-				// console.log(item)
-				item.times==item.frames ? item.times=0 : item.times++
-				item.update()
+				
+				if (!(f % item.frames)) {
+					// if frames=3 ，即每三帧变化一次，变化的次数由times累计，此变化不同于update函数，而是反应在draw()里面的
+					item.times = f / item.frames
 
-				if (!item.times) {
-					console.log(1)
-					item.draw(_ctx)
 				}
+				// if (!item.times) {
+				// 	item.update()
+				// }
+
+				item.draw(_ctx)
 			})
 			_hander = window.requestAnimationFrame(fn)
-			// console.log(1)
 		}
 		_hander = window.requestAnimationFrame(fn)
 	}
