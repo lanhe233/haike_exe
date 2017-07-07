@@ -45,9 +45,11 @@ window.onload = function() {
 		y: game._height*0.4,
 		width: 100,
 		height: this.width,
+		frames: 30,	
 		draw (ctx) {
 			// 画player
-			let rate = 0.16
+			let rate = (this.times%this.frames)/60
+			// console.log(rate)
 			ctx.fillStyle = '#ffe600'
 			ctx.beginPath()
 			ctx.arc(this.x, this.y, this.width/2, rate*Math.PI, (2-rate)*Math.PI)
@@ -60,12 +62,18 @@ window.onload = function() {
 			ctx.beginPath()
 			ctx.arc(this.x+r-2, this.y-this.width/4, r, 0, Math.PI*2)
 			ctx.fill()
+		},
+		update () {
+			if (!this.times%frames) {
+
+			}
 		}
 	})
 	// 画游戏名
 	stage.createItem({
 		x: game._width/2,
 		y: game._height*0.6,
+		frames: 30,	
 		draw (ctx) {
 			ctx.fillStyle = '#fff'
 			ctx.font = '36px bold Helvetica'
@@ -77,6 +85,7 @@ window.onload = function() {
 	stage.createItem({
 		x: game._width/2,
 		y: game._height*0.96,
+		frames: 30,	
 		draw (ctx) {
 			ctx.fillStyle = '#fff'
 			ctx.font = '16px Source Code Pro'

@@ -47,14 +47,17 @@ function Game(id, options) {
 			y: 0,
 			width: 20,
 			height: 20,
+			frames: 1,			//多少帧变化一次
+			times: 0,				//计算已经走过的帧数
 			draw () {},
 			update () {}
 		}, params)
 	}
 
 	let _stages = [],	//舞台数组
-			_index = 0		//当前位于哪个舞台（舞台数组下标）
+			_index = 0,		//当前位于哪个舞台（舞台数组下标）
 			// _items = []
+			_hander				//动画
 
 	Stage.prototype.createMap =  function (params) {
 		
@@ -76,9 +79,24 @@ function Game(id, options) {
 	}
 
 	this.start = function () {
-		_stages[_index].items.forEach(function(item, i, arr){
-			item.draw(_ctx)
-		})
+		let fn = function () {
+			_ctx.fillStyle = '#000'
+			_ctx.clearRect(0, 0, this._width, this._height)
+
+			_stages[_index].items.forEach(function(item, i, arr){
+				// console.log(item)
+				item.times==item.frames ? item.times=0 : item.times++
+				item.update()
+
+				if (!item.times) {
+					console.log(1)
+					item.draw(_ctx)
+				}
+			})
+			_hander = window.requestAnimationFrame(fn)
+			// console.log(1)
+		}
+		_hander = window.requestAnimationFrame(fn)
 	}
 
 	this.init = function () {
