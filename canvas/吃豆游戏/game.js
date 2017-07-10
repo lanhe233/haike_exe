@@ -9,7 +9,7 @@ function Game(id, options) {
 
 	Object.assign(this, {
 		_width: 960,
-		_height: 600
+		_height: 640
 	}, options)
 
 	let _cvs = document.getElementById(id)
@@ -30,12 +30,31 @@ function Game(id, options) {
 	let Map = function (params) {
 		Object.assign(this, {
 			id: 0,					//地图编号
+			x: 0,
+			y: 0,
 			status: 0,			//地图状态：0 未激活 | 1 激活中
 			stage: null,		//该地图绑定的舞台
 			data: null,			//地图数据
+			imageData: null,
+			size: 20,
 			draw () {},
 			update () {}
 		}, params)
+	}
+
+	Map.prototype.get = function (i, j) {
+		// bug 不能用 Boolean(this.data[j][i]), 因为this.data[j][i]的值有可能为0，但它是有值的
+		if (this.data[j] && this.data[j][i] != undefined) {
+			return this.data[j][i]
+		}
+		return -1
+	}
+
+	Map.prototype.getPos = function (i, j) {
+		return {
+			x: this.size / 2 + i * this.size,
+			y: this.size / 2 + j * this.size
+		}
 	}
 
 	let Item = function (params) {
@@ -61,15 +80,22 @@ function Game(id, options) {
 			_hander				//动画
 
 	Stage.prototype.createMap =  function (params) {
+		let map = new Map(params)
+		map.id = this.maps.length
+		// map.stage = this
 		
+		this.maps.push(map)
 	}
 
 	Stage.prototype.createItem = function (params) {
 		let item = new Item(params)
 		item.id = this.items.length
-		this.items.push(item)
 		// item.stage = this
+		this.items.push(item)
 		// return item
+	}
+	Stage.prototype.bind = function (eventType, callback) {
+		window.addEventListener(eventType, callback)
 	}
 
 	this.createStage = function (params) {
@@ -79,9 +105,10 @@ function Game(id, options) {
 		return stage
 	}
 
-	this.jumpToStage = function () {
-		// _index = 
+	this.jumpToStage = function (id) {
+		// _index = id
 	}
+
 
 	this.start = function () {
 		let f = 0
@@ -92,6 +119,13 @@ function Game(id, options) {
 			_ctx.fillStyle = '#000'
 			_ctx.fillRect(0, 0, _this._width, _this._height)
 
+			_stages[_index].maps.forEach(function(map, i, arr){
+				if (!map.imageData) {
+					map.draw(_ctx)
+					map.imageData = _ctx.getImageData(0, 0, _this._width, _this._height)
+				}
+				_ctx.putImageData(map.imageData, 0, 0)
+			})
 			_stages[_index].items.forEach(function(item, i, arr){
 				
 				if (!(f % item.frames)) {
@@ -111,7 +145,7 @@ function Game(id, options) {
 	}
 
 	this.init = function () {
-		_index = 0
+		_index = 1
 		this.start()
 	}
 

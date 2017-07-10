@@ -1,40 +1,47 @@
 
-
-/*
-let cvs = document.getElementById('canvas')
-cvs.width = 960
-cvs.height = 600
-let ctx = cvs.getContext('2d')
-
-
-// 画player
-ctx.fillStyle = '#ffe600'
-ctx.beginPath()
-ctx.arc(20, 20, 18, 0.25*Math.PI, (2-0.25)*Math.PI)
-ctx.lineTo(20, 20)
-ctx.fill()
-
-// 画有眼睛的player
-ctx.fillStyle = '#ffe600'
-ctx.beginPath()
-ctx.arc(180, 60, 50, 0.25*Math.PI, (2-0.25)*Math.PI)
-ctx.lineTo(180, 60)
-ctx.fill()
-
-ctx.fillStyle = '#000'
-ctx.beginPath()
-ctx.arc(180+5, 60-25, 7, 0, Math.PI*2)
-ctx.fill()
-
-
-// 画文字
-ctx.fillStyle = '#fff'
-ctx.font = '36px blod'
-ctx.textAlign = 'center'
-ctx.fillText('Pac-Man', ctx.canvas.width/2, 50)
-*/
-
 (function(){
+	const _MAPDATA = [		//地图数据
+		[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+		[1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1],
+		[1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1],
+		[1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1],
+		[1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1],
+		[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+		[1,0,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,0,1],
+		[1,0,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,0,1],
+		[1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1],
+		[1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1],
+		[1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1],
+		[1,1,1,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,1,1,1,1],
+		[1,1,1,1,1,1,0,1,1,0,1,1,1,2,2,1,1,1,0,1,1,0,1,1,1,1,1,1],
+		[1,1,1,1,1,1,0,1,1,0,1,2,2,2,2,2,2,1,0,1,1,0,1,1,1,1,1,1],
+		[0,0,0,0,0,0,0,0,0,0,1,2,2,2,2,2,2,1,0,0,0,0,0,0,0,0,0,0],
+		[1,1,1,1,1,1,0,1,1,0,1,2,2,2,2,2,2,1,0,1,1,0,1,1,1,1,1,1],
+		[1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1],
+		[1,1,1,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,1,1,1,1],
+		[1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1],
+		[1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1],
+		[1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1],
+		[1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1],
+		[1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1],
+		[1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1],
+		[1,1,1,0,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,1,1,1],
+		[1,1,1,0,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,1,1,1],
+		[1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1],
+		[1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1],
+		[1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1],
+		[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+		[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+	],
+	_GOODS = {			//能量豆
+		'1,3':1,
+		'26,3':1,
+		'1,23':1,
+		'26,23':1
+	},
+	_COS = [0, 1, 0, -1],
+	_SIN = [1, 0, -1, 0]
+
 	let game = new Game('canvas')
 	
 	// 配置启动页
@@ -88,20 +95,89 @@ ctx.fillText('Pac-Man', ctx.canvas.width/2, 50)
 				ctx.fillText('按[空格]暂停或继续', this.x, this.y)
 			}
 		})
-				console.log(this)
 		// 绑定事件
-		stage.onkeydown = function(e){
+		stage.bind('keydown',function(e){
 			// 空格或回车
 			if (e.keyCode == 32 || e.keyCode == 13) {
-				game.jumpToStage()
-				console.log(this)
+				game.jumpToStage(stage.id + 1)
 			}
-		}
+		})
 	})()
 
 	// 配置游戏页
 	!(function(){
 		let stage = game.createStage()
+
+		stage.createMap({
+			x: 60,
+			y: 10,
+			data: _MAPDATA,
+			draw (ctx) {
+				ctx.save()
+				ctx.translate(this.x, this.y)
+
+				for (let j = 0; j < this.data.length; j++){
+					for (let i = 0; i < this.data[0].length; i++){
+						let value = this.get(i, j), 
+								code = [0, 0, 0, 0]
+
+						if (value) {
+							if (this.get(i+1, j)&&!(this.get(i+1, j-1)&&this.get(i+1, j+1)&&this.get(i, j-1)&&this.get(i, j+1))) {
+								code[0] = 1
+							}
+							if (this.get(i, j+1)&&!(this.get(i+1, j)&&this.get(i+1, j+1)&&this.get(i-1, j)&&this.get(i-1, j+1))) {
+								code[1] = 1
+							}
+							if (this.get(i-1, j)&&!(this.get(i-1, j-1)&&this.get(i-1, j+1)&&this.get(i, j-1)&&this.get(i, j+1))) {
+								code[2] = 1
+							}
+							if (this.get(i, j-1)&&!(this.get(i-1, j-1)&&this.get(i-1, j)&&this.get(i+1, j-1)&&this.get(i+1, j))) {
+								code[3] = 1
+							}
+						}
+						if (code.includes(1)) {
+							let pos = this.getPos(i, j)
+
+							ctx.strokeStyle = '#09c'
+							ctx.beginPath()
+							// ？ 自己设想的情况， 0110 和 1001 是相反的
+							switch(code.join('')){
+								case '1100':
+									ctx.arc(pos.x + this.size / 2, pos.y + this.size / 2, this.size / 2, Math.PI, 1.5 * Math.PI)
+									break
+								case '0110':
+									ctx.arc(pos.x - this.size / 2, pos.y + this.size / 2, this.size / 2, 1.5 * Math.PI, 2 * Math.PI)
+									break
+								case '0011':
+									ctx.arc(pos.x - this.size / 2, pos.y - this.size / 2, this.size / 2, 0, 0.5 * Math.PI)
+									break
+								case '1001':
+									ctx.arc(pos.x + this.size / 2, pos.y - this.size / 2, this.size / 2, 0.5 * Math.PI, Math.PI)
+									break
+								default:
+									for (let c in code){
+										if (code[c]) {
+											ctx.moveTo(pos.x, pos.y)
+											// ？ 把 getPos() 改为i->x,j->y，并且这里_SIN和_COS调换，地图才是正的，而不是翻转了90度
+											ctx.lineTo(pos.x + _SIN[c] * this.size / 2, pos.y + _COS[c] * this.size / 2)
+										}
+									}
+									break
+							}
+							ctx.stroke()
+						}
+					}
+				}
+				ctx.restore()
+			}
+		})
+		stage.createItem({
+			x: 800,
+			y: 10,
+			draw (ctx) {
+				
+			}
+		})
 	})()
 	
 	// 启动canvas
