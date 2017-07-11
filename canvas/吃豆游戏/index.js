@@ -79,7 +79,7 @@
 			y: game._height*0.6,
 			draw (ctx) {
 				ctx.fillStyle = '#fff'
-				ctx.font = '36px bold Helvetica'
+				ctx.font = 'bold 36px Helvetica'
 				ctx.textAlign = 'center'
 				ctx.fillText('Pac-Man', this.x, this.y)
 			}
@@ -90,7 +90,7 @@
 			y: game._height*0.96,
 			draw (ctx) {
 				ctx.fillStyle = '#fff'
-				ctx.font = '16px Source Code Pro'
+				ctx.font = 'normal 16px Source Code Pro'
 				ctx.textAlign = 'center'
 				ctx.fillText('按[空格]暂停或继续', this.x, this.y)
 			}
@@ -172,10 +172,13 @@
 			}
 		})
 		stage.createItem({
-			x: 800,
-			y: 10,
+			x: 690,
+			y: 95,
 			draw (ctx) {
-				
+				ctx.fillStyle = '#f00'
+				ctx.font = 'bold 28px Arial'
+				ctx.fillText('SCORE', this.x, this.y)
+				ctx.fillText()
 			}
 		})
 	})()

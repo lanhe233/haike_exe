@@ -106,7 +106,7 @@ function Game(id, options) {
 	}
 
 	this.jumpToStage = function (id) {
-		// _index = id
+		_index = id
 	}
 
 
@@ -145,7 +145,7 @@ function Game(id, options) {
 	}
 
 	this.init = function () {
-		_index = 1
+		_index = 0
 		this.start()
 	}
 
