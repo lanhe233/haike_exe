@@ -40,7 +40,10 @@
 		'26,23':1
 	},
 	_COS = [0, 1, 0, -1],
-	_SIN = [1, 0, -1, 0]
+	_SIN = [1, 0, -1, 0],
+	_LIFE = 3
+
+	let score = 0
 
 	let game = new Game('canvas')
 	
@@ -52,7 +55,7 @@
 			x: game._width/2,
 			y: game._height*0.4,
 			width: 100,
-			height: this.width,
+			height: 100,
 			frames: 4,
 			draw (ctx) {
 				// 画player
@@ -107,20 +110,21 @@
 	// 配置游戏页
 	!(function(){
 		let stage = game.createStage()
-
+		
+		// 地图
 		stage.createMap({
 			x: 60,
 			y: 10,
 			data: _MAPDATA,
 			draw (ctx) {
-				ctx.save()
-				ctx.translate(this.x, this.y)
+				// ctx.save()
+				// ctx.translate(this.x, this.y)
 
 				for (let j = 0; j < this.data.length; j++){
 					for (let i = 0; i < this.data[0].length; i++){
 						let value = this.get(i, j), 
 								code = [0, 0, 0, 0]
-
+						
 						if (value) {
 							if (this.get(i+1, j)&&!(this.get(i+1, j-1)&&this.get(i+1, j+1)&&this.get(i, j-1)&&this.get(i, j+1))) {
 								code[0] = 1
@@ -166,11 +170,28 @@
 							}
 							ctx.stroke()
 						}
+						// let ccc = 0
+						// if (value==0 && ccc==0) {
+						// 	ccc++;
+						// 	let pos = this.getPos(i, j), width = 5
+						// 	// stage.createItem({
+						// 	// 	x: pos.x,
+						// 	// 	y: pos.y,
+						// 	// 	width: 5,
+						// 	// 	height: 5,
+						// 	// 	draw (ctx) {
+						// 			ctx.fillStyle = '#fff'
+						// 			ctx.beginPath()
+						// 			ctx.fillRect(pos.x - width/2, pos.y - width/2, width, width)
+						// 		// }
+						// 	// })
+						// }
 					}
 				}
-				ctx.restore()
+				// ctx.restore()
 			}
 		})
+		// 分数
 		stage.createItem({
 			x: 690,
 			y: 95,
@@ -178,7 +199,79 @@
 				ctx.fillStyle = '#f00'
 				ctx.font = 'bold 28px Arial'
 				ctx.fillText('SCORE', this.x, this.y)
-				ctx.fillText()
+				ctx.fillStyle = '#fff'
+				ctx.font = '28px Arial'
+				ctx.fillText(score, this.x + 10, this.y + 30)
+			}
+		})
+		// 生命
+		stage.createItem({
+			x: 690,
+			y: game._height*.85,
+			width: 30,
+			height: 30,
+			draw (ctx) {
+				let coord = (x, i) => x + this.width/2 + (this.width + 12) * i
+				
+				ctx.fillStyle = '#FFE600'																																																																																																																																																																																																																										
+				for (let i = 0; i < _LIFE; i++) {
+					ctx.beginPath()
+					ctx.arc(coord(this.x, i), this.y, this.width/2, 0.2 * Math.PI, 1.8 * Math.PI)
+					ctx.lineTo(coord(this.x, i), this.y)
+					ctx.fill()
+				}
+			}
+		})
+		// 游戏状态
+		stage.createItem({
+			x: 690,
+			y: game._height*.55,
+			draw (ctx) {
+				// 舞台暂停时显示，并且要有一闪一闪的效果
+				if (stage.status==1 && this.times%50>25) {
+					ctx.fillStyle = '#09F'
+					ctx.font = '24px Arial'
+					ctx.fillText('PAUSE', this.x, this.y)
+				}
+			}
+		})
+		// 豆子
+		let map = stage.maps[0]
+		for(let i = 0; i < map.data[0].length; i++){
+			for(let j = 0; j < map.data.length; j++){
+				if (map.get(i, j)==0) {
+					let pos = map.getPos(i, j)
+					stage.createItem({
+						x: pos.x,
+						y: pos.y,
+						width: 5,
+						height: 5,
+						draw (ctx) {
+							ctx.fillStyle = '#fff'
+							ctx.beginPath()
+							ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height)
+						}
+					})
+				}
+			}
+		}
+		// 绑定键盘事件
+		stage.bind('keydown', function(e){
+			if (e.keyCode==13 || e.keyCode==32) {
+				// 注意，这里的this并不是stage，所以需要在bind实现函数里去绑定作用域
+				this.status = this.status==1 ? 0 : 1
+			}
+			if (e.keyCode==38) {
+				// 上
+			}
+			if (e.keyCode==40) {
+				// 下
+			}
+			if (e.keyCode==37) {
+				// 左
+			}
+			if (e.keyCode==39) {
+				// 右
 			}
 		})
 	})()

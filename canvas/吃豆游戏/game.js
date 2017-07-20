@@ -52,8 +52,8 @@ function Game(id, options) {
 
 	Map.prototype.getPos = function (i, j) {
 		return {
-			x: this.size / 2 + i * this.size,
-			y: this.size / 2 + j * this.size
+			x: this.x + this.size / 2 + i * this.size,
+			y: this.y + this.size / 2 + j * this.size
 		}
 	}
 
@@ -95,7 +95,9 @@ function Game(id, options) {
 		// return item
 	}
 	Stage.prototype.bind = function (eventType, callback) {
-		window.addEventListener(eventType, callback)
+		window.addEventListener(eventType, (e) => {
+			callback.call(this, e)
+		})
 	}
 
 	this.createStage = function (params) {
@@ -145,7 +147,7 @@ function Game(id, options) {
 	}
 
 	this.init = function () {
-		_index = 0
+		_index = 1
 		this.start()
 	}
 
