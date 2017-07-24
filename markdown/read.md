@@ -19,15 +19,33 @@
 		a{color:inherit}
 		div:after{border:inherit;background:inherit}
 6.	vw vh vmax vmin
+应用：查看大图 以图片原大小显示，但不能超出视窗，且维持比例
 
-		应用：查看大图 以图片原大小显示，但不能超出视窗，且维持比例
-			img{
-				display: block;
-				max-width: 90vw;
-				max-height: 90vh;
-				position: relative;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%,-50%);
-			}
-			其实直接用%作单位就可以了。。。用不着vw
+		img{
+			display: block;
+			max-width: 90vw;
+			max-height: 90vh;
+			position: relative;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+		}
+
+其实直接用%作单位就可以了。。。用不着vw
+
+7.	一些不熟悉的css
+8.	
+		column-width
+		column-count
+		
+9.	background-clip
+半透明边框
+
+		width: 200px;
+		height: 200px;
+		background-color: #fff;
+		border: 50px solid rgba(0,0,0,.5);
+		background-clip: padding-box;
+
+10.	background、box-shadow等多重的，都是前者覆盖后者
+

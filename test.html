@@ -12,7 +12,6 @@
 		html,body{
 			width: 100%;
 			min-height: 100%;
-			overflow: hidden;
 		}
 		input{
 			font: inherit;
@@ -20,20 +19,71 @@
 		a{
 			color: inherit;
 		}
-		img{
-			min-width: 100%;
-			min-height: 100%;
-			position:relative;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%,-50%);
-			border: 1px solid red;
+		button{
+			color: #fff;
+			outline: none;
+			font-size: 1em;
+			line-height: 1.25;
+			padding: .3em 1em;
+			border: 1px solid #446d88;
+			border-radius: 5px;
+			background: #058 linear-gradient(rgba(255,255,255,.5),transparent);
+		}
+		.bg{
+			width: 100%;
+			height: 500px;
+			background: url(./images/imooc-logo2.png) no-repeat top center/100px 100px,
+									url(./images/imooc-logo1.png) no-repeat bottom center/100px 100px,
+									url(./images/1.jpg) no-repeat center/ cover;
+		}
+		.opacity{
+			width: 100px;
+			height: 100px;
+			background-color: #fff;
+			border: 15px solid rgba(255,255,255,.4);
+			background-clip: content-box;
+			margin: 0 auto;
+		}
+		.box{
+			width: 200px;
+			height: 200px;
+			background: url(./images/1.jpg) no-repeat center/cover;
+			padding-top: 50px;
+		}
+		.shadow{
+			margin: 20px;
+			width: 100px;
+			height: 100px;
+			border-radius: 5px;
+			box-shadow: 0 0 0 5px #655,
+									0 0 0 10px deeppink;
+		}
+		.shadow1{
+			width: 100px;
+			height: 100px;
+			box-shadow: 0 0 10px 0 #655;
+			margin: 50px;
+			cursor: pointer;
+		}
+		.outline{
+			width: 200px;
+			height: 200px;
+			margin: 20px;
+			background-color: #655;
+			/*border: 20px solid #655;*/
+			outline: 1px dashed #fff;
+			border-radius: 5px;
+			outline-offset: -10px;
+			padding: 10px;
 		}
 	</style>
 </head>
 <body>
-		<!-- <video src="http://static.ilongyuan.cn/ld/voez/voez5_hd.mp4" autoplay loop></video> -->
-		<img src="http://static.ilongyuan.cn/ld/voez/imgpc/guide_videoBg.png">
+		<button>确定</button>
+		<div class="box"><div class="opacity"></div></div>
+		<div class="shadow"></div>
+		<div class="shadow1"></div>
+		<div class="outline">软</div>
 	<script>
 		
 	</script>
