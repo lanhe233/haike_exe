@@ -34,12 +34,13 @@
 其实直接用%作单位就可以了。。。用不着vw
 
 7.	一些不熟悉的css
-8.	
+
 		column-width
 		column-count
+		outline-offset 可负值
 		
-9.	background-clip
-半透明边框
+8.	background-clip
+半透明边框，自测ie9以上有效
 
 		width: 200px;
 		height: 200px;
@@ -47,5 +48,13 @@
 		border: 50px solid rgba(0,0,0,.5);
 		background-clip: padding-box;
 
-10.	background、box-shadow等多重的，都是前者覆盖后者
+9.	background、box-shadow等多重的，都是前者覆盖后者
 
+10. 最好写回退机制，自测ie9以上有效
+
+		background-positon:right 10px bottom 5px;
+	与background-origin配合使用，可在padding弹性的情况下自适应。
+	或者（ie10都不兼容）
+
+		background-position:calc(100% - 20px) calc(100% - 10px);
+	

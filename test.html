@@ -76,6 +76,23 @@
 			outline-offset: -10px;
 			padding: 10px;
 		}
+		.background{
+			width: 200px;
+			height: 200px;
+			border: 1px solid #aaa; 
+			background: url(./images/1.jpg) no-repeat calc(100% - 20px) calc(100% - 10px) / 50px 50px;
+			/*background: url(./images/1.jpg) no-repeat right 20px bottom 10px / 50px 50px;*/
+		}
+		.strange{
+			width: 200px;
+			line-height: 1.8;
+			padding: .8em;
+			background: tan;
+			margin: 20px;
+			border-radius: .8em;
+			outline: .6em solid #655;
+			box-shadow: 0 0 0 .5em #655;
+		}
 	</style>
 </head>
 <body>
@@ -84,6 +101,11 @@
 		<div class="shadow"></div>
 		<div class="shadow1"></div>
 		<div class="outline">软</div>
+		<div class="background"></div>
+		<div class="input"></div>
+		
+		这个方法有限制 一来描边不跟着圆角走在未来很可能改变，二来描边必须大于r*（2^-1）才能保证阴影有足够的空间覆盖满圆角
+		<div class="strange">I have a nice radius.I have a nice radius.</div>
 	<script>
 		
 	</script>
