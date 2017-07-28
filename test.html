@@ -93,6 +93,50 @@
 			outline: .6em solid #655;
 			box-shadow: 0 0 0 .5em #655;
 		}
+		.gradient{
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			background: linear-gradient(#fb3 20%,#58a 80%);
+		}
+		.stripe{
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			background: linear-gradient(#fb3 50%,#58a 0%) repeat-y center/100% 20%;
+			border: 10px solid transparent;
+			border-image: linear-gradient(#fb3 50%,#58a 50%) 27 27 27 27 / 10px / 10px round;
+			background-clip: padding-box;
+		}
+		.oblique{
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			background: linear-gradient(45deg,#fb3 25%,#58a 25%,#58a 50%,#fb3 50%,#fb3 75%,#58a 0%) repeat center / 40% 40% ;
+		}
+		.repeat-obique{
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			background: repeating-linear-gradient(60deg,#fb3,#fb3 15px,#58a 0,#58a 30px) repeat;
+		}
+		.shenqian{
+			background: repeating-linear-gradient(60deg, rgba(255,255,255,.2),rgba(255,255,255,.2) 15px,transparent 0,transparent 30px) #58a repeat;
+		}
+		.svg{
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			background: #eee url(data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill-opacity=".25"><rect x="50" width="50" height="50" /><rect y="50" width="50" height="50" /></svg>) center / 30px 30px;
+			background: #eee url('data:image/svg+xml,\
+ <svg xmlns="http://www.w3.org/2000/svg" \
+ width="100" height="100" \
+ fill-opacity=".25">\
+ <rect x="50" width="50" height="50" /> \
+ <rect y="50" width="50" height="50" /> \
+ </svg>') center / 30px 30px;
+		}
+		
 	</style>
 </head>
 <body>
@@ -106,6 +150,23 @@
 		
 		这个方法有限制 一来描边不跟着圆角走在未来很可能改变，二来描边必须大于r*（2^-1）才能保证阴影有足够的空间覆盖满圆角
 		<div class="strange">I have a nice radius.I have a nice radius.</div>
+
+		渐变(前后有一定实心，只在中间部分渐变)
+		<div class="gradient"></div>
+
+		渐变（利用实心渐变做条纹效果）
+					实心条纹效果的渐变色的最后一个颜色的百分比可以设置为0%，这样他默认会从上一个颜色的百分值开始走
+		<div class="stripe"></div>
+
+		渐变（斜条纹） 然而只能是45度
+		<div class="oblique"></div>
+
+		渐变（斜条纹且非45度），采用repeat-linear-gradient
+		<div class="repeat-obique"></div>
+		<div class="repeat-obique shenqian"></div>
+
+		svg
+		<div class="svg"></div>
 	<script>
 		
 	</script>
