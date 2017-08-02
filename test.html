@@ -18,6 +18,10 @@
 		}
 		a{
 			color: inherit;
+			text-decoration: none;
+		}
+		ul{
+			list-style: none;
 		}
 		button{
 			color: #fff;
@@ -136,10 +140,236 @@
  <rect y="50" width="50" height="50" /> \
  </svg>') center / 30px 30px;
 		}
-		
+		.random_bg{
+			width: 200px;
+			height: 200px;
+			margin: 10px;
+			border: 1px solid #aaa;
+			/*background: linear-gradient(90deg, #fb3 23px,#ab4 0, #ab4 41px, #655 0, #655 67px, hsl(20, 40%, 90%) 0) left / 53px 100%;*/
+			background: linear-gradient(90deg, #fb3 11px, transparent 0) left / 41px 100%,
+				linear-gradient(90deg, #ab4 23px, transparent 0) left / 61px 100%,
+				linear-gradient(90deg, #655 41px, transparent 0) left / 83px 100%;
+				background-color: hsl(20, 40%, 90%);
+		}
+		.imagebg{
+			width: 400px;
+			margin: 10px;
+			padding: 20px;
+			font: 20px/1.4 "Helvetica";
+			letter-spacing: 1px;
+			background: linear-gradient(#fff,#fff) padding-box,
+				url(./images/1.jpg) border-box no-repeat center / cover;
+			border: 20px solid transparent;
+			background-origin: border-box;
+		}
+		.ants{
+			width: 200px;
+			height: 100px;
+			margin: 10px;
+			border: 1px solid transparent;
+			background: linear-gradient(#fff,#fff) padding-box,
+				repeating-linear-gradient(-45deg ,#000 0,#000 4px,#fff 0, #fff 7px) border-box 0 / 20%;
+			background-origin: border-box;
+			animation: pos 12s linear infinite;
+		}
+		@keyframes pos{
+			0{
+				background-position: 0%;
+			}
+			100%{
+				background-position: 100%;
+			}
+		}
+		.marching-ants {
+			width: 200px;
+			height: 100px;
+			padding: 1em;
+			margin: 10px;
+			border: 1px solid transparent;
+			background:
+			linear-gradient(white, white) padding-box,
+			repeating-linear-gradient(-45deg,
+			black 0, black 25%, white 0, white 50%
+			 ) 0 / .6em .6em;
+			animation: ants 12s linear infinite;
+		}
+		@keyframes ants { 
+			to { background-position: 100% } 
+		}
+		.radius{
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			background-color: #fdc110;
+			border-radius: 50%;
+		}
+		.half-radius{
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			background-color: #fdc110;
+			border-radius: 50% 50% 0 0/ 100% 100% 0 0;
+		}
+		.parallelogram{
+
+		}
+		.parallelogram-nav{
+			margin: 10px;
+			padding: 0 40px;
+			overflow: hidden;
+		}
+		.parallelogram-nav li{
+			float: left;
+			transform: skew(-45deg);
+			/*position: relative;*/
+			padding: 15px 20px;
+			background-color: #1b98d3;
+			text-align: center;
+			margin-left: -1px;
+			cursor: pointer;
+		}
+		.parallelogram-nav li a{
+			color: #fff;
+			display: block;
+			transform: skew(45deg);
+		}
+		.parallelogram-nav li.active,
+		.parallelogram-nav li:hover{
+			background-color: #2480b5; 
+		}
+		.diamond{
+			width: 100px;
+			height: 100px;
+			margin: 35px;
+			transform: rotate(-45deg);
+			overflow: hidden;
+		}
+		.diamond img{
+			width: 100%;
+			height: 100%;
+			transition: all .5s linear;
+			transform: rotate(45deg) scale(1.42,1.42);
+		}
+		.diamond:hover img{
+			transform: rotate(45deg) scale(1.7,1.7);
+		}
+		.qiejiao{
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			padding: 15px 20px;
+			background: linear-gradient(-45deg,transparent 10%,#58a 0);
+		}
+		.acrqiejiao{
+			width: 200px;
+			height: 100px;
+			margin: 10px;
+			background: #58a;
+			background: radial-gradient(circle at top left ,transparent 15px,#58a 0) top left,
+				radial-gradient(circle at top right,transparent 15px,#58a 0) top right,
+				radial-gradient(circle at bottom left,transparent 15px,#58a 0) bottom left,
+				radial-gradient(circle at bottom right,transparent 15px,#58a 0) bottom right;
+			background-size: 50%;
+			background-repeat: no-repeat;
+		}
+		.trapezoid{
+			margin: 10px;
+			overflow: hidden;
+		}
+		.trapezoid li{
+			display: inline-block;
+			float: left;
+			padding: 10px 30px;
+			position: relative;
+			color: #fff;
+			cursor: pointer;
+		}
+		.trapezoid li:before{
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: #1b98d3;
+			border-radius: 15px 15px 0 0;
+			z-index: -1;
+			transform-origin: bottom;
+			transform: perspective(100px) rotateX(45deg) scaleY(2.4);
+		}
+		.trapezoid li:hover:before{
+			background-color: #2480b5;
+		}
+		.trapezoid.left  li{
+			padding-left: 10px;
+			padding-right: 40px;
+		}
+		.trapezoid.left  li:before{
+			transform-origin: left bottom;
+		}
+		.boxshadow{
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			background-color: lightgreen;
+			box-shadow: 0 5px 4px -4px rgba(0,0,0,.5);
+		}
+		.filter-animation{
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			background-color: lightgreen;
+			filter: blur(5px);
+			filter: hue-rotate(0);
+    	animation: hue 2s linear infinite;
+		}
+		@keyframes hue{
+			0%{
+				filter: hue-rotate(0deg);
+			}
+			100%{
+				filter: hue-rotate(360deg);
+			}
+		}
+		.filter{
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			background-color: lightgreen;
+			filter: blur(5px);
+		}
 	</style>
 </head>
 <body>
+
+
+
+
+		<div class="filter"></div>
+
+		<div class="filter-animation"></div>
+
+		单边投影（模糊半径和扩张半径互为相反数，单向有偏移时）
+		<div class="boxshadow"></div>
+
+		<ul class="trapezoid">
+			<li>HOME</li>
+			<li class="active">ABOUT</li>
+			<li>SIKLLS</li>
+			<li>EXPERIENCE</li>
+			<li>PORTFOLIO</li>
+		</ul>
+		<ul class="trapezoid left">
+			<li>HOME</li>
+			<li class="active">ABOUT</li>
+			<li>SIKLLS</li>
+			<li>EXPERIENCE</li>
+			<li>PORTFOLIO</li>
+		</ul>
+
+		<div class="acrqiejiao"></div>
+		<div class="qiejiao"></div>
+
 		<button>确定</button>
 		<div class="box"><div class="opacity"></div></div>
 		<div class="shadow"></div>
@@ -167,6 +397,31 @@
 
 		svg
 		<div class="svg"></div>
+
+		<div class="random_bg"></div>
+
+		ie10+支持
+		<div class="imagebg">We all have a family. we have seen so many divorces! </div>
+
+		<div class="ants"></div>
+
+		<div class="marching-ants"></div>
+
+		<div class="half-radius"></div>
+
+		<div class="parallelogram"></div>
+		<ul class="parallelogram-nav">
+			<li><a href="javascript:;">HOME</a></li>
+			<li class="active"><a href="javascript:;">ABOUT</a></li>
+			<li><a href="javascript:;">SIKLLS</a></li>
+			<li><a href="javascript:;">EXPERIENCE</a></li>
+			<li><a href="javascript:;">PORTFOLIO</a></li>
+			<li><a href="javascript:;">CONTACT</a></li>
+		</ul>
+
+		<div class="diamond"><img src="./images/img-eb27b16f4d89cbf5badde1a8dfcc07d3.jpg"></div>
+
+
 	<script>
 		
 	</script>

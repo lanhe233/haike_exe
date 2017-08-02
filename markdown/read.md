@@ -47,6 +47,7 @@
 		background-color: #fff;
 		border: 50px solid rgba(0,0,0,.5);
 		background-clip: padding-box;
+		background-blend-mode 背景层的混合模式
 
 9.	background、box-shadow等多重的，都是前者覆盖后者
 
@@ -58,3 +59,9 @@
 
 		background-position:calc(100% - 20px) calc(100% - 10px);
 	
+11. 2-7 伪随机背景，同时可应用与伪随机照片旋转，伪随机循环动画
+	参数不好调
+
+12. clip-path P93 没怎么看懂、
+
+13. 看到p95 
