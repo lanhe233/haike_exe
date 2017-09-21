@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>登录/注册</title>
+		<link rel="stylesheet" type="text/css" href="css/mian.css">
+	</head>
+	<body>
+		<div id="bg"></div>
+		<div id="clock"></div>
+		<div class="login-form">
+			<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+			<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+			<div class="sign-in-html">
+				<form class="form1" action="">
+					<div class="group">
+						<label for="user" class="label">Username</label>
+						<input name="user" id="user" type="text" class="input">
+					</div>
+					<div class="group">
+						<label for="pass" class="label">Password</label>
+						<input name="password" id="pass" type="password" class="input" data-type="password">
+					</div>
+					<div class="group">
+						<input id="check" name="check" type="checkbox" class="check" checked>
+						<label for="check"><span class="icon"></span>Keep me Signed in</label>
+					</div>
+					<div class="group">
+						<input id="sign-in-button" type="button" class="button" value="Sign In">
+					</div>
+					<div class="hr"></div>
+					<div class="foot-lnk">
+						<a href="#">Forgot Password?</a>
+					</div>
+				</form>
+			</div>
+			<div class="sign-up-html">
+				<form class="form2" action="">
+					<div class="group">
+						<label for="username" class="label">Username</label>
+						<input name="user" id="username" type="text" class="input">
+					</div>
+					<div class="group">
+						<label for="pass1" class="label">Password</label>
+						<input name="password" id="pass1" type="password" class="input" data-type="password">
+					</div>
+					<div class="group">
+						<label for="pass2" class="label">Password</label>
+						<input name="password" id="pass2" type="password" class="input" data-type="password">
+					</div>
+					<div class="group">
+						<label for="email" class="label">Email Address</label>
+						<input id="email" name="email" type="text" class="input">
+					</div>
+					<div class="group">
+						<input id="sign-up-button" type="submit" class="button" value="Sign Up">
+					</div>
+					<div class="hr"></div>
+					<div class="foot-lnk">
+						<label for="tab-1">Already Member?</label>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="position">
+			<div class="position-box">
+				<div class="position-box-head">
+					<P>获取位置信息</P>
+				</div>
+				<div class="position-box-content">
+					<p>是否同意获取您的位置信息？<br>声明：该位置信息只用于测试，不同做任何商业用途！</p>
+				</div>
+				<div class="position-box-footer">
+					<button type="button" id="position-no">忽略</button>
+					<button type="button" id="position-ok">同意</button>
+				</div>
+			</div>
+		</div>
+		<div id="position_status"></div>
+		<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+	</body>
+</html>

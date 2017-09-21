@@ -1,0 +1,6 @@
+[0103/175230:ERROR:scoped_process_suspend.cc(30)] NtSuspendProcess: 已尝试访问正在退出的过程。  (0xc000010a)
+[0103/175230:ERROR:process_info.cc(103)] ReadProcessMemory bool __cdecl crashpad::`anonymous-namespace'::ReadStruct<struct crashpad::process_types::RTL_USER_PROCESS_PARAMETERS<struct crashpad::process_types::internal::Traits32>>(void *,unsigned __int64,struct crashpad::process_types::RTL_USER_PROCESS_PARAMETERS<struct crashpad::process_types::internal::Traits32> *): 仅完成部分的 ReadProcessMemory 或 WriteProcessMemory 请求。 (0x12B)
+[0103/175230:ERROR:process_info.cc(542)] ReadProcessData failed
+[0103/175230:ERROR:process_reader_win.cc(142)] SuspendThread: 拒绝访问。 (0x5)
+[0103/175230:ERROR:exception_snapshot_win.cc(87)] thread ID 0 not found in process
+[0103/175230:WARNING:crash_report_exception_handler.cc(56)] ProcessSnapshotWin::Initialize failed
