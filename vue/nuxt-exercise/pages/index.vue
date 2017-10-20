@@ -1,15 +1,19 @@
 <template>
   <section class="container">
-    <message></message>
+    <button @click="open">按钮</button>
   </section>
 </template>
 
 <script>
-import message from '~/components/common/message.vue'
+import Vue from 'vue'
+import func from '~/components/common/message.js'
+Vue.prototype.$message = func
 
 export default {
-  components: {
-    message
+  methods: {
+    open () {
+      this.$message('这是一条提示提示')
+    }
   }
 }
 </script>

@@ -1,0 +1,37 @@
+1. 引入iconfont生成的在线css时，不论是在nuxt.config.js还是在main.scss中引入都不起作用，最后在main.scss中用url的方式引入成功
+
+2. message组件写好了之后，怎么像elementui那样通过函数调用？
+	 要通过Vue.extend创建构造器，然后new这个构造器创建实例，vm.$mount()方法挂载到元素上。
+	 不过这里不能指定一个元素去挂载，所以vm.$mount函数空参，后续通过原生api appendChild到文档流中去
+
+3. 找不到document对象
+	 添加 if (Vue.prototype.$isServer) return;
+	 
+4. 报错：Failed to mount component: template or render function not defined.
+	 原因是vue默认引入运行中构建，此文件无法解析template，需要在引入vue的地方引入vue.esm.js
+	 原本是在配置项中加一项
+	 			resolve: {
+	 			  alias: {
+	 			    'vue$': 'vue/dist/vue.esm.js' 			// 'vue/dist/vue.common.js' for webpack 1
+	 			  }
+	 			}
+	 但经过nuxt封装，需要在build.extend中进行配置
+	 然而还是不行
+	 试了N久，最后把vue.esm.js改成vue.min.js就不报错了。。
+
+5. nuxt框架下Vue.extend(require('./main.vue'))解析出来的模板并不是所希望的，而是一个注释节点
+	 vue-loader版本问题，13.0的版本不行，降为12.0.2就可以了。由于nuxt是集成的，不好直接降版本，故迁移至vue-cli
+
+------------------------迁移至vue-cli--------------------------------
+1. .vue文件中 使用@import 来导入样式的路径问题
+	 @import '~@/assets/scss/helpers/_mixin';
+	 原理：CSS loader 会把把非根路径的url解释为相对路径，加~前缀才会解释成模块路径。
+
+2. 分析：一个信息提示组件需要什么？
+	 定时消失
+	 四种状态 info error success warning
+	 动画
+	 关闭按钮
+
+	 解决问题： 关闭后dom保留了<!- ->
+	 						动画

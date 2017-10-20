@@ -1,0 +1,25 @@
+1. 引入iconfont生成的在线css时，不论是在nuxt.config.js还是在main.scss中引入都不起作用，最后在main.scss中用url的方式引入成功
+
+2. message组件写好了之后，怎么像elementui那样通过函数调用？
+	 要通过Vue.extend创建构造器，然后new这个构造器创建实例，vm.$mount()方法挂载到元素上。
+	 不过这里不能指定一个元素去挂载，所以vm.$mount函数空参，后续通过原生api appendChild到文档流中去
+
+3. 找不到document对象
+	 添加 if (Vue.prototype.$isServer) return;
+	 
+4. 报错：Failed to mount component: template or render function not defined.
+	 原因是vue默认引入运行中构建，此文件无法解析template，需要在引入vue的地方引入vue.esm.js
+	 原本是在配置项中加一项
+	 			resolve: {
+	 			  alias: {
+	 			    'vue$': 'vue/dist/vue.esm.js' 			// 'vue/dist/vue.common.js' for webpack 1
+	 			  }
+	 			}
+	 但经过nuxt封装，需要在build.extend中进行配置
+	 然而还是不行
+	 试了N久，最后把vue.esm.js改成vue.min.js就不报错了。。
+
+5. nuxt框架下Vue.extend(require('./main.vue'))解析出来的模板并不是所希望的，而是一个注释节点
+	 ？？？？
+
+------------------------迁移至vue-cli--------------------------------

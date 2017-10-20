@@ -1,0 +1,9 @@
+@import '~@/assets/css/mixin-exercise/mixin';
+
+.center {
+  margin: 20px;
+  width: 500px;
+  height: 500px;
+  border: 1px solid #ccc;
+  @include center-block;
+}

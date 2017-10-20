@@ -1,0 +1,123 @@
+h3 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+.code {
+  font-family: 'source code pro';
+  width: 80%;
+  padding: 20px;
+  margin: 20px auto;
+  line-height: 1.2;
+  border: 1px solid #eee;
+  background-color: rgba(0,0,0,.02);
+}
+.comment {
+  margin-top: 20px;
+  line-height: 1.2;
+  white-space: pre-wrap;
+}
+.pagination {
+  border: 1px dashed #ccc;
+  li {
+    line-height: 25px;
+  }
+  a {
+    display: block;
+    color: #f2f2f2;
+    text-shadow: 1px 0 0 #101011;
+    padding: 5px 10px;
+    border-radius: 2px;
+    background: #20a0ff;
+
+    &:hover {
+      background: #4db3ff;
+    }
+  }
+}
+.pagination1 {
+  width: 293px;
+  margin: 0 auto;
+  overflow: hidden;
+
+  li {
+    display: inline;
+    float: left;
+    margin: 0 2px;
+  }
+}
+.pagination2 {
+  text-align: center;
+  font-size: 0; /*兼容chrome等*/
+  /*letter-spacing: -4px;*/ /*兼容safari 根据不同字体字号或许需要做一定的调整*/ 
+  /*word-spacing: -4px;*/
+
+  li {
+    display: inline-block;
+    font-size: 14px;
+    /*letter-spacing: normal;
+    word-spacing: normal;*/
+    margin: 0 2px;
+  }
+}
+.pagination3 {
+  position: relative;
+  overflow: hidden;
+
+  ul {
+    position: relative;
+    left: 50%;
+    float: left;
+    background-color: rgba(0,0,0,.2);
+
+    li {
+      position: relative;
+      float: left;
+      right: 50%;
+      margin: 0 2px;
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  }
+}
+.pagination4 {
+  position: relative;
+
+  ul {
+    position: absolute;
+    left: 50%;
+    background-color: rgba(0,0,0,.02);
+
+    li {
+      position: relative;
+      right: 50%;
+      float: left;
+      margin: 0 2px;
+    }
+  }
+}
+.pagination5 {
+  ul {
+    display: flex;
+    justify-content: center;
+
+    li {
+      margin: 0 2px;
+    }
+  }
+}
+.pagination6 {
+  width: fit-content;
+  margin: 0 auto;
+  
+  ul {
+    overflow: hidden;
+    li {
+      float: left;
+      margin: 0 2px;
+    }
+  }
+}

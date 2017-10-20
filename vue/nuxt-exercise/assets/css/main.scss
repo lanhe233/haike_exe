@@ -1,4 +1,4 @@
-@import 'http://at.alicdn.com/t/font_423497_zmld4qb7cjzia4i.css';
+@import url(http://at.alicdn.com/t/font_423497_9bynwinx3d31sjor.css);
 @import '~assets/css/variable';
 
 .cl-message {
@@ -6,19 +6,26 @@
 	top: 60px;
 	left: calc(50% - 150px);
 	width: 300px;
-	height: 50px;
-	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 4px rgba(0,0,0,.1);
 
 	&__icon {
 		width: 50px;
-		height: 100%;
+		height: $message-height;
 		display: inline-block;
+		float: left;
 		background-color: $color-blue;
+		text-align: center;
+		color: #fff;
+		line-height: $message-height;
+		font-size: 18px;
 	}
 
 	&__content {
 		width: calc(100% - 50px);
-		height: 100%;
+		height: $message-height;
 		display: inline-block;
+		float: left;
+		line-height: $message-height;
+		padding: 0 10px;
 	}
 }

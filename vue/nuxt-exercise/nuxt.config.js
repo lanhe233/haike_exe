@@ -1,7 +1,4 @@
 module.exports = {
-  /*
-  ** Headers of the page
-  */
   head: {
     title: 'nuxt-exercise',
     meta: [
@@ -13,17 +10,8 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  /*
-  ** Customize the progress bar color
-  */
   loading: { color: '#3B8070' },
-  /*
-  ** Build configuration
-  */
   build: {
-    /*
-    ** Run ESLint on save
-    */
     extend (config, ctx) {
       if (ctx.dev && ctx.isClient) {
         config.module.rules.push({
@@ -32,10 +20,11 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
+        config.resolve.alias.vue$ = 'vue/dist/vue.min.js'
       }
     }
   },
   css: [
-    // { src: '~assets/css/common.scss', lang: 'sass' }
+    { src: '~assets/css/common.scss', lang: 'sass' }
   ]
 }

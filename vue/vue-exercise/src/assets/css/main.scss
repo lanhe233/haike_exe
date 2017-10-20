@@ -1,0 +1,299 @@
+@import url(http://at.alicdn.com/t/font_423497_q20urweqz2jfw29.css);
+@import '~@/assets/css/animation';
+@import '~@/assets/css/variable';
+
+$color-info: #50bfff;
+$color-error: #ff4949;
+$color-warning: #f7ba2a;
+$color-success: #13ce66;
+$message-height: 50px;
+
+.iconfont {
+	font-size: 14px;
+}
+
+.cl-message {
+	position: fixed;
+	top: 20px;
+	left: calc(50% - 150px);
+	width: 300px;
+	box-shadow: 0 1px 4px rgba(0,0,0,.1);
+	opacity: 1;
+	z-index: 9999;
+	font-size: 14px;
+	background-color: #fff;
+
+	&__icon, &__close {
+		height: $message-height;
+		display: inline-block;
+		text-align: center;
+		line-height: $message-height;
+	}
+
+	&__icon {
+		width: 50px;
+		float: left;
+		color: #fff;
+		font-size: 18px;
+
+		&.icon-info {
+			background-color: $color-info;
+		}
+		&.icon-error {
+			background-color: $color-error;
+		}
+		&.icon-warning {
+			background-color: $color-warning;
+		}
+		&.icon-success {
+			background-color: $color-success;
+		}
+	}
+
+	&__close {
+		width: 45px;
+		font-size: 24px;
+		float: right;
+		opacity: .4;
+
+		&:hover {
+			opacity: .6;
+		}
+	}
+
+	&__content {
+		width: calc(100% - 100px);
+		height: $message-height;
+		display: inline-block;
+		float: left;
+		line-height: $message-height;
+		padding: 0 10px;
+	}
+}
+
+.message-enter, .message-leave-to {
+	opacity: 0;
+	top: 0;
+}
+
+.message-leave-active, .message-enter-active {
+	transition: all .3s;
+}
+
+$color-button-blue: #20a0ff;
+$color-button-grey: #bfcbd9;
+$color-button-disabled: #d1dbe5;
+$color-button-bg-disabled: #eef1f6;
+$color-button-hover-blue: #4db3ff;
+$color-button-success-hover: #42d885;
+$color-button-warning: #f7ba2a;
+$color-button-warning-hover: #f9c855;
+$color-button-error: #ff4949;
+$color-button-error-hover: #ff6d6d;
+$color-button-info: $color-info;
+$color-button-info-hover: #73ccff;
+$color-main-text: #666;
+.cl-button {
+	font-size: 14px;
+	line-height: 1;
+	padding: 10px 15px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	cursor: pointer;
+	outline: none;
+	-webkit-appearance: none;
+	white-space: nowrap;
+
+	&.cl-button--large {
+		font-size: 16px;
+		padding: 11px 19px;
+	}
+	&.cl-button--small {
+		font-size: 12px;
+		padding: 7px 9px;
+	}
+	&.cl-button--mini {
+		font-size: 12px;
+		padding: 4px;
+	}
+
+	&--default {
+		border-color: $color-button-grey;
+		background-color: #fff;
+
+		&:hover {
+			color: $color-button-blue;
+			border-color: $color-button-blue;
+		}
+		&:disabled {
+			border-color: $color-button-disabled;
+		}
+	}
+
+	&--primary {
+		color: #fff;
+		background-color: $color-button-blue;
+
+		&:hover {
+			background-color: $color-button-hover-blue; 
+		}
+	}
+
+	&--text {
+		color: $color-button-blue;
+		background-color: #fff;
+		padding-left: 0;
+		padding-right: 0;
+
+		&:hover {
+			color: $color-button-hover-blue; 
+		}
+	}
+
+	&--success {
+		color: #fff;
+		background-color: $color-success;
+
+		&:hover {
+			background-color: $color-button-success-hover; 
+		}
+	}
+
+	&--error {
+		color: #fff;
+		background-color: $color-button-error;
+
+		&:hover {
+			background-color: $color-button-error-hover; 
+		}
+	}
+
+	&--warning {
+		color: #fff;
+		background-color: $color-button-warning;
+
+		&:hover {
+			background-color: $color-button-warning-hover; 
+		}
+	}
+
+	&--info {
+		color: #fff;
+		background-color: $color-button-info;
+
+		&:hover {
+			background-color: $color-button-info-hover; 
+		}
+	}
+
+	&.is-plain {
+		color: $color-main-text;
+		border-color: $color-button-grey;
+		background-color: #fff;
+	}
+	&--success.is-plain:hover {
+		color: $color-success;
+		border-color: $color-success;
+	}
+	&--info.is-plain:hover {
+		color: $color-info;
+		border-color: $color-info;
+	}
+	&--error.is-plain:hover {
+		color: $color-error;
+		border-color: $color-error;
+	}
+	&--warning.is-plain:hover {
+		color: $color-warning;
+		border-color: $color-warning;
+	}
+
+	&.is-loading {
+		background-color: $color-button-blue;
+		opacity: .8;
+
+		.icon-loading {
+			display: inline-block;
+			width: 14px;
+			height: 14px;
+			animation: loading 1s linear infinite;
+		}
+	}
+
+	// .iconfont, .cl-button__content {
+	// 	display: inline-block;
+	// 	vertical-align: middle; /*会导致按钮无法保持36px高度的问题*/
+	// 	line-height: 1;
+	// }
+
+	&--primary:disabled, &--primary:disabled:hover,
+	&--success:disabled, &--success:disabled:hover,
+	&--error:disabled, &--error:disabled:hover,
+	&--info:disabled, &--info:disabled:hover,
+	&--warning:disabled, &--warning:disabled:hover {
+		border-color: $color-button-disabled;
+		background-color: $color-button-bg-disabled;
+	}
+
+	&:disabled, &:disabled:hover {
+		cursor: not-allowed;
+		color: $color-button-disabled;
+	}
+}
+
+
+.cl-button-group {
+	display: inline-block;
+
+	.cl-button:not(:first-child):not(:last-child) {
+		border-radius: 0;
+	}
+	.cl-button:first-child:not(:last-child) {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	.cl-button:last-child:not(:first-child) {
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+}
+
+.cl-radio {
+	cursor: pointer;
+
+	&__origin {
+		display: none;
+	}
+	&__adorn {
+		position: relative;
+		display: inline-block;
+		width: 18px;
+		height: 18px;
+		border: 1px solid #bfcbd9;
+		border-radius: 50%;
+		vertical-align: -4px;
+
+		&:hover {
+			border-color: $color-button-blue;
+		}
+		&:after {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			width: 6px;
+			height: 6px;
+			margin: 5px auto;
+			border-radius: 50%;
+			background-color: #fff;
+		}
+		.cl-radio.is-checked & {
+			border-color: $color-button-blue;
+			background-color: $color-button-blue;
+		}
+	}
+	&__label {
+		display: inline-block;
+		line-height: 18px;
+	}
+}

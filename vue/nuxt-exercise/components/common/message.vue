@@ -1,7 +1,7 @@
 <template>
   <div class="cl-message">
     <div class="cl-message__icon iconfont icon-tishi"></div>
-    <div class="cl-message__content"></div>
+    <div class="cl-message__content">{{content}}</div>
   </div>
 </template>
 
@@ -9,11 +9,8 @@
   export default {
     data () {
       return {
-
+        content: ''
       }
-    },
-    props () {
-
     }
   }
 </script>
