@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>自己搭建websocket服务器实现echo功能</title>
+</head>
+<body>
+  
+  <h1>Echo Test</h1>
+  <input id="sendText" type="text"></input>
+  <button id="sendBtn">发送</button>
+  <div id="recv"></div>
+  
+  <script>
+    var websocket = new WebSocket('ws://localhost:3001/')
+    websocket.onopen = function() {
+      console.log('websocket open')
+      document.getElementById('recv').innerText = 'connected'
+    }
+    websocket.onclose = function() {
+      console.log('websocket closed')
+    }
+    websocket.onmessage = function(e) {
+      console.log(e.data)
+      document.getElementById('recv').innerText = e.data
+    }
+    document.getElementById('sendBtn').onclick = function() {
+      var text = document.getElementById('sendText').value
+      websocket.send(text)
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,283 @@
+<html>
+<head>
+<title>清扫小屋 自动工具</title>
+<meta charset="utf8">
+<meta http-equiv="pragma" content="no-cache">
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<script src="http://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container-fluid">
+
+<div style="position:fixed;left:0;top:0;z-index:1">
+<img src="images/background.png" border="0" usemap="#qsxwmap"/>
+<map name="qsxwmap" id="qsxwmap">
+  <area shape="rect" coords="25,472,126,498" href="#" onclick="start();" />
+  <area shape="rect" coords="180,472,278,498" href="#" onclick="window.location.reload();" />
+</map>
+</div>
+<div id="icon_grid" style="position:fixed;z-index:2"></div>
+<h4 id="count"></h4>
+<div id="pre_send" style="position:fixed;left:0;top:510;width:400;z-index:1">
+<h4>清扫小屋工具改版啦！<a href="qingsaoxiaowu-old.html">点这里进旧版</a></h4>
+<h4>jQuery编写，对Chrome/Firefox支持较好</h4>
+<h4>用法：点击格子放家具，然后点击“清扫”</h4>
+<h4>有解秒出，无解不输出</h4>
+<h4>注意看扫地妹纸的面向，那是第一步的方向哦，看出来了没？</h4>
+  <div class="form-group">
+    <input class="form-control" id="sendmsg" placeholder="广告位招租有意可留言，还可以对本程序猿说出你的爱啦～">
+  </div>
+  <button type="button" id="submit_btn" class="btn btn-default" onclick="send();">提交</button>
+</div>
+<div id="post_send" style="position:absolute;display:none;left:0;top:510;">
+<h4>成功发到程序猿手里了！<h4>
+</div>
+</div>
+</body>
+
+<script>
+function gen_maparea()
+{
+    var start_x = 20;
+    var start_y = 50;
+    for(var i = 0; i < 5; i++)
+    {
+        for(var j = 0; j < 5; j++)
+        {
+            var x1 = start_x + j * 62;
+            var x2 = x1 + 60;
+            var y1 = start_y + i * 62;
+            var y2 = y1 + 60;
+            area = '<area shape="rect" coords="' + x1 + ',' + y1 + ',' + x2 + ',' + y2 + '" href="#" class="grid" id="area_x_' + i + '_' + j + '" onclick="put_icon(' + i + ',' + j + ', \'f\');" />';
+            $('#qsxwmap').append(area);
+        }
+    }
+}
+
+function put_icon(x, y, icon)
+{
+    var area_id = 'area_x_' + x + '_' + y;
+    var coords = $('#' + area_id).attr('coords').split(',');
+    $('#' + area_id).addClass('furniture');
+    var pos_left = coords[0];
+    var pos_top = coords[1];
+    if(icon == 'f')
+        icon = 'f' + Math.ceil(Math.random()*5);
+    div = '<div class="icon" onclick="remove_icon(' + x + ',' + y + ',this);" style="position:fixed;left:' + pos_left + ';top:' + pos_top + '"><img src="images/' + icon + '.png"></div>';
+    $('#icon_grid').append(div);
+}
+
+function remove_icon(x, y, obj)
+{
+    var area_id = 'area_x_' + x + '_' + y;
+    $('#' + area_id).removeClass('furniture');
+    $(obj).remove();
+}
+
+gen_maparea();
+</script>
+
+<script>
+all_count = 0; //限制递归次数
+win = 0; //只是表示一下是否结束
+
+//将按钮转换成可计算的数据
+//格式：ooooo/oooox/ooxxx/ooooo/xxxoo
+function make_map()
+{
+    var i = 0;
+    var str = '';
+    var map = '';
+    $('.grid').each(function(){
+        if(!(i % 5) && i)
+        {
+            map += str + '/';
+            str = '';
+        }
+        str += $(this).hasClass('furniture') ? 'X' : 'o';
+        i++;
+    });
+    map += str;
+    return map;
+}
+
+//遍历每一个可以作为起点的格子并调用求解函数resolve
+function start()
+{
+    var map = make_map();
+    $('.grid').each(function(){
+        if($(this).hasClass('furniture'))
+            return;
+        var start_pos = $(this).attr('id').replace('area_', '');
+        p = start_pos.split('_');
+        x = Number(p[1]);
+        y = Number(p[2]);
+        start_point = x + ',' + y;
+        resolve(map, map, start_point, start_pos, '')
+    });
+}
+
+//坐标转换为数组下标
+function pos2id(pos)
+{
+    var x = Number(pos.split('_')[1]);
+    var y = Number(pos.split('_')[2]);
+    return x * 5 + y + x;
+}
+
+//移动到下一个格子并返回坐标
+// 0 1 2 3 分别代表右上左下
+//碰到墙则不移动返回自己当前位置
+function next_pos(pos, direction)
+{
+    var x = Number(pos.split('_')[1]);
+    var y = Number(pos.split('_')[2]);
+    if(direction == 0)
+    {
+        y = y + 1;
+        if(y > 4)
+            return pos;
+    }
+    if(direction == 1)
+    {
+        x = x - 1;
+        if(x < 0)
+            return pos;
+    }
+    if(direction == 2)
+    {
+        y = y - 1;
+        if(y < 0)
+            return pos;
+    }
+    if(direction == 3)
+    {
+        x = x + 1;
+        if(x > 4)
+            return pos;
+    }
+    return 'x_' + x + '_' + y;
+}
+
+//将解法数据转换为界面上的显示
+function output(orig_map, path)
+{
+    $.get("/savemap.php", {'map' : orig_map}, function(data){});
+    step = path.split('|');
+    home_x = step[0].split(',')[0];
+    home_y = step[0].split(',')[1];
+    for(var i = 0; i < step.length - 1; i++)
+    {
+        var my_x = step[i].split(',')[0];
+        var my_y = step[i].split(',')[1];
+        var next_x = step[i + 1].split(',')[0];
+        var next_y = step[i + 1].split(',')[1];
+        if(my_x == next_x && my_y > next_y)
+        {
+            for(y = next_y; y <= my_y; y++)
+                put_icon(my_x, y, (my_x==home_x&&y==home_y)?'turn-left':'arrow-left');
+        }
+        if(my_x == next_x && my_y < next_y)
+        {
+            for(y = my_y; y <= next_y; y++)
+            {
+                put_icon(my_x, y, (my_x==home_x&&y==home_y)?'turn-right':'arrow-right');
+                first = false;
+            }
+        }
+        if(my_x > next_x && my_y == next_y)
+        {
+            for(x = next_x; x <= my_x; x++)
+            {
+                put_icon(x, my_y, (x==home_x&&my_y==home_y)?'turn-back':'arrow-up');
+                first = false;
+            }
+        }
+        if(my_x < next_x && my_y == next_y)
+        {
+            for(x = my_x; x <= next_x; x++)
+            {
+                put_icon(x, my_y, (x==home_x&&my_y==home_y)?'turn-front':'arrow-down');
+                first = false;
+            }
+        }
+    }
+    end_x = step[step.length - 1].split(',')[0];
+    end_y = step[step.length - 1].split(',')[1];
+    put_icon(end_x, end_y, 'clean');
+    $('.icon').prop('onclick', null).off('click');
+    $('.grid').prop('onclick', null).off('click');
+}
+
+//求解函数，输入一组地图数据，起点，当前位置，已走过路径
+function resolve(orig_map, map, start_pos, pos, path)
+{
+    all_count++;
+    if(all_count > 1000 || win == 1)
+        return;
+    map = replaceChat(map, pos2id(pos), 'X'); // 填上X表示走过
+    if(map == 'XXXXX/XXXXX/XXXXX/XXXXX/XXXXX') // 填满了则有解
+    {
+        win = 1;
+        output(orig_map, start_pos + path);
+        return;
+    }
+    for(var i = 0; i < 4; i++) // 遍历4个方向
+    {
+        var n_map = map;
+        var cur_pos = pos;
+        for(var s = 0; s < 4; s++) // 连续走4步到底
+        {
+            var np = next_pos(cur_pos, i);
+            if(map[pos2id(np)] == 'o') // 空格可以移动过去
+            {
+                cur_pos = np; // 记录当前位置后面有用
+                n_map = replaceChat(n_map, pos2id(cur_pos), 'X'); // 记录现在的地图后面有用
+            }
+            else
+                break;
+        }
+        if(map != n_map) // 走到底了并且不是原地
+        {
+            endpos = cur_pos.split('_');
+            x = Number(endpos[1]);
+            y = Number(endpos[2]);
+            step = x + ',' + y;
+            // 递归求解，前面说了这两个变量这里有用
+            resolve(orig_map, n_map, start_pos, cur_pos, path + '|' + step);
+        }
+    }
+}
+
+// 只是一个操作字符串替换的函数，而且不是我自己写的
+function replaceChat(source,pos,newChar)
+{
+    if(pos<0||pos>=source.length||source.length==0)
+        return "invalid parameters...";
+    var iBeginPos= 0, iEndPos=source.length;
+    var sFrontPart=source.substr(iBeginPos,pos);
+    var sTailPart=source.substr(pos+1,source.length);
+    var sRet=sFrontPart+newChar+sTailPart;
+    return sRet;
+}
+
+$.get("/count.html", {}, function(data){
+    $('#count').text(data);
+});
+
+function send()
+{
+    if($('#sendmsg').val() == '')
+        $('#submit_btn').text('填点东西再提交嘛');
+    else
+    {
+        $.get("/send.php", {'sendmsg' : $('#sendmsg').val()}, function(data){
+            $('#pre_send').hide();
+            $('#post_send').show();
+        });
+    }
+}
+</script>

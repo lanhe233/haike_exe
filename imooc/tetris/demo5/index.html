@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>使用socket.io实现简单的聊天功能</title>
+</head>
+<body>
+  
+  <h1>Chat Room</h1>
+  <input id="sendText" type="text"></input>
+  <button id="sendBtn">发送</button>
+  
+  <script src="socket.io.js"></script>
+  <script>
+    var socket = io('ws://localhost:3001/')
+    document.getElementById('sendBtn').onclick = function() {
+      var text = document.getElementById('sendText').value
+      if (text) {
+        socket.emit('message', text)
+        document.getElementById('sendText').value = ''
+      }
+    }
+    socket.on('enter', function(data) {
+      showMessage(data)
+    })
+    socket.on('chat', function(data) {
+      showMessage(data)
+    })
+    socket.on('leave', function(data) {
+      showMessage(data)
+    })
+    
+    function showMessage(data) {
+      var div = document.createElement('div')
+      div.innerText = data
+      document.body.appendChild(div)
+    }
+  </script>
+
+</body>
+</html>

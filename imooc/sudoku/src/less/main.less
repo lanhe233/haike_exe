@@ -1,0 +1,150 @@
+@border: 1px solid lightblue;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+}
+body {
+  position: relative;
+  font-size: 14px;
+  background-color: #eee;
+  font-family: 'Consolas','Microsoft Yahei';
+  user-select: none;
+  max-width: 450px;
+  margin: 0 auto;
+  color: #333;
+  >* {
+    max-width: 450px;
+  }
+}
+.hidden {
+  display: none;
+}
+.title {
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 2rem;
+}
+.btn {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  bottom: 8rem;
+  border-top: @border;
+  border-bottom: @border;
+
+  button {
+    font-family: 'Consolas','Microsoft Yahei';
+    font-size: 14px;
+    display: inline-block;
+    float: left;
+    width: 25%;
+    padding: .4rem 0;
+    border: none;
+    border-right: @border;
+    outline: none;
+    background-color: #fff;
+    cursor: pointer;
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+.sudoku {
+  margin: 0 5%;
+  border-left: @border;
+  border-width: 2px;
+
+  .row {
+    overflow: hidden;
+    border-bottom: @border;
+    &:first-child {
+      border-top: @border;
+      border-top-width: 2px;
+    }
+    &:nth-child(3n) {
+      border-width: 2px;
+    }
+
+    .col {
+      display: inline-block;
+      float: left;
+      line-height: 2.5rem;
+      width: calc(100% / 9);
+      text-align: center;
+      font-size: 1.2rem;
+      background-color: #fff;
+      border-right: @border;
+      cursor: pointer;
+      &:nth-child(3n) {
+        border-right-width: 2px;
+      }
+      &.empty {
+        color: #fff;
+      }
+      &.default {
+        background-color: #eee;
+      }
+      &.mark-pink {
+        background-color: lightblue;
+        &.empty {
+          color: lightblue;
+        }
+      }
+      &.mark-green {
+        background-color: lightgreen;
+        &.empty {
+          color: lightgreen;
+        }
+      }
+      &.mark-error {
+        background-color: lightpink;
+        &.empty {
+          color: lightpink;
+        }
+      }
+    }
+  }
+}
+.pop {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  border: @border;
+  border-width: 2px;
+
+  .row {
+    > span {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      background-color: #fff;
+      text-align: center;
+      border-right: @border;
+      &:last-child {
+        border-right-width: 0px;
+      }
+      &.mark-pink {
+        background-color: lightblue;
+      }
+      &.mark-green {
+        background-color: lightgreen;
+      }
+      &.empty {
+        color: #fff;
+      }
+    }
+
+    &:not(:last-child) {
+      border-bottom: @border;
+    }
+    &:last-child {
+      font-size: 0;
+    }
+  }
+}

@@ -136,7 +136,7 @@ function Game(id, options) {
 
 				}
 				// if (!item.times) {
-				// 	item.update()
+				// 	 item.update()
 				// }
 
 				item.draw(_ctx)

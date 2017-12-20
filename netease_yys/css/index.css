@@ -98,7 +98,7 @@
   padding-bottom: 10px;
   border-top: 1px solid #ececec;
   background-color: rgba(255,255,255,.95);
-  display: none;
+  /*display: none;*/
 }
 .h-game {
   display: inline-block;
@@ -161,10 +161,14 @@
   background-position: right -276px;
 }
 .h-game-more {
-  position: absolute;
-  right: 0;
+  position: relative;
+  /*right: 0;*/
   top: 125px;
+  display: inline-block;
+  /*float: right;*/
   width: 32px;
+  height: 100px;
+  /*margin-top: 125px;*/
   background-color: #bf3939;
   color: #fff;
   -webkit-writing-mode: vertical-lr;
@@ -177,6 +181,9 @@
 }
 .h-game-more:hover {
   opacity: .8;
+}
+.h-subdetail.hidden {
+  display: none;
 }
 
 .main {

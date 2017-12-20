@@ -259,10 +259,17 @@ $color-main-text: #666;
 }
 
 .cl-radio {
+	position: relative;
 	cursor: pointer;
+	user-select: none;
+	white-space: nowrap; /*超出一行后图标和文字同时到第二行去，不会出现图标在上，文字在下*/
 
 	&__origin {
-		display: none;
+		position: absolute;
+		opacity: 0;
+		width: 0;
+		height: 0;
+		left: -9999px;
 	}
 	&__adorn {
 		position: relative;
@@ -276,7 +283,7 @@ $color-main-text: #666;
 		&:hover {
 			border-color: $color-button-blue;
 		}
-		&:after {
+		.cl-radio.is-checked &:after {
 			content: '';
 			position: absolute;
 			left: 0;
@@ -291,9 +298,82 @@ $color-main-text: #666;
 			border-color: $color-button-blue;
 			background-color: $color-button-blue;
 		}
+		.cl-radio.is-disabled & {
+			border-color: $color-button-disabled;
+			background-color: $color-button-bg-disabled;
+		}
+		.cl-radio.is-disabled.is-checked & {
+			border-color: $color-button-disabled;
+			background-color: $color-button-disabled;
+		}
 	}
 	&__label {
 		display: inline-block;
 		line-height: 18px;
+	}
+	&.is-disabled {
+		cursor: not-allowed;
+	}
+}
+$color-disabled: #edf2fc;
+$color-disabled-border: #d8dce5;
+$color-disabled-text: #b4bccc;
+.cl-checkbox {
+	position: relative;
+	cursor: pointer;
+	user-select: none;
+	white-space: nowrap; /*超出一行后图标和文字同时到第二行去，不会出现图标在上，文字在下*/
+
+	&__origin {
+		position: absolute;
+		opacity: 0;
+		width: 0;
+		height: 0;
+		left: -9999px;
+	}
+	&__adorn {
+		position: relative;
+		display: inline-block;
+		width: 14px;
+		height: 14px;
+		border: 1px solid #bfcbd9;
+		border-radius: 2px;
+		vertical-align: -4px;
+
+		&:hover {
+			border-color: $color-button-blue;
+		}
+		.cl-checkbox.is-checked &:after {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 1px;
+			width: 3px;
+			height: 7px;
+			margin: 0 auto;
+			border: 1px solid #fff;
+			transform: rotate(45deg);
+			border-top: none;
+			border-left: none;
+		}
+		.cl-checkbox.is-checked & {
+			border-color: $color-button-blue;
+			background-color: $color-button-blue;
+		}
+		.cl-checkbox.is-disabled & {
+			border-color: $color-disabled-border;
+			background-color: $color-disabled;
+		}
+		.cl-checkbox.is-disabled.is-checked &:after {
+			border-color: $color-disabled-text;
+		}
+	}
+	&__label {
+		display: inline-block;
+		line-height: 14px;
+	}
+	&.is-disabled {
+		cursor: not-allowed;
 	}
 }

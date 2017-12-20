@@ -11,9 +11,15 @@ import message from '@/components/message/index'
 import button from '@/components/button/index'
 import buttonGroup from '@/components/buttonGroup/index'
 import radio from '@/components/radio/index'
+import radioGroup from '@/components/radioGroup/index'
+import checkbox from '@/components/checkbox/index'
+import checkboxGroup from '@/components/checkboxGroup/index'
 Vue.use(button)
 Vue.use(buttonGroup)
 Vue.use(radio)
+Vue.use(radioGroup)
+Vue.use(checkbox)
+Vue.use(checkboxGroup)
 Vue.prototype.$message = message
 
 /* eslint-disable no-new */

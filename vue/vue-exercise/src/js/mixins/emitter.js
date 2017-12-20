@@ -6,7 +6,7 @@ export default {
         parent = parent.$parent
       }
       if (parent && parent.$options.name === componentName) {
-        parent.emit.apply(parent, [eventName].contact(paramsArr))
+        parent.$emit.apply(parent, [eventName].concat(paramsArr))
       }
     }
   }

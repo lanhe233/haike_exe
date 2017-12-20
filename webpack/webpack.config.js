@@ -1,6 +1,7 @@
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
-const extractTextWebpackPlugin = require('extract-text-webpack-plugin')/**
+const extractTextWebpackPlugin = require('extract-text-webpack-plugin')
+/**
  * 提取公共代码
  * 默认会将所有入口节点的公共代码提取出来，生成一个common.js
  * 可以有选择的提取部分入口节点，方法是添加第二个参数 ['节点名','节点名']

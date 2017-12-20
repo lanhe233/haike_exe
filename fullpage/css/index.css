@@ -1,0 +1,13 @@
+.text {
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  margin-top: 100px;
+  border: 1px solid #ccc;
+  overflow-y: scroll;
+}
+pre {
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}

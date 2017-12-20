@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link href="http://vjs.zencdn.net/6.2.8/video-js.css" rel="stylesheet">
+
+  <!-- If you'd like to support IE8 -->
+  <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+</head>
+</head>
+<body>
+  <video id="my-video" class="video-js vjs-default-skin" 
+      controls 
+      preload="auto" 
+      width="640" height="264" 
+      poster="5.jpg" 
+      data-setup="{}">
+      <source src="voez5_hd.mp4" type="video/mp4">
+      <source src="voez5_hd.webm" type="video/webm">
+    <!-- 不支持时的显示内容 -->
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a web browser that
+      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+  </video>
+
+  <script src="http://vjs.zencdn.net/6.2.8/video.js"></script>
+  <script>
+    window.onload = function(){
+      videojs("my-video").ready(function(){
+
+        // EXAMPLE: 获取视频对象
+        window.myPlayer = this;
+
+        // EXAMPLE: 播放视频
+        myPlayer.play();
+
+        setTimeout(function(){
+
+          // EXAMPLE: 暂停视频
+          myPlayer.pause();
+
+          // EXAMPLE: 获取播放进度
+          // var whereYouAt = myPlayer.currentTime()
+          // console.log('播放进度：' + whereYouAt)
+
+          // EXAMPLE: 设置播放进度  
+          // 单位：秒
+          myPlayer.currentTime(8)
+
+          // EXAMPLE: 视频持续时间
+          // 加载完视频才可以知道视频时长，且在flash情况下无效
+          // 看了下，没加载完成得到的值是NaN，加载完后得到的就是视频本身总时长了
+          var howLongIsThis = myPlayer.duration();
+          console.log('视频持续时间：' + howLongIsThis)
+
+          // EXAMPLE: 全屏
+          myPlayer.enterFullScreen();
+
+        }, 5000)
+
+      });  
+    }
+    
+  </script>
+</body>
+</html>
