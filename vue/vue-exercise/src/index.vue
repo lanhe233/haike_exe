@@ -7,6 +7,12 @@
       <li><router-link to="/button">button组件</router-link></li>
       <li><router-link to="/radio">radio组件</router-link></li>
       <li><router-link to="/checkbox">checkbox组件</router-link></li>
+      <li><router-link to="/newDocReview">vuejs document</router-link></li>
+      <li><router-link to="/input">input组件</router-link></li>
+      <li><router-link to="/componentsForGM">GM后台组件</router-link></li>
+      <li><router-link to="/datePicker">时间组件</router-link></li>
+      <li><router-link to="/badge">badge标记组件</router-link></li>
+      <li><router-link to="/rate">rate评分组件</router-link></li>
     </ul>
     <div class="container"><router-view></router-view></div>
   </div>

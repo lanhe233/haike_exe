@@ -16,11 +16,8 @@
 </template>
 
 <script>
-  // import Emitter from '@/js/mixins/emitter'
-
   export default {
     name: 'cl-radio',
-    // mixins: [Emitter],
     data () {
       return {
         parent: {}
@@ -51,8 +48,6 @@
         },
         set (val) {
           if (this.isGroup) {
-            // this.dispatch('cl-radio-group', 'input', [val])
-            // this.parent.$emit.apply(this.parent, ['input', val])
             this.parent.$emit('input', val)
             this.parent.$emit('change', val)
           } else {
@@ -68,5 +63,5 @@
 </script>
 
 <style lang="scss">
-  @import '~@/assets/css/main'
+  // @import '~@/assets/css/main'
 </style>

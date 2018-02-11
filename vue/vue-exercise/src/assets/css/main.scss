@@ -1,6 +1,8 @@
-@import url(http://at.alicdn.com/t/font_423497_q20urweqz2jfw29.css);
+@import url(//at.alicdn.com/t/font_423497_h7gpxn3ge5tutyb9.css);
 @import '~@/assets/css/animation';
 @import '~@/assets/css/variable';
+
+$color-text: #666;
 
 $color-info: #50bfff;
 $color-error: #ff4949;
@@ -375,5 +377,95 @@ $color-disabled-text: #b4bccc;
 	}
 	&.is-disabled {
 		cursor: not-allowed;
+	}
+}
+
+$color-badge-red: #f56c6c;
+.cl-badge {
+	position: relative;
+	display: inline-block;
+
+	.cl-badge__content {
+		display: inline-block;
+		background-color: $color-badge-red;
+		border-radius: 10px;
+		padding: 0 6px;
+		font-size: 12px;
+		color: #fff;
+		border: 1px solid #fff;
+		/* 禁止换行 */
+		white-space: nowrap;
+		/* 必须加height不然撑不起来文字高度 */
+		height: 18px;
+		line-height: 18px;
+		vertical-align: middle;
+		top: 0;
+
+		&.is-fixed {
+			position: absolute;
+			left: calc(100% - 10px);
+			top: -9px;
+			z-index: 1;
+		}
+
+		&.is-dot {
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			padding: 0;
+			right: -5px;
+			top: -5px;
+			left: auto;
+		}
+	}
+}
+
+.cl-rate {
+	display: inline-block;
+
+	&__item {
+		display: inline-block;
+		cursor: pointer;
+
+		&:not(:last-child) > i {
+			margin-right: 5px;
+		}
+
+		.iconfont {
+			position: relative;
+			display: block;
+			width: 18px;
+			height: 18px;
+			font-size: 18px;
+			line-height: 18px;
+			text-align: center;
+			color: #c0c4cc;
+			transition: .3s;
+
+			&.icon-xing-on {
+				color: #F7BA2A;
+			}
+
+			&.allow-half.icon-xing-on {
+				color: #c0c4cc;
+
+				.iconfont {
+					position: absolute;
+					top: 0;
+					left: 0;
+					overflow: hidden;
+				}
+			}
+		}
+	}
+
+	&__note {
+		display: inline-block;
+		line-height: 18px;
+		vertical-align: top;
+	}
+
+	&.is-disabled .cl-rate__item {
+		cursor: default;
 	}
 }
