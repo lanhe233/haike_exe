@@ -18,14 +18,17 @@ export default function(Vue) {
    * @return {String}
    */
   function template(string, ...args) {
+    // 处理第二个参数传数组或对象的情况
     if (args.length === 1 && typeof args[0] === 'object') {
       args = args[0];
     }
 
+    // 处理没有传参数或者参数不是对象的情况
     if (!args || !args.hasOwnProperty) {
       args = {};
     }
 
+    // 替换匹配到的参数
     return string.replace(RE_NARGS, (match, prefix, i, index) => {
       // 正则：/(%|)\{([0-9a-zA-Z_]+)\}/g
       // match 匹配整个正则表达式的字符串
@@ -38,9 +41,11 @@ export default function(Vue) {
       if (string[index - 1] === '{' &&
         string[index + match.length] === '}') {
         // 判断字符串 i 前后是否被 {} 包围，是的话直接返回 i
+        // 形如 {{ val }} 直接返回， { val } 不进行解析
         return i;
       } else {
         // ？？？？？
+        // 取得相应的值进行替换，不存在的话则替换为空
         result = hasOwn(args, i) ? args[i] : null;
         if (result === null || result === undefined) {
           return '';
@@ -51,5 +56,6 @@ export default function(Vue) {
     });
   }
 
+  // 返回该函数
   return template;
 }

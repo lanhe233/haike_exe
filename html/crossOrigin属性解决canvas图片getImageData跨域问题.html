@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style>
+    
+  </style>
+</head>
+<body>
+
+  <canvas id="canvas"></canvas>
+
+  <script>
+    /**
+     * http://www.zhangxinxu.com/wordpress/?p=7378
+     *
+     * 涉及知识：
+     * 
+     * ctx.drawImage(image, dx, dy);
+     * ctx.drawImage(image, dx, dy, dWidth, dHeight);
+     * ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+     *
+     * ctx.getImageData(sx, sy, sw, sh);
+     */
+    window.onload = function() {
+      var canvas = document.getElementById('canvas')
+      var ctx = canvas.getContext('2d')
+
+      var image = new Image()
+      // 解决getImageData跨域问题
+      image.crossOrigin = ''
+
+      image.src = 'https://avatars3.githubusercontent.com/u/496048?s=120&v=4'
+      image.onload = function() {
+        ctx.drawImage(this, 0, 0)
+        console.log(ctx.getImageData(0, 0, this.width, this.height))
+      }
+    }
+  </script>
+</body>
+</html>
+

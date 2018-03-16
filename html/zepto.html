@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style>
+    div {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      border: 1px solid #eee;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+  <div></div>
+  <div class="test"></div>
+  <div></div>
+  <div></div>
+
+  <input type="checkbox" name="ee" value="1">1<br>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+  <script>
+    
+  </script>
+</body>
+</html>
+
+zepto是通过模块管理的，
+它比jquery小的原因在于，它把jquery的功能分成了模块，
+默认只含有少数模块，
+当你需要一些模块的功能时，去git上找到源代码，添加需要的模块后重新打包出来的zepto.min.js拿来使用
+
+zepto拥有的模块如下
+  https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js
+
+  zepto  √      核心模块，包含大多数方法
+  event  √      通过 on() 和 off() 来处理事件
+  ajax   √      XMLHttpRequest 和 JSONP 功能
+  form   √      Serialize 和 Submit Web表单
+  ie     √      在 桌面 和 Windows Phone 8 上支持 IE10+
+  detect        提供 $.os 和 $.browser 的信息
+  fx            animate()方法
+  fx_methods    animate的show、hide、toggle、fade* 方法
+  assets        实验性支持在删除DOM中的图像元素后，对ios内存进行清理
+  data          data()方法，更加成熟，可以在内存中存储任意的对象
+  deferred      提供 $.Deffered promise API, 本模块依赖于callback模块
+  callback      提供 $.Callbacks，用于deferred模块
+  selector      提供jquery css选择器的扩展功能
+                    :visible / :selected .......
+  touch         在移动设备上触发点击和滑动相关的事件
+                    移动端上，click事件会有300ms的延迟，以及出于对长按、双触击、各方向滑动等事件的需求而添加
+  gesture       在移动设备上触发手势事件
+  stack         提供 andSelf 和 end() 链接方法
+  ios3          String.prototype.trim 和 Array.prototype.reduce 在 ios 3.x 下的兼容
+
+插件
+  向$.fn添加方法
+    $.extend($.fn, {
+      plugins: function(){
+        console.log(1)
+      }
+    })
+
+Core模块
+  $()
+    Zepto(function($){
+      // 加载完后执行
+    })
+
+  $.camelCase(string) => string
+    将横线分割的字符串转换成驼峰命名
+
+  $.contains(parent, node) => boolean
+
+  $.each(collection, function(key, value){...}) => collection
+    collection zepto集合、数组或对象，迭代函数返回false时会停止迭代
+
+  $.extend(target, source, source1, ...) => target
+  $.extend(true, target, source, source1, ...) => target
+    true，表示深拷贝
+
+  $.fn
+
+  $.grep(items, function(item){...}) => array
+    从items中找出符合条件（return true）的组成新数组
+    自测，可用于数组和zepto集合
+
+  $.inArray(element, array, [fromIndex]) => number
+    找到element在array中的下标，没有则返回-1
+
+  $.isArray(object) => boolean
+    判断object是否为数组
+
+  $.isFunction(object)
+
+  $.isNumeric(value) => boolean
+    如果值是一个有限数或表示数字的字符串，则为真
+
+  $.isPlainObject(object) => object
+    判断是否为空对象
+  
+  $.isWindow(object) => boolean
+    判断对象是否是一个window对象
+    处理iframe时，由于每个iframe都有自己的window对象，常规方法 obj == window 来判断会失败
+
+  $.map(collection, function(item, index){...}) => collection
+
+  $.noop
+    对不做任何事情的函数的引用
+      var callback = $.noop
+
+  $.parseJSON(string) => object
+    JSON.parse() 的别名
+
+  $.trim(string) => string
+    等同于 String.prototype.trim()
+
+  $.type(object) => string
+    判断一个对象的类型，可能是 
+    null undefined number string boolean function array object date regexp error
+
+  add(selector, [context]) => self
+    添加selector选择到的元素到self中，返回self本身
+
+  addClass(name) => self
+  addClass(function(index, oldClassName){...}) => self
+    
+  after(content) => self
+    在集合中的每个元素之后添加 html string、dom 或 dom组成的数组
+
+  before(content) => self
+
+  append(content) => self
+
+  appendTo(target) =>self
+    与append()的主宾互换
+
+  prepend(content) => self
+
+  prependTo(target) => self
+
+  attr(name) => string
+  attr(name, value) => self
+  attr(name, function(index, oldValue){...}) => self
+  attr({name1: value1, name2: value2, ...}) => self
+    关于selected、checked属性，使用prop比较好
+
+  children([selector]) => collection
+    eg. $('ol').children('*:nth-child(2n)')
+
+  clone() => collection
+    不复制数据和事件
+
+  closest(selector, [context]) => collection
+  closest(collection) => collection
+  closest(selector) => collection
+    从元素本身开始逐级向上级元素匹配，返回第一个匹配到的。如果有context，则只循环context以下， selector以上
+    和 parents(selector)的不同之处：后者返回所有匹配selector的，此方法只返回匹配到的第一个
+
+  concat(node, node2, node3...)
+    添加元素到一个zepto对象形成新数组。参数可以为数组
+
+  contents() => collection
+    获取所有的子元素，包括text节点和comment节点。与children()方法类似，但多文本节点和jQuery对象中产生的html元素 （ ？）
+
+  css(property) => value
+  css([property1, property2, ...]) => object
+  css(property, value) => self
+  css({property1: value1, property2: value2, ...}) => self
+    传入多个属性名组成的数组，可以返回一个proterty-value组成的对象
+
+  data(name) => value
+  data(name, value) => self
+    zepto的data()存储字符串，想要存储对象需要引入data模块
+
+  each(function(index, item){...}) => self
+    function的参数item等同于函数中使用this
+    function中 return false 时停止循环
+
+  empty() => self
+    清除所有内容
+
+  eq(index) =>collection
+    index 0，表示第一个元素， -1，表示最后一个元素
+
+  filter(selector) => collection
+  filter(function(index){...}) => collection
+    过滤zepto集合，筛选出满足selector选择器的，参数为函数时，筛选出返回值为真的
+    相反的功能有 not()
+
+  find(selector) => collection
+  find(collection) => collection
+  find(element) => collection
+    如果参数为集合或者元素，则过滤它们，返回存在当前zepto集合中的
+
+  first() => collection
+    获取集合中的第一个元素
+
+  last() => collection
+
+  forEach(function(item, index, array){...}, [context]) => 无返回值
+    类似each，不同点：
+      参数不同
+      function返回false时不停止循环
+
+  get() => array
+  get(index) => DOM node
+    与eq()不同的是，返回的是DOM而不是zepto对象，而且eq()必须有参数
+
+  has(selector) => collection
+  has(node) => collection
+    在当前集合中筛选出拥有要求的selector子元素或者node子元素的元素
+
+  hasClass(classname) => boolean
+
+  height() => number
+  height(value) => self
+  height(function(index, oldValue){...}) => self
+
+  hide() => self
+
+  show() => self
+
+  html() => string
+  html(content) => self
+  html(function(index, oldHtml){...}) => self
+
+  index([element]) => number
+    无参时返回当前zepto对象在其兄弟元素中的下标，有参时返回参数dom在当前zepto对象中的下标
+
+  indexOf(element, [fromIndex]) => number
+
+  insertAfter(target) => self
+    与after()操作数相反
+
+  insertBefore(target) => self
+    与after()操作数相反
+
+  is(selector) => boolean
+    :visible包含在selector模块中，而且selector模块仅支持少量选择器
+
+  map(function(index, item){...}) => collection
+    遍历zepto，通过function返回值为真，获得一个新数组；返回值为null、undefined时退出循环
+
+  next() => collection
+  next(selector) => collection
+    找到下一个元素
+
+  not(selector) => collection
+  not(collection) => collection
+  not(function(index){...}) => collection
+    从当前集合中筛选出不符合条件的新集合
+    如果参数为集合，那么筛选出的元素都不包含在参数集合中
+    如果参数为函数，函数返回false时纳入新集合
+    相反的功能有 filter
+
+  offset() => object
+  offset(coordinates) => self
+  offset(function(index, oldOffset){...}) => self
+    元素相对于document的位置信息，包括 top、left、width、height
+    有参数 {top: ..., left: ...} 时表示设置位置信息
+
+  offsetParent() => collection
+    元素第一个有定位的父元素，注意是父元素zepto对象，而不是位置信息
+
+  position() => object
+    元素相对于offsetParent的位置信息，包括top、left
+
+  parent([selector]) => collection
+    有参数时会过滤parent匹配到的结果，都不匹配会数组为空
+
+  parents([selector]) => collection
+    想要获取第一个父元素，用parent
+    想要获取第一个匹配选择器的父元素，用closest
+
+  pluck(property) => array
+    返回集合中每个元素相应属性值的数组集合，值为undefined或null时会过滤掉
+    ps. class不会自动映射到className，还有好几个属性也是这样
+
+  prev() => collection
+  prev(selector) => collection
+    获取集合中每个元素的前一个兄弟节点，通过selector过滤
+
+  prop(name) => value
+  prop(name, value) => self
+  prop(name, function(index, oldValue){...}) => self
+    prop读取属性值时优于attr，因为它会因为用户交互而改变值，如checked、selected
+
+  push(element1, element2, ...) => self
+    ps. 实测 element不知道什么元素才得行，不是以为的append的作用 ？
+
+  ready(function($){...}) => self
+    不怎么用
+
+  reduce(function(memo, item, index, array){...}, [initial]) => value
+    作用等同于Array.reduce，只是可以用于zepto集合上
+
+  remove() => self
+    使元素本身被删除，而不是使元素的子元素都被删除哈..
+
+  removeAttr(property1, property2) => self
+
+  removeClass([name]) => self
+  removeClass(function(index, oldValue){...}) => self
+    无参时删除所有class
+
+  removeProp(name) => value
+    删除属性。注意是使用js的delete来删除，因此对于一些嵌入dom的属性，如className、maxLength等不起作用，浏览器不允许删除
+
+  replaceWith(content) => self
+    替换元素本身及其内容
+
+  scrollLeft() => number
+  scrollLeft(value) => self
+
+  scrollTop() => number
+  scrollTop(value) => self
+
+  siblings([selector]) => collection
+
+  size() => number
+    等同于.length
+
+  slice(start, [end]) => array
+    提取子集，范围是 [start, end)
+
+  text() => string
+  text(content) => self
+  text(function(index, oldHtml){...})
+
+  toggle([setting])
+    无参时，show和hide状态互换
+    有参时，为真则show，为假则hide
+
+  toggleClass(names, [setting]) => self
+  toggleClass(function(index, oldVlaue){...}, [setting]) => self
+
+  unwrap() => self
+    将元素的父元素删除，但保留自己和兄弟节点
+
+  wrap(structure) => self
+  wrap(function(index){...}) => self
+    将zepto集合中的每个元素用dom包裹起来，参数可以是 html string 或者 dom node
+    注意，此方法对js生成的dom无效
+
+  wrapAll(structure) => self
+    与wrap不同的是，wrap是循环zepto集合，给每个元素都包上html
+    wrapAll则是找到所有的zepto集合，给整个集合包上一个html
+
+  wrapInner(structure) => self
+  wrapInner(function(index){...}) =>self
+    给zepto集合中的每个元素添加一级子元素structure，原本的子元素包在structure中
+
+  val() => string
+  val(value) => self
+  val(function(index, oldValue){...}) > self
+
+  width() => number
+  width(value) => self
+  width(function(index, oldValue){...}) => self
+
+
+
+Detect模块
+
+  // The following boolean flags are set to true if they apply,
+  // if not they're either set to `false` or `undefined`.
+  // We recommend accessing them with `!!` prefixed to coerce to a boolean. 
+
+  // general device type
+  $.os.phone
+  $.os.tablet
+
+  // specific OS
+  $.os.ios
+  $.os.android
+  $.os.webos
+  $.os.blackberry
+  $.os.bb10
+  $.os.rimtabletos
+
+  // specific device type
+  $.os.iphone
+  $.os.ipad
+  $.os.ipod // [v1.1]
+  $.os.touchpad
+  $.os.kindle
+
+  // specific browser
+  $.browser.chrome
+  $.browser.firefox
+  $.browser.safari // [v1.1]
+  $.browser.webview // (iOS) [v1.1]
+  $.browser.silk
+  $.browser.playbook
+  $.browser.ie // [v1.1]
+
+  // Additionally, version information is available as well.
+  // Here's what's returned for an iPhone running iOS 6.1.
+  !!$.os.phone         // => true
+  !!$.os.iphone        // => true
+  !!$.os.ios           // => true
+  $.os.version       // => "6.1"
+  $.browser.version  // => "536.26"
+
+
+
+Event模块
+
+  $.Event(type, [properties]) => event
+    eg. $.Event('mylib:change', {bubbles: false})
+        bubbles设为false，关闭冒泡

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style>
+    a { 
+      text-decoration: none;
+    }
+    .dot1 {
+      display: inline-block;
+      height: 1em;
+      line-height: 1;
+      /* 实测 无影响 */
+      /* text-align: left; */
+      vertical-align: -.25em;
+      overflow: hidden;
+    }
+    /* 此处必须使用before，after无效果，原理见html注释 */
+    .dot1::before {
+      /* css中 \A 表示换行 */
+      /* 换行字符有两种，一种是换行-LF-\A，一种是回车-CR-\D */
+      content: '...\A..\A.';
+      display: block;
+      /* 必须使用pre来强制换行，否则会认为\A是一个空格 */
+      white-space: pre-wrap;  /* white-space: pre;均可 */
+      /* 注意animation-fill-mode: both的用法，目前无法理解 */
+      animation: dot 3s infinite step-start both;
+    }
+    @keyframes dot {
+      /* brfore的行高为1em~ */
+      33% {
+        transform: translateY(-2em);
+      }
+      66% {
+        transform: translateY(-1em);
+      }
+    }
+
+    /*命令行加载中效果*/
+    .dot2 {
+      display: inline-block;
+      height: 1em;
+      line-height: 1;
+      vertical-align: -.15em;
+      overflow: hidden;
+    }
+    .dot2::before {
+      display: inline-table;
+      content: "/\A–\A\\\A|";
+      white-space: pre;
+      animation: dot 1s infinite step-start both;
+    }
+  </style>
+</head>
+<body>
+  <p>兼容性：IE10+、火狐、谷歌、360、QQ、搜狗<br>不兼容时显示静止的 ... </p>
+  <!-- 
+    dot中的...是为了兼容IE8-，使其显示静止的...，
+    ie8-不认识dot自定义标签，会忽略相关css，所以dot标签中没有...的话，在IE8-下是空白
+    也因为这个缘故，dot需使用before伪元素，结合block，来将html中的三个点推到最底部不可见（相当于第四行）
+  -->
+  <a href="javascript:;">提交订单中<dot class="dot1">...</dot></a>
+  <br>
+  <!-- 命令行加载中效果 -->
+  <a href="javascript:;">loading<dot class="dot2"></dot></a>
+</body>
+</html>
