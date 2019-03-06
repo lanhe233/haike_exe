@@ -1,0 +1,55 @@
+2018-05-04T06:47:38.920Z - normal: Load ~/.CocosCreator/settings.json
+2018-05-04T06:47:38.923Z - normal: checking language setting...
+2018-05-04T06:47:38.923Z - normal: Language: zh
+2018-05-04T06:47:40.767Z - success: protocol editor-framework registered
+2018-05-04T06:47:40.767Z - success: protocol app registered
+2018-05-04T06:47:40.767Z - success: protocol theme registered
+2018-05-04T06:47:40.767Z - success: protocol packages registered
+2018-05-04T06:47:40.767Z - success: protocol unpack registerred
+2018-05-04T06:47:40.767Z - success: protocol disable-commonjs registerred
+2018-05-04T06:47:41.025Z - normal: connected!
+2018-05-04T06:47:41.027Z - normal: Check project F:\haike_exe\cocos\polished_project
+2018-05-04T06:47:41.033Z - normal: Initializing Cocos2d
+2018-05-04T06:47:41.265Z - normal: Initializing Asset Database
+2018-05-04T06:47:41.325Z - success: protocol uuid registerred
+2018-05-04T06:47:41.326Z - success: protocol db registerred
+2018-05-04T06:47:41.326Z - success: protocol thumbnail registerred
+2018-05-04T06:47:41.326Z - normal: Loading editor/builtin packages
+2018-05-04T06:47:41.345Z - success: anysdk loaded
+2018-05-04T06:47:41.457Z - success: assets loaded
+2018-05-04T06:47:41.459Z - success: builder loaded
+2018-05-04T06:47:41.462Z - success: cocos-analytics loaded
+2018-05-04T06:47:41.464Z - success: console loaded
+2018-05-04T06:47:41.506Z - success: fb-instant-games loaded
+2018-05-04T06:47:41.508Z - success: hierarchy loaded
+2018-05-04T06:47:41.510Z - success: inspector loaded
+2018-05-04T06:47:41.511Z - success: keystore loaded
+2018-05-04T06:47:41.513Z - success: node-library loaded
+2018-05-04T06:47:41.514Z - success: package-asset loaded
+2018-05-04T06:47:41.516Z - success: preferences loaded
+2018-05-04T06:47:41.517Z - success: project-exporter loaded
+2018-05-04T06:47:41.531Z - success: project-importer loaded
+2018-05-04T06:47:41.533Z - success: project-settings loaded
+2018-05-04T06:47:41.535Z - success: ui-kit loaded
+2018-05-04T06:47:41.536Z - success: ui-grid loaded
+2018-05-04T06:47:41.538Z - success: scene loaded
+2018-05-04T06:47:41.539Z - success: sprite-editor loaded
+2018-05-04T06:47:41.541Z - success: store loaded
+2018-05-04T06:47:41.545Z - success: timeline loaded
+2018-05-04T06:47:41.545Z - normal: Loading builtin packages
+2018-05-04T06:47:41.546Z - success: asset-db-debugger loaded
+2018-05-04T06:47:41.547Z - success: code-editor loaded
+2018-05-04T06:47:41.548Z - success: color-picker loaded
+2018-05-04T06:47:41.549Z - success: package-manager loaded
+2018-05-04T06:47:41.555Z - success: sdkbox loaded
+2018-05-04T06:47:41.557Z - success: tester loaded
+2018-05-04T06:47:41.559Z - success: ui-kit-preview-extra loaded
+2018-05-04T06:47:41.560Z - success: ui-kit-preview loaded
+2018-05-04T06:47:41.561Z - success: ui-tree loaded
+2018-05-04T06:47:42.642Z - normal: Initializing project F:\haike_exe\cocos\polished_project
+2018-05-04T06:47:42.675Z - normal: Loading packages
+2018-05-04T06:47:42.679Z - normal: Watching packages
+2018-05-04T06:47:42.689Z - normal: Run Application
+2018-05-04T06:47:43.832Z - success: preview server running at http://localhost:7456
+2018-05-04T06:47:48.755Z - normal: 1.9.1
+2018-05-04T12:09:04.304Z - info: shutdown preview server

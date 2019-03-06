@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>swiper的视差效果调试</title>
+  <link rel="stylesheet" type="text/css" href="http://static.dragonest.com/sdoricaweb/prod/Public/Home/default/pc/css/formalBase.css">
+  <link rel="stylesheet" type="text/css" href="./swiper-4.1.6.min.css">
+  <style type="text/css">
+    .swiper-container {
+      width: 100%;
+    }
+    .swiper-wrapper {
+      transition-timing-function: ease-in-out;
+    }
+    .swiper-slide {
+      display: block;
+    }
+    .swiper-slide-active {
+      z-index: 2;
+    }
+    .slide-lookup {
+      position: absolute;
+      z-index: 1;
+      transition-timing-function: ease-in-out;
+    }
+    .slide-lookup img {
+      width: 100%;
+    }
+    .slide-lookup-2 {
+      z-index: 2;
+    }
+    .slide1 {
+      background: url(http://static.dragonest.com/dragonest/dev/Home/default/pc/images/sdorica_bg_t.jpg?df9g4h) no-repeat center/cover;
+    }
+    .slide1 .slide-lookup {
+      width: 24%;
+      top: 26.3%;
+      left: 38%;
+    }
+    .slide2 {
+      background: url(http://static.ilongyuan.cn/ld/dragonest/images/banner_st05_one.jpg) no-repeat center/cover;
+      background-position: 0 0;
+    }
+    .slide2 .slide-lookup-1 {
+      width: 49.2%;
+      top: 27.5%;
+      left: 48%;
+    }
+    .slide2 .slide-lookup-2 {
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background: url(http://static.ilongyuan.cn/ld/dragonest/images/pc-people.png?201711242008) no-repeat center/cover;
+      background-position: 0 0;
+    }
+    .slide3 {
+      background: url(http://static.ilongyuan.cn/ld/dragonest/images/banner_st01_one.jpg) no-repeat center/cover;
+    }
+    .slide3 .slide-lookup-1 {
+      width: 100%;
+      height: 110%;
+      left: 0;
+      top: 0;
+      background: url(http://static.ilongyuan.cn/ld/dragonest/images/banner_st01_two.png) no-repeat bottom center/contain;
+    }
+    .slide3 .slide-lookup-2 {
+      width: 27%;
+      top: 37%;
+      left: 7%;
+    }
+    .slide4 {
+      background: url(http://static.ilongyuan.cn/ld/dragonest/images/banner_ydzz_one.jpg) no-repeat center/cover;
+    }
+    .slide4 .slide-lookup-1 {
+      width: 100%;
+      height: 110%;
+      left: 0;
+      top: 0;
+      background: url(http://static.ilongyuan.cn/ld/dragonest/images/banner_ydzz_two.png) no-repeat center/contain;
+    }
+    .slide4 .slide-lookup-2 {
+      width: 20%;
+      top: 54%;
+      left: 8%;
+    }
+    .slide5 {
+      background: url(http://static.ilongyuan.cn/ld/dragonest/images/banner_st04_one01.jpg) no-repeat center/cover;
+    }
+    .slide5 .slide-lookup {
+      width: 24.58%;
+      top: 40%;
+      left: 14%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <a href="javascript:;" class="swiper-slide slide1">
+        <div class="slide-lookup" >
+          <img src="http://static.dragonest.com/dragonest/dev/Home/default/pc/images/sdorica_logo_t.png">
+        </div>
+      </a>
+      <a href="javascript:;" class="swiper-slide slide2">
+        <div class="slide-lookup slide-lookup-1"  >
+          <img src="http://static.ilongyuan.cn/ld/dragonest/images/2018-03-29/5abcd163a2d6d.png">
+        </div>
+        <div class="slide-lookup slide-lookup-2"  ></div>
+      </a>
+      <a href="javascript:;" class="swiper-slide slide3">
+        <div class="slide-lookup slide-lookup-1"  ></div>
+        <div class="slide-lookup slide-lookup-2"  >
+          <img src="http://static.ilongyuan.cn/ld/dragonest/images/banner_st01_four.png">
+        </div>
+      </a>
+      <a href="javascript:;" class="swiper-slide slide4">
+        <div class="slide-lookup slide-lookup-1"  ></div>
+        <div class="slide-lookup slide-lookup-2"  >
+          <img src="http://static.ilongyuan.cn/ld/dragonest/images/banner_ydzz_four.png">
+        </div>
+      </a>
+      <a href="javascript:;" class="swiper-slide slide5">
+        <div class="slide-lookup"  >
+          <img src="http://static.ilongyuan.cn/ld/dragonest/images/banner_st04_four01.png">
+        </div>
+      </a>
+    </div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+  
+  <script type="text/javascript" src="http://static.ilongyuan.cn/cdn/script/jquery-1.8.3.min.js"></script> 
+  <script type="text/javascript" src="./swiper-4.1.6.min.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      $('.swiper-container').css('height', $(".swiper-container").width()*0.4+"px");
+
+      var swiper = new Swiper('.swiper-container', {
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        loop: true,
+        parallax: true,
+        speed: 1500,
+        on: {
+          slidePrevTransitionStart: function(){
+            var s = this.slides[this.activeIndex];
+            var data_index = $(s).data('swiper-slide-index');
+            var si = $('.swiper-slide[data-swiper-slide-index='+data_index+']');
+
+            var sq = $('.swiper-slide[data-swiper-slide-index!='+data_index+']');
+
+            si.find('.slide-lookup').attr('data-swiper-parallax', '-200%');
+            si.find('.slide-lookup').attr('data-swiper-parallax-opacity', '0.5');
+            si.find('.slide-lookup').attr('data-swiper-parallax-scale', '1');
+            sq.find('.slide-lookup').attr('data-swiper-parallax', '-100%');
+            sq.find('.slide-lookup').attr('data-swiper-parallax-opacity', '0.5');
+            sq.find('.slide-lookup').attr('data-swiper-parallax-scale', '0.2');
+            console.log(si)
+            console.log(sq)
+
+          },
+          slideNextTransitionStart: function(){
+            var s = this.slides[this.activeIndex];
+            var data_index = $(s).data('swiper-slide-index');
+
+            var si = $('.swiper-slide[data-swiper-slide-index='+data_index+']');
+            var sq = $('.swiper-slide[data-swiper-slide-index!='+data_index+']');
+
+            sq.find('.slide-lookup').attr('data-swiper-parallax', '-200%');
+            sq.find('.slide-lookup').attr('data-swiper-parallax-opacity', '0.5');
+            sq.find('.slide-lookup').attr('data-swiper-parallax-scale', '1');
+            si.find('.slide-lookup').attr('data-swiper-parallax', '100%');
+            si.find('.slide-lookup').attr('data-swiper-parallax-opacity', '0');
+            si.find('.slide-lookup').attr('data-swiper-parallax-scale', '0.2');
+            console.log(s)
+          },
+          slideChangeTransitionEnd: function(){
+            // var s = this.slides[this.activeIndex];
+            // var data_index = $(s).data('swiper-slide-index');
+            // var si = $('.swiper-slide[data-swiper-slide-index='+data_index+']');
+
+            // var sq = $(s).siblings();
+            // // $(s).attr('data-swiper-parallax', '-200%');
+            // // $(s).attr('data-swiper-parallax-opacity', '0.5');
+            // // $(s).attr('data-swiper-parallax-scale', '1');
+            // // sq.attr('data-swiper-parallax', '0');
+            // // sq.attr('data-swiper-parallax-opacity', '0.5');
+            // // sq.attr('data-swiper-parallax-scale', '0.2');
+
+            // sq.find('.slide-lookup').attr('data-swiper-parallax', '-200%');
+            // sq.find('.slide-lookup').attr('data-swiper-parallax-opacity', '0.5');
+            // sq.find('.slide-lookup').attr('data-swiper-parallax-scale', '1');
+            // si.find('.slide-lookup').attr('data-swiper-parallax', '1%');
+            // si.find('.slide-lookup').attr('data-swiper-parallax-opacity', '0.5');
+            // si.find('.slide-lookup').attr('data-swiper-parallax-scale', '0.2');
+
+          }
+        }
+      })
+    })
+    
+  </script>
+</body>
+</html>

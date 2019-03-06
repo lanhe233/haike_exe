@@ -1,0 +1,14 @@
+body {
+  height: 600px;
+  background: url(../images/1.jpg) no-repeat center;
+}
+.bg {
+  width: 200px;
+  height: 200px;
+  background-color: lightblue;
+  transform: translate(50%, 50%);
+  z-index: 1;
+}
+.div {
+
+}

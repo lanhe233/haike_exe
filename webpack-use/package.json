@@ -1,0 +1,33 @@
+{
+  "name": "webpack-use",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local": "cross-env NODE_ENV=local webpack --watch --config config/dev.js",
+    "dev": "cross-env NODE_ENV=dev webpack --watch --config config/dev.js",
+    "qa": "cross-env NODE_ENV=qa webpack --config config/prod.js",
+    "prod": "cross-env NODE_ENV=prod webpack --config config/prod.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^8.4.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "cross-env": "^5.1.4",
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^1.1.11",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "image-webpack-loader": "^4.2.0",
+    "postcss-loader": "^2.1.4",
+    "style-loader": "^0.21.0",
+    "uglifyjs-webpack-plugin": "^1.2.5",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.0.15",
+    "webpack-merge": "^4.1.2"
+  }
+}
